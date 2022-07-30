@@ -1,0 +1,262 @@
+body {
+    background: #ffffff;
+    font-family: verdana;
+    width: 100%;
+    margin: auto;
+}
+
+
+.bodyPage {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    padding-top: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 100px;
+}
+
+.bodyPage h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.logo-page {
+    margin-top: 80px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.btn-remove,
+.btn-adc-rem {
+    display: inline-block;
+}
+
+.btn-adc-rem h3 {
+    margin: 0;
+}
+
+.btn-remove {
+    float: right;
+}
+
+.btn-danger {
+    margin-left: 10px;
+}
+
+.btn-co {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    background-color: #FFFF;
+    box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgb(0 0 0 / 12%), 0 2px 4px rgb(0 0 0 / 24%);
+    border: 0px solid #202020;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+.btn-r {
+    border-radius: 0 8px 8px 0;
+    color: #dc3545;
+
+}
+
+.btn-l {
+    border-radius: 8px 0 0 8px;
+    color: #198754;
+}
+
+.btn-c {
+    border-radius: 8px 0 0 8px;
+    color: #3f87a6;
+}
+
+
+.btn-g {
+    border-radius: 8px 8px 8px 8px;
+    margin: 0 3px 0 5px;
+}
+
+.btn-r:hover {
+    background-color: #dc3545;
+    color: #FFFF;
+}
+
+.btn-c:hover {
+    background-color: #3f87a6;
+    color: rgb(255, 255, 255);
+}
+
+.btn-l:hover {
+    background-color: #198754;
+    color: #FFFF;
+}
+
+/* Botões Fonte: Bootstrap */
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+
+@media (prefers-reduced-motion:reduce) {
+    .btn {
+        transition: none
+    }
+}
+
+.btn:hover {
+    color: #212529
+}
+
+.btn-check:focus+.btn,
+.btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+}
+
+.btn.disabled,
+.btn:disabled,
+fieldset:disabled .btn {
+    pointer-events: none;
+    opacity: .65
+}
+
+.field-login {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-login {
+    width: 150px;
+    margin: 20px;
+}
+
+.logo-top {
+    width: 60%;
+    max-height: 407px;
+    max-width: 665px;
+    height: 100%;
+}
+
+.area-logo {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bodypagelogin {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+}
+
+@media only screen and (min-width: 700px) {
+    .bodypagelogin {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+    }
+
+    .logo-top {
+        width: 80%;
+        max-height: 407px;
+        max-width: 665px;
+        height: 100%;
+    }
+
+    .area-logo {
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .field-login {
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #646464;
+        height: 100vh;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .bodypagelogin {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+    }
+
+    .logo-top {
+        width: 80%;
+        max-height: 407px;
+        max-width: 665px;
+        height: 100%;
+    }
+
+    .area-logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .field-login {
+        width: 559px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #646464;
+        height: 100vh;
+    }
+}
+
+@media only screen and (min-width: 1300px) {
+    .bodyPage {
+        margin-left: 230px;
+    }
+}

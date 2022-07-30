@@ -1,0 +1,131 @@
+.headerBar {
+    background-color: #0093c9;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #FFFFFF;
+    z-index: 1000;
+    position: fixed;
+}
+
+.menuBar,
+.userBar {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.userBar:hover,
+.itens-menu div:hover,
+.menuBar:hover {
+    cursor: pointer;
+}
+
+.menuBar svg {
+    margin-right: 5px;
+    font-size: 35px;
+    display: flex;
+}
+
+.avatarBar {
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    border-radius: 50px;
+    background-color: azure;
+}
+
+
+.menu {
+    background-color: #0093c9;
+    width: 230px;
+    height: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    color: #ffffff;
+    z-index: 1001;
+    position: fixed;
+}
+
+.menu-ocult {
+    display: none;
+}
+
+.menu-show {
+    display: flex;
+}
+
+.menuIcon {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.menuIcon svg {
+    margin-right: 5px;
+    font-size: 35px;
+}
+
+.back-menu {
+    position: fixed;
+    padding: 0px 16px;
+    background-color: #010e2b54;
+    top: 0px;
+    left: 0px;
+    z-index: 997;
+    width: 100vw;
+    height: 100vh;
+}
+
+.itens-menu div:hover {
+    background-color: #ffffff65;
+    color: black
+}
+
+.itens-menu {
+    border-bottom: 1px solid #FFFFFF;
+    margin-top: 0px;
+    overflow: auto;
+}
+
+.itens-menu div {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    height: 50px;
+    width: 220px;
+    color: #FFFFFF;
+    border-top: 1px solid #FFFFFF;
+}
+
+.itens-menu a,
+.headerBar a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+
+@media only screen and (min-width: 1300px) {
+    .back-menu {
+        display: flex;
+        position: relative;
+        width: 0vw;
+        height: 0vh;
+    }
+
+    .menu {
+        display: flex;
+    }
+
+    .menuBar svg,.menuIcon svg {        
+        display: none;
+    }
+
+}
