@@ -6,7 +6,7 @@ import { positions, Provider } from "react-alert";
 
 const options = {
     timeout: 10000,
-    position: positions.BOTTOM_CENTER
+    position: positions.BOTTOM_CENTER    
 };
 
 ReactDOM.render(

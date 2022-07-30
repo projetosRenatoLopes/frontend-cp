@@ -10,6 +10,7 @@ import formatNumPonto from "../../utils/formatNumPonto";
 import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
 import { FiTrash2 } from 'react-icons/fi'
+import { TiEdit } from 'react-icons/ti'
 import { useAlert } from "react-alert";
 
 const CardProduction = () => {
@@ -27,7 +28,6 @@ const CardProduction = () => {
     const [feedstockUsedGallery, setFsUG] = useState([])
     const [feedstockUsedTitle, setFsUT] = useState("")
     const [feedstockList, setFeedstockList] = useState([])
-    const [measureSelected, setMeasureSelected] = useState("Selecione uma Materia prima...")
 
     async function loadData() {
         const token = localStorage.getItem('token')
@@ -44,6 +44,13 @@ const CardProduction = () => {
             .then(async resp => {
                 resposta = resp.data;
                 setGallery(resposta.productions)
+                if (uuidSel !== "") {
+                    resposta.productions.forEach(prod => {
+                        if (prod.uuid === uuidSel) {
+                            setFsUG(prod.feedstockused)
+                        }
+                    })
+                }
             }).catch(error => {
                 resposta = error.toJSON();
                 if (resposta.status === 404) {
@@ -139,7 +146,7 @@ const CardProduction = () => {
     }
 
     const updateProduction = () => {
-        const desc = document.getElementById('desc')['value']        
+        const desc = document.getElementById('desc')['value']
         const priceInput = document.getElementById('price')['value']
         const price = formatRealRev(priceInput)
         if (desc === "") {
@@ -158,7 +165,7 @@ const CardProduction = () => {
                 },
                 data: {
                     "uuid": uuidSel,
-                    "name": desc,                    
+                    "name": desc,
                     "price": price
                 }
 
@@ -185,16 +192,14 @@ const CardProduction = () => {
         }
     }
 
-    const verifyModal = () =>{
-        if(titleModal === "Editar Produção"){
-            console.log("1")
+    const verifyModal = () => {
+        if (titleModal === "Editar Produção") {
             updateProduction()
         } else {
-            console.log("2")
             saveProduction()
         }
-        console.log("Fora")
     }
+
     const RenderCards = (item) => {
         function openEdit() {
             setTitleModal("Editar Produção")
@@ -204,15 +209,22 @@ const CardProduction = () => {
             setOpen(true)
         }
 
-        function openListFsU() {            
+        function openListFsU() {
             setFsUG(item.feedstockused)
             setOpenFsU(true)
+            setUuidSel(item.uuid)
             setFsUT(item.name)
         }
 
-        const cost = item.cost.toFixed(2)                
+        const cost = item.cost.toFixed(2)
         const profit = item.price - cost
-
+        var percent = 0;
+        if(cost > 0){
+             percent = (profit * 100) / cost
+        } else {
+            percent = 100;
+        }
+        
         return (<>
             <div key={item.uuid} className="card">
                 <div className="top-card">
@@ -221,10 +233,13 @@ const CardProduction = () => {
                 </div>
                 <div className="bottom-card">
                     <div>
-                        <div style={{ color: 'red' }}>Custo: {`R$ ${cost.replace(/[.]/, ',')}`}</div>
-                        <div style={{ color: 'blue' }}>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</div>
+                        <div>Custo: {`R$ ${cost.replace(/[.]/, ',')}`}</div>
+                        <div>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</div>
                     </div>
-                    <div style={{ color: 'green' }}>Lucro: {`R$ ${profit.toFixed(2).replace(/[.]/, ',')}`}</div>
+                    <div>
+                        <div>Lucro: {`R$ ${profit.toFixed(2).replace(/[.]/, ',')}`}</div>
+                        <div>{percent.toFixed(2)}% </div>
+                    </div>
                 </div>
             </div>
         </>
@@ -237,11 +252,12 @@ const CardProduction = () => {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '80%',
-        maxWidth: '450px',
+        maxWidth: '500px',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
+        backgroundColor: "#202020",
     };
 
 
@@ -250,14 +266,17 @@ const CardProduction = () => {
         const renderListFsu = (item) => {
             const price = item.price.toFixed(2)
             return (<>
+
                 <tbody>
                     <tr>
                         <td>{item.feedstock}</td>
                         <td>{item.quantity} {item.measurement}</td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
-                        <td className="area-trash-item" onClick={() => alerts.error(`Excluindo ${item.feedstock} `)}><FiTrash2 /></td>
+                        <td className="area-trash-item" onClick={() => alerts.error(`Editando ${item.feedstock} `)}><TiEdit /></td>
+                        <td className="area-trash-item" onClick={() => deleteFeedstock(item.uuid)}><FiTrash2 /></td>
                     </tr>
                 </tbody>
+
             </>)
         }
 
@@ -270,19 +289,86 @@ const CardProduction = () => {
             )
         }
 
-        const renderOptionsMeasures = (optionMeasure) => {
-            return (<>
-                <option key={optionMeasure.uuid} value={optionMeasure.uuid}>{optionMeasure.name} - {optionMeasure.quantity} {optionMeasure.typemeasure}</option>
-            </>)
+        function addFeedstock() {
+            const feedstockSel = document.getElementById("sel-feedstock")["value"]
+            const quantity = document.getElementById("quantity")["value"]
+            if (feedstockSel === "0") {
+                alerts.info("Selecione uma matéria prima")
+            } else if (quantity === "") {
+                alerts.info("Insira a quantidade")
+            } else {
+                var measureLinked;
+                feedstockList.forEach(item => {
+                    if (item.uuid === feedstockSel) {
+                        measureLinked = item.measurementid
+                    }
+                })
+
+                var resposta;
+                // @ts-ignore
+                api({
+                    method: 'POST',
+                    url: '/feedstockused',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token
+                    },
+                    data: {
+                        "feedstockid": feedstockSel,
+                        "measurementid": measureLinked,
+                        "quantity": quantity,
+                        "productionid": uuidSel
+                    }
+                })
+                    .then(async resp => {
+                        resposta = resp.data;
+                        alerts.success(resposta.message)
+                        if (resposta.status === 201) {
+                            loadData()
+                        }
+                    }).catch(error => {
+                        resposta = error.toJSON();
+                        if (resposta.status === 404) {
+                            alerts.error('Erro 404 - Requisição invalida')
+                        } else if (resposta.status === 401) {
+                            alerts.error('Não autorizado')
+                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    })
+            }
         }
 
-        function changeMeasures() {
-            const idFeedstock = document.getElementById('sel-feedstock')['value']
-            feedstockList.forEach(item => {
-                if (item.uuid === idFeedstock) {
-                    setMeasureSelected(item.measurement)
-                }
-            })
+        function deleteFeedstock(uuidDel) {
+            try {
+                var resposta;
+                // @ts-ignore
+                api({
+                    method: 'DELETE',
+                    url: '/feedstockused',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token
+                    },
+                    data: {
+                        "uuid": uuidDel
+                    }
+                })
+                    .then(async resp => {
+                        resposta = resp.data;
+                        alerts.success(resposta.message)
+                        if (resposta.status === 201) {
+                            loadData()
+                        }
+                    }).catch(error => {
+                        resposta = error.toJSON();
+                        if (resposta.status === 404) {
+                            alerts.error('Erro 404 - Requisição invalida')
+                        } else if (resposta.status === 401) {
+                            alerts.error('Não autorizado')
+                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    })
+            } catch (error) {
+                alerts.error("Erro ao tentar exluir")
+            }
         }
 
         return (<>
@@ -304,7 +390,7 @@ const CardProduction = () => {
                             </select>
                             <div className="modal-button-add">
                                 <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
-                                <button className="btn-co-mini btn-lm btn-gm" >Adicionar</button>
+                                <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} >Adicionar</button>
                             </div>
                         </div>
                         <div className="modal-inputs">
@@ -314,6 +400,7 @@ const CardProduction = () => {
                                         <td>Máteria Prima</td>
                                         <td>Quantidade</td>
                                         <td>Custo</td>
+                                        <td></td>
                                         <td></td>
                                     </tr>
                                 </thead>

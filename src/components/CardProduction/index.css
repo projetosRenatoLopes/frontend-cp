@@ -1,9 +1,10 @@
 .card {
     width: 90%;
     max-width: 1000px;
-    border: 1px solid #202020;
+    border: 1px solid #5e5e5e;
     padding: 5px;
     margin-bottom: 5px;
+    background-color: #1f1f1f;
 }
 
 .top-card {
@@ -38,7 +39,9 @@
 .bottom-card {
     display: flex;
     justify-content: space-between;
+    margin-top: 5px;
 }
+
 
 .area-button {
     width: 90%;
@@ -178,7 +181,11 @@
     width: 100%;
     display: flex;
 }
-
+.MuiBox-root,.css-1eh8vss {
+    max-height: 98vh;
+    width: 95%;
+    padding: 0;
+}
 
 @media only screen and (max-width: 500px) {
     .area-add-feedstockused {
@@ -204,7 +211,7 @@ tfoot {
 }
 
 tbody {
-    background-color: #e4f0f5;
+    background-color: #40565e;
 }
 
 caption {
@@ -217,19 +224,27 @@ table {
     border: 2px solid rgb(200, 200, 200);
     letter-spacing: 1px;
     font-family: sans-serif;
-    font-size: .3rem;
+    font-size: .3rem;    
 }
 
 td,
 th {
     border: 1px solid rgb(190, 190, 190);
-    padding: 5px 10px;
+    padding: 2px 6px;
+    font-size: 15px;
+    white-space: nowrap;
 }
 
 td {
-    text-align: center;
+    text-align: center;    
 }
 
+.table-feedstockused{
+    max-height: 300px;
+    height: 50vh;
+    overflow-y: auto;
+    overflow-x: auto;
+}
 .area-trash-item:hover {
     cursor: pointer;
 }

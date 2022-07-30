@@ -1,8 +1,9 @@
 body {
-    background: #ffffff;
+    background: #000000;
     font-family: verdana;
     width: 100%;
     margin: auto;
+    color: #FFFFFF;
 }
 
 
@@ -30,6 +31,13 @@ body {
     display: flex;
 }
 
+#__react-alert__{
+    z-index: 150000;
+    position: fixed;
+}
+.MuiBox-root, .css-1nltrol{
+    background-color: #212529;
+}
 .btn-remove,
 .btn-adc-rem {
     display: inline-block;
