@@ -1,9 +1,10 @@
 import React from "react";
 import CardProduction from "../components/CardProduction";
 import HeaderBar from "../HeaderBar";
+import tokenValidation from "../services/tokenValidation";
 
 
-const Production = () => {
+const Production = () => {   
     return (
         <>
             <HeaderBar />

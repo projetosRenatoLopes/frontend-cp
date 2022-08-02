@@ -39,12 +39,9 @@ export default class HeaderBar extends React.Component {
         } else {
             this.setState({ actualPage: 'Inicio' })
         }
-
         tokenValidation()
-
         const username = localStorage.getItem('userName')
         if (username !== 'undefined' && username !== undefined) {
-            console.log(username)
             this.setState({ user: username })
         } else {
             this.setState({ user: 'Carregando Usuário...' })
@@ -81,7 +78,7 @@ export default class HeaderBar extends React.Component {
                     <div className='menuIcon' onClick={() => this.closeMenu()}><AiOutlineMenuFold /><p>{this.state.actualPage}</p></div>
                     <div className='itens-menu'>
                         <ItensMenu />
-                        <div onClick={() => this.logout()}>Sair</div>
+                        <div className='itens-menu-div' key='sair' onClick={() => this.logout()}>Sair</div>
                     </div>
                 </div>
                 <div className={`back-menu ${this.state.displayMenu}`} onClick={() => this.closeMenu()}></div>

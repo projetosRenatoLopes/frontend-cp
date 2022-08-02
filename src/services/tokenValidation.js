@@ -17,21 +17,20 @@ const tokenValidation = () => {
         })
             .then(resp => {
                 resposta = resp.data;
-                if (resposta.status === 200) {                    
+                if (resposta.status === 200) {
+                    console.log(resposta)
                     localStorage.setItem('userName', resposta.user)
                 } else {
                     localStorage.removeItem('token')
                     window.location.href = '/login'
-                    return ""
                 }
             }).catch(error => {
                 resposta = error.toJSON();
                 localStorage.removeItem('token')
                 window.location.href = '/login'
-                return ""
             })
     } else {
-        return ""
+        window.location.href = '/login'
     }
 
 }

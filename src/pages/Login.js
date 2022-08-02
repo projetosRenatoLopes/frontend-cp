@@ -2,18 +2,19 @@
 import api from "../services/api"
 import InputEmail from "../components/InputEmail";
 import InputPass from "../components/InputPass";
+import tokenValidation from "../services/tokenValidation";
 
 const Login = () => {
-
     const token = localStorage.getItem(`token`)
     if (token !== null && token !== undefined) {
+        tokenValidation()
         window.location.href = `/home`
     }
 
-    const signin = async () => {        
+    const signin = async () => {
         const user = document.getElementById('user')['value']
         const pass = document.getElementById('pass')['value']
-        if (user === "") {            
+        if (user === "") {
             document.getElementById('pass').style.boxShadow = 'none';
             document.getElementById('msg')['textContent'] = 'Insira seu usuário'
             document.getElementById('msg').style.color = 'red'

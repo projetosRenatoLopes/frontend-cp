@@ -95,7 +95,7 @@
     overflow: auto;
 }
 
-.itens-menu div {
+.itens-menu-div {
     display: flex;
     align-items: center;
     padding-left: 10px;
@@ -110,7 +110,6 @@
     text-decoration: none;
     color: #FFFFFF;
 }
-
 
 @media only screen and (min-width: 1300px) {
     .back-menu {

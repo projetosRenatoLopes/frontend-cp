@@ -263,7 +263,7 @@ const CardProduction = () => {
         }
 
 
-        return (<>
+        return (
             <div key={item.uuid} className="card">
                 <div className="top-card">
                     <div className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
@@ -284,7 +284,6 @@ const CardProduction = () => {
                     </div>
                 </div>
             </div>
-        </>
         )
     }
 
@@ -321,14 +320,10 @@ const CardProduction = () => {
                             <strong>{titleModal}</strong>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <div className="modal-inputs-reg">
-                                <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                                <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
-                            </div>
-                            <div className="modal-button">
-                                <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
-                            </div>
+                            <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
+                            <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
                         </Typography>
+                        <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
                     </Box>
                 </Modal >
             </>
@@ -395,10 +390,8 @@ const CardProduction = () => {
                 }
             }
 
-
-            return (<>
-
-                <tbody>
+            return (
+                <tbody key={item.uuid}>
                     <tr>
                         <td>{item.feedstock}</td>
                         <td>{item.quantity} {item.measurement}
@@ -409,17 +402,11 @@ const CardProduction = () => {
                         <td className="area-trash-item" onClick={() => deleteFeedstock(item.uuid, item.feedstock)}><FiTrash2 /></td>
                     </tr>
                 </tbody>
-
-            </>)
+            )
         }
 
         const renderOptionsFeedstock = (optionFeedstock) => {
-
-            return (
-                <>
-                    <option key={optionFeedstock.uuid} value={optionFeedstock.uuid}>{optionFeedstock.name} - {optionFeedstock.quantity} {optionFeedstock.measurement}</option>
-                </>
-            )
+            return (<option key={optionFeedstock.uuid} value={optionFeedstock.uuid}>{optionFeedstock.name} - {optionFeedstock.quantity} {optionFeedstock.measurement}</option>)
         }
 
         function addFeedstock() {
@@ -518,16 +505,18 @@ const CardProduction = () => {
             </div>
             <div className="modal-inputs">
                 <div className="table-feedstockused">
-                    <thead>
-                        <tr>
-                            <td>Máteria Prima</td>
-                            <td>Quantidade</td>
-                            <td>Custo</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    {feedstockUsedGallery.map(renderListFsu)}
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Máteria Prima</td>
+                                <td>Quantidade</td>
+                                <td>Custo</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {feedstockUsedGallery.map(renderListFsu)}
+                    </table>
                 </div>
             </div>
         </>)
