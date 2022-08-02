@@ -1,6 +1,5 @@
 import React from "react";
 import HeaderBar from "../HeaderBar";
-import Modal from "../components/Modal";
 
 const Home = () => {
 
