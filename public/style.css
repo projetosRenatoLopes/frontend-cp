@@ -35,6 +35,12 @@ body {
     z-index: 150000;
     position: fixed;
 }
+
+#__react-alert__ div div div span{
+    width: 80%;
+    max-width: 200px; 
+}
+
 .MuiBox-root, .css-1nltrol{
     background-color: #212529;
 }
