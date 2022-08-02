@@ -267,6 +267,7 @@ const CardFeedstock = () => {
                     })
             }
         }
+        
         const qtdPrice = `${item.quantity} ${(item.measurement).toLowerCase()} - R$ ${item.price.replace(/[.]/, ',')}`
         return (<>
             <div key={item.uuid} className="card">

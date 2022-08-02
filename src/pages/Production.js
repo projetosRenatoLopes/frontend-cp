@@ -8,7 +8,6 @@ const Production = () => {
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Produção</p>
                 <CardProduction />
             </div>
         </>

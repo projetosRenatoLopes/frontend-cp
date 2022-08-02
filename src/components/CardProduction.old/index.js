@@ -31,7 +31,6 @@ const CardProduction = () => {
     const [feedstockUsedGallery, setFsUG] = useState([])
     const [feedstockUsedTitle, setFsUT] = useState("")
     const [feedstockList, setFeedstockList] = useState([])
-    const [screenView, setScreenView] = useState('cards')
 
     async function loadData() {
         const token = localStorage.getItem('token')
@@ -215,10 +214,9 @@ const CardProduction = () => {
 
         function openListFsU() {
             setFsUG(item.feedstockused)
+            setOpenFsU(true)
             setUuidSel(item.uuid)
             setFsUT(item.name)
-            setOpenFsU(true)
-            setScreenView('item')
         }
 
         const cost = item.cost.toFixed(2)
@@ -302,39 +300,9 @@ const CardProduction = () => {
         backgroundColor: "#202020",
     };
 
-    if (screenView === 'cards') {
 
-        return (
-            <>
-                <div className="area-button">
-                    <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button>
-                </div>
-                {gallery.map(RenderCards)}
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            <strong>{titleModal}</strong>
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <div className="modal-inputs-reg">
-                                <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                                <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
-                            </div>
-                            <div className="modal-button">
-                                <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
-                            </div>
-                        </Typography>
-                    </Box>
-                </Modal >
-            </>
+    const ModalFeedstockUsed = () => {
 
-        )
-    } else {
         const renderListFsu = (item) => {
             const price = item.price.toFixed(2)
 
@@ -501,37 +469,84 @@ const CardProduction = () => {
                 }
             }
         }
+
         return (<>
-            <div className="modal-button">
-                <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} >Fechar</button>
-            </div>
-            <h2>{feedstockUsedTitle}</h2>
-            <div className="area-add-feedstockused">
-                <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
-                    <option value='0' hidden >Materia Prima</option>
-                    {feedstockList.map(renderOptionsFeedstock)}
-                </select>
-                <div className="modal-button-add">
-                    <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
-                    <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} >Adicionar</button>
-                </div>
-            </div>
-            <div className="modal-inputs">
-                <div className="table-feedstockused">
-                    <thead>
-                        <tr>
-                            <td>Máteria Prima</td>
-                            <td>Quantidade</td>
-                            <td>Custo</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    {feedstockUsedGallery.map(renderListFsu)}
-                </div>
-            </div>
+            <Modal
+                open={openFsU}
+                onClose={handleCloseFsU}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        <strong>{feedstockUsedTitle}</strong>
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <div className="area-add-feedstockused">
+                            <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
+                                <option value='0' hidden >Materia Prima</option>
+                                {feedstockList.map(renderOptionsFeedstock)}
+                            </select>
+                            <div className="modal-button-add">
+                                <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
+                                <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} >Adicionar</button>
+                            </div>
+                        </div>
+                        <div className="modal-inputs">
+                            <div className="table-feedstockused">
+                                <thead>
+                                    <tr>
+                                        <td>Máteria Prima</td>
+                                        <td>Quantidade</td>
+                                        <td>Custo</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                {feedstockUsedGallery.map(renderListFsu)}
+                            </div>
+                        </div>
+                        <div className="modal-button">
+                            <button className="btn-co-mini btn-rm btn-gm" onClick={() => setOpenFsU(false)} >Fechar</button>
+                        </div>
+                    </Typography>
+                </Box>
+            </Modal >
         </>)
     }
+
+
+    return (
+        <>
+            <div className="area-button">
+                <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button>
+            </div>
+            {gallery.map(RenderCards)}
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        <strong>{titleModal}</strong>
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <div className="modal-inputs-reg">
+                            <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
+                            <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                        </div>
+                        <div className="modal-button">
+                            <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
+                        </div>
+                    </Typography>
+                </Box>
+            </Modal >
+            <ModalFeedstockUsed feedstockUsed={feedstockUsedGallery} />
+        </>
+
+    )
 }
 
 export default memo(CardProduction);
