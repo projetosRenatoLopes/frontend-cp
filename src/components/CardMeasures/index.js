@@ -278,6 +278,7 @@ const CardMeasures = () => {
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
+        backgroundColor: "#202020",
     };
 
     return (
