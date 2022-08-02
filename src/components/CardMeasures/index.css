@@ -32,6 +32,24 @@
     cursor: pointer;
 }
 
+.btn-excluir{
+    display: flex;
+    align-items: center;
+}
+
+.btn-excluir:hover{
+    cursor: pointer;
+}
+
+.btn-excluir svg{
+    font-size: 25px;
+    color: rgb(209, 6, 6);
+}
+
+.btn-excluir p{
+ margin: 2px;
+}
+
 .bottom-card{
     display: flex;
     justify-content: space-between;

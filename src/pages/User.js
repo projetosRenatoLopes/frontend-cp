@@ -81,9 +81,9 @@ const User = () => {
             document.getElementById("user").style.boxShadow = '0px 1px 0px 0px red';
             document.getElementById("validation-name").innerText = ("Digite o nome.")
             return false;
-        } else if (name.length > 15) {
+        } else if (name.length > 30) {
             document.getElementById("user").style.boxShadow = '0px 1px 0px 0px red';
-            document.getElementById("validation-name").innerText = ("O campo Nome exedeu o tamanho limite de caracteres (15)")
+            document.getElementById("validation-name").innerText = ("O campo Nome exedeu o tamanho limite de caracteres (30)")
             return false;
         } else {
             cleanValidName();
@@ -95,28 +95,23 @@ const User = () => {
         document.getElementById("validation-name").innerText = ("")
     }
 
-    function showMessage() {
-        document.getElementById("validation-actual-pass").innerText = ("Insira a nova senha somente se for alterar.")
-    }
-
-    function hideMessage() {
-        document.getElementById("validation-actual-pass").innerText = ("")
-    }
-
     async function editUser() {
         validName();
         validPass();
         validNewPass();
-        if (validPass() === true && validNewPass() === true && validName() === true) {            
+        if (validPass() === true && validNewPass() === true && validName() === true) {
             const token = localStorage.getItem('token')
             const nameEdit = document.getElementById('user')['value']
             const passEdit = document.getElementById('pass')['value']
-            const newPassEdit = document.getElementById('new-pass')['value']            
+            var newPassEdit = document.getElementById('new-pass')['value']
+            if (newPassEdit === "") {
+                newPassEdit = passEdit;
+            }
             const userEdited = [{ "name": nameEdit, "pass": passEdit, "newpass": newPassEdit }]
             var resposta;
             await api({
                 method: 'PUT',
-                url: `/admin/update`,
+                url: `/users/update`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: token
@@ -127,19 +122,28 @@ const User = () => {
 
                     resposta = resp.data;
                     alert.success('Alterações salvas com sucesso')
-                    setTimeout(() => {
-                        window.location.href = `/home`
-                    }, 15000);
+                    window.location.href = `/home`
                 }).catch(error => {
                     resposta = error.toJSON();
                     if (resposta.status === 404) {
                         alert.error('Erro 404 - Requisição invalida')
                     } else if (resposta.status === 401) {
-                        alert.error('A senha atual está incorreta.')
+                        alert.error(`${resposta.message}`)
                     } else { alert.show(`Erro ${resposta.status} - ${resposta.message}`) }
                 })
 
         }
+    }
+
+    function openAreaNewPass() {
+        document.getElementById("area-new-pass").style.display = 'flex'
+        document.getElementById("closeNPLable").style.display = 'flex'
+        document.getElementById("openNPLable").style.display = 'none'
+    }
+    function closeAreaNewPass() {
+        document.getElementById("area-new-pass").style.display = 'none'
+        document.getElementById("closeNPLable").style.display = 'none'
+        document.getElementById("openNPLable").style.display = 'flex'
     }
 
     return (
@@ -147,15 +151,22 @@ const User = () => {
             <HeaderBar />
             <div className='bodyPage'>
                 <h5 id='msg' style={{ 'width': 'auto', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center' }}> </h5>
-                <div className="field-login">
+                <div className="field-user">
                     <h4>Usuário: {user}</h4>
                     <InputEmail className='input-user' placeholder='Nome' defaultValue={user} />
                     <div id="validation-name"></div>
                     <InputPass id='pass' className='input-pass' placeholder='Senha atual' />
                     <div id="validation-actual-pass"></div>
-                    <div style={{ width: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex' }} onMouseOver={() => showMessage()} onMouseOut={() => hideMessage()}><InputPass id='new-pass' className='input-pass' placeholder='Nova senha' /></div>
-                    <InputPass id='rep-new-pass' className='input-pass' placeholder='Repita a nova senha' />
-                    <div id="validation-pass"></div>
+                    <div style={{ width: '70%', display: 'flex', justifyContent: 'flex-end' }}>
+                        <p id="openNPLable" style={{ display: 'flex' }} onClick={() => openAreaNewPass()}>Alterar minha senha</p>
+                        <p id="closeNPLable" style={{ display: 'none' }} onClick={() => closeAreaNewPass()}>Cancelar alterar minha senha</p>
+                    </div>
+                    <div style={{ display: 'none', width: '100%', flexDirection: 'column', alignItems: "center" }} id="area-new-pass">
+                        <div style={{ width: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex' }} ><InputPass id='new-pass' className='input-pass' placeholder='Nova senha' /></div>
+                        <InputPass id='rep-new-pass' className='input-pass' placeholder='Repita a nova senha' />
+                        <div id="validation-pass"></div>
+                    </div>
+
                     <button type='submit' className="btn-co btn-l btn-g" style={{ 'marginTop': '15px', 'width': '150px' }} onClick={editUser}>Salvar</button>
                 </div>
             </div>

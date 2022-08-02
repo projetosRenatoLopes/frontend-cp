@@ -36,6 +36,7 @@ input[type=text] {
     margin-right: 5px;
     min-height: 16px;
     min-width: 16px;
+    color: black;
 }
 #pass,#new-pass,#rep-new-pass{
   width: 89%;

@@ -219,24 +219,61 @@ const CardProduction = () => {
         const cost = item.cost.toFixed(2)
         const profit = item.price - cost
         var percent = 0;
-        if(cost > 0){
-             percent = (profit * 100) / cost
+        if (cost > 0) {
+            percent = (profit * 100) / cost
         } else {
             percent = 100;
         }
-        
+
+
+        const deleteProduction = () => {
+            const del = window.confirm(`Deseja excluir ${item.name}?`)
+            if (del === true) {
+                var resposta;
+                // @ts-ignore
+                api({
+                    method: 'DELETE',
+                    url: '/production',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token
+                    },
+                    data: {
+                        "uuid": item.uuid,
+                    }
+                })
+                    .then(async resp => {
+                        resposta = resp.data;
+                        loadData()
+                        alerts.success(resposta.message)
+                    }).catch(error => {
+                        resposta = error.toJSON();
+                        if (resposta.status === 404) {
+                            alerts.error('Requisição invalida')
+                        } else if (resposta.status === 401) {
+                            alerts.error('Matéria Prima sendo utilizada por Produção')
+                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    })
+            }
+        }
+
+
         return (<>
             <div key={item.uuid} className="card">
                 <div className="top-card">
                     <div className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
-                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                    <div className="area-btns">
+                        <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
+                        <p>|</p>
+                        <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                    </div>
                 </div>
                 <div className="bottom-card">
-                    <div>
+                    <div className="bottom-card-left">
                         <div>Custo: {`R$ ${cost.replace(/[.]/, ',')}`}</div>
                         <div>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</div>
                     </div>
-                    <div>
+                    <div className="bottom-card-right">
                         <div>Lucro: {`R$ ${profit.toFixed(2).replace(/[.]/, ',')}`}</div>
                         <div>{percent.toFixed(2)}% </div>
                     </div>
@@ -296,13 +333,7 @@ const CardProduction = () => {
                 alerts.info("Selecione uma matéria prima")
             } else if (quantity === "") {
                 alerts.info("Insira a quantidade")
-            } else {
-                var measureLinked;
-                feedstockList.forEach(item => {
-                    if (item.uuid === feedstockSel) {
-                        measureLinked = item.measurementid
-                    }
-                })
+            } else {              
 
                 var resposta;
                 // @ts-ignore
@@ -314,8 +345,7 @@ const CardProduction = () => {
                         Authorization: token
                     },
                     data: {
-                        "feedstockid": feedstockSel,
-                        "measurementid": measureLinked,
+                        "feedstockid": feedstockSel,                        
                         "quantity": quantity,
                         "productionid": uuidSel
                     }

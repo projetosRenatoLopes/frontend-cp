@@ -7,9 +7,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import formatNum from "../../utils/formatNum";
-
+import { FiTrash2 } from 'react-icons/fi'
+import { useAlert } from "react-alert";
 
 const CardMeasures = () => {
+    const alerts = useAlert();
     const [gallery, setGallery] = useState([])
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
@@ -41,10 +43,10 @@ const CardMeasures = () => {
             }).catch(error => {
                 resposta = error.toJSON();
                 if (resposta.status === 404) {
-                    alert('Erro 404 - Requisição invalida')
+                    alerts.error('Requisição invalida')
                 } else if (resposta.status === 401) {
-                    alert('Não autorizado')
-                } else { alert(`Erro ${resposta.status} - ${resposta.message}`) }
+                    alerts.error('Não autorizado')
+                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
             })
 
 
@@ -63,10 +65,10 @@ const CardMeasures = () => {
             }).catch(error => {
                 resposta = error.toJSON();
                 if (resposta.status === 404) {
-                    alert('Erro 404 - Requisição invalida')
+                    alerts.error('Requisição invalida')
                 } else if (resposta.status === 401) {
-                    alert('Não autorizado')
-                } else { alert(`Erro ${resposta.status} - ${resposta.message}`) }
+                    alerts.error('Não autorizado')
+                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
             })
 
 
@@ -107,11 +109,11 @@ const CardMeasures = () => {
         const quantity = document.getElementById('quantity')['value']
         const sel = document.getElementById('sel')['value']
         if (desc === "") {
-            alert('Insira a descrição')
+            alerts.info('Insira a descrição')
         } else if (quantity === "") {
-            alert('Insira a quantidade')
+            alert.info('Insira a quantidade')
         } else if (sel === "0") {
-            alert('Selecione o tipo de medida')
+            alert.info('Selecione o tipo de medida')
         } else {
             var resposta;
             // @ts-ignore
@@ -131,18 +133,20 @@ const CardMeasures = () => {
             })
                 .then(async resp => {
                     resposta = resp.data;
-                    alert(resposta.message)
                     if (resposta.status === 201) {
+                        alerts.success(resposta.message)
                         setOpen(false)
                         loadData()
+                    }else {
+                        alerts.info(resposta.message)
                     }
                 }).catch(error => {
                     resposta = error.toJSON();
                     if (resposta.status === 404) {
-                        alert('Erro 404 - Requisição invalida')
+                        alerts.error('Requisição invalida')
                     } else if (resposta.status === 401) {
-                        alert('Não autorizado')
-                    } else { alert(`Erro ${resposta.status} - ${resposta.message}`) }
+                        alerts.error('Não autorizado')
+                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                 })
         }
     }
@@ -152,11 +156,11 @@ const CardMeasures = () => {
         const quantity = document.getElementById('quantity')['value']
         const sel = document.getElementById('sel')['value']
         if (desc === "") {
-            alert('Insira a descrição')
+            alerts.info('Insira a descrição')
         } else if (quantity === "") {
-            alert('Insira a quantidade')
+            alerts.info('Insira a quantidade')
         } else if (sel === "0") {
-            alert('Selecione o tipo de medida')
+            alerts.info('Selecione o tipo de medida')
         } else {
             var resposta;
             // @ts-ignore
@@ -177,7 +181,7 @@ const CardMeasures = () => {
             })
                 .then(async resp => {
                     resposta = resp.data;
-                    alert(resposta.message)
+                    alerts.success(resposta.message)
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
@@ -185,15 +189,15 @@ const CardMeasures = () => {
                         setDescModal("")
                         setQuantModal("")
                         setMedModal("0")
-                        setUuidSel("")                        
+                        setUuidSel("")
                     }
                 }).catch(error => {
                     resposta = error.toJSON();
                     if (resposta.status === 404) {
-                        alert('Erro 404 - Requisição invalida')
+                        alerts.error('Requisição invalida')
                     } else if (resposta.status === 401) {
-                        alert('Não autorizado')
-                    } else { alert(`Erro ${resposta.status} - ${resposta.message}`) }
+                        alerts.error('Não autorizado')
+                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                 })
         }
     }
@@ -217,6 +221,37 @@ const CardMeasures = () => {
             setOpen(true)
         }
 
+        const deleteMeasure = () => {
+            const del = window.confirm(`Deseja excluir ${item.name}?`)
+            if (del === true) {
+                var resposta;
+                // @ts-ignore
+                api({
+                    method: 'DELETE',
+                    url: '/simplemeasure',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token
+                    },
+                    data: {
+                        "uuid": item.uuid,
+                    }
+                })
+                    .then(async resp => {
+                        resposta = resp.data;
+                        loadData()
+                        alerts.success(resposta.message)
+                    }).catch(error => {
+                        resposta = error.toJSON();
+                        if (resposta.status === 404) {
+                            alerts.error('Requisição invalida')
+                        } else if (resposta.status === 401) {
+                            alerts.error('Medida sendo utilizada por Matéria Prima')
+                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    })
+            }
+        }
+
         return (<>
             <div key={item.uuid} className="card">
                 <div className="top-card">
@@ -225,6 +260,7 @@ const CardMeasures = () => {
                 </div>
                 <div className="bottom-card">
                     <p>{item.quantity} {item.typemeasure}</p>
+                    <div className="btn-excluir" onClick={deleteMeasure}>Excluir <FiTrash2 /></div>
                 </div>
             </div>
         </>

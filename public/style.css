@@ -1,5 +1,5 @@
 body {
-    background: #000000;
+    background: #2e3030;
     font-family: verdana;
     width: 100%;
     margin: auto;
@@ -160,7 +160,16 @@ fieldset:disabled .btn {
 }
 
 .field-login {
+    width: 100%;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.field-user {
     width: 100%;
+    max-width: 650px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,7 +178,10 @@ fieldset:disabled .btn {
 
 .btn-login {
     width: 150px;
-    margin: 20px;
+ 
+}
+.area-btn-login{
+    margin-top: 25px;   
 }
 
 .logo-top {
@@ -188,20 +200,22 @@ fieldset:disabled .btn {
 }
 
 .bodypagelogin {
-    display: flex;
-    justify-content: center;
+    display: flex;    
     flex-direction: column;
     align-items: center;
     padding: 0;
+    background-color: #ace1dc;
+    height: 100vh;
 }
 
 @media only screen and (min-width: 700px) {
     .bodypagelogin {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         flex-direction: row;
         align-items: center;
         padding: 0;
+        height: 100vh;
     }
 
     .logo-top {
@@ -224,7 +238,7 @@ fieldset:disabled .btn {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background-color: #646464;
+        background-color: #2e3030;
         height: 100vh;
     }
 }
