@@ -224,7 +224,25 @@
     padding: 0;
 }
 
+.title-list {
+    border-bottom: 1px solid #FFFFFF;
+    margin-bottom: 10px;
+    padding: 0;
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.title-list p {    
+    margin: 2px;
+}
+
+.icon-showlist {
+    margin: 0;
+    padding: 0;
+}
 
 @media only screen and (max-width: 500px) {
     .area-add-feedstockused {
@@ -232,6 +250,10 @@
         border: 0px solid #202020;
         width: 100%;
         display: inline;
+    }
+
+    .title-list {
+        width: 100%;
     }
 }
 
@@ -279,10 +301,10 @@ td {
 }
 
 .table-feedstockused {
-    max-height: 300px;
-    height: 50vh;
+    max-height: 300px;    
     overflow-y: auto;
     overflow-x: auto;
+    margin-bottom: 50px;
 }
 
 .area-trash-item:hover {

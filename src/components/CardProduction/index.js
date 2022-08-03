@@ -15,6 +15,7 @@ import { AiTwotoneEdit } from 'react-icons/ai'
 import { FiTrash2 } from 'react-icons/fi'
 import { TiEdit } from 'react-icons/ti'
 import { FiSave } from 'react-icons/fi'
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 
 const CardProduction = () => {
     const alerts = useAlert();
@@ -29,9 +30,15 @@ const CardProduction = () => {
     const [priceModal, setPriceModal] = useState("")
     const [uuidSel, setUuidSel] = useState("")
     const [feedstockUsedGallery, setFsUG] = useState([])
+    const [wpoUsedGallery, setWPOUG] = useState([])
     const [feedstockUsedTitle, setFsUT] = useState("")
     const [feedstockList, setFeedstockList] = useState([])
+    const [wpoList, setWPOList] = useState([])
     const [screenView, setScreenView] = useState('cards')
+    const [iconShow, setIconShow] = useState(<><IoIosArrowDown /></>)
+    const [displayShow, setDisplayShow] = useState('Flex')
+    const [iconShowWPO, setIconShowWPO] = useState(<><IoIosArrowDown /></>)
+    const [displayShowWPO, setDisplayShowWPO] = useState('Flex')
 
     async function loadData() {
         const token = localStorage.getItem('token')
@@ -52,6 +59,7 @@ const CardProduction = () => {
                     resposta.productions.forEach(prod => {
                         if (prod.uuid === uuidSel) {
                             setFsUG(prod.feedstockused)
+                            setWPOUG(prod.wpoused)
                         }
                     })
                 }
@@ -77,6 +85,28 @@ const CardProduction = () => {
             .then(async resp => {
                 feedstockListGet = resp.data;
                 setFeedstockList(feedstockListGet.feedstock)
+            }).catch(error => {
+                resposta = error.toJSON();
+                if (resposta.status === 404) {
+                    alerts.erro('Erro 404 - Requisição invalida')
+                } else if (resposta.status === 401) {
+                    alerts.error('Não autorizado')
+                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+            })
+
+        var wpoListGet;
+        // @ts-ignore
+        await api({
+            method: 'GET',
+            url: '/wpo',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token
+            }
+        })
+            .then(async resp => {
+                wpoListGet = resp.data;
+                setWPOList(wpoListGet.wpo)
             }).catch(error => {
                 resposta = error.toJSON();
                 if (resposta.status === 404) {
@@ -215,6 +245,7 @@ const CardProduction = () => {
 
         function openListFsU() {
             setFsUG(item.feedstockused)
+            setWPOUG(item.wpoused)
             setUuidSel(item.uuid)
             setFsUT(item.name)
             setOpenFsU(true)
@@ -229,7 +260,6 @@ const CardProduction = () => {
         } else {
             percent = 100;
         }
-
 
         const deleteProduction = () => {
             const del = window.confirm(`Deseja excluir ${item.name}?`)
@@ -302,7 +332,6 @@ const CardProduction = () => {
     };
 
     if (screenView === 'cards') {
-
         return (
             <>
                 <div className="area-button">
@@ -330,9 +359,8 @@ const CardProduction = () => {
 
         )
     } else {
-        const renderListFsu = (item) => {
+        const RenderListFsu = (item) => {
             const price = item.price.toFixed(2)
-
 
             function openEditFeedstock() {
                 feedstockUsedGallery.forEach(fsug => {
@@ -405,8 +433,86 @@ const CardProduction = () => {
             )
         }
 
+        const RenderListWPOU = (item) => {
+            const price = item.price.toFixed(2)
+
+            function openEditWPO() {
+                wpoUsedGallery.forEach(wpoug => {
+                    if (wpoug.uuid === item.uuid) {
+                        const verifuDisplay = document.getElementById(`edit-${item.uuid}`).style.display
+                        if (verifuDisplay === 'flex') {
+                            document.getElementById(`edit-${item.uuid}`).style.display = 'none'
+                        } else {
+                            document.getElementById(`edit-${item.uuid}`).style.display = 'flex'
+                        }
+                    } else {
+                        document.getElementById(`edit-${wpoug.uuid}`).style.display = 'none'
+                    }
+                })
+            }
+
+            function saveEditWPO() {
+                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
+                console.log(quantityEdit)
+                if (quantityEdit === "") {
+                    alerts.info("Insira a quantidade")
+                } else {
+                    var resposta;
+                    // @ts-ignore
+                    api({
+                        method: 'PUT',
+                        url: '/wpoused',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: token
+                        },
+                        data: {
+                            "uuid": item.uuid,
+                            "quantity": quantityEdit,
+                            "productionid": uuidSel
+                        }
+                    })
+                        .then(async resp => {
+                            resposta = resp.data;
+                            if (resposta.status === 201) {
+                                document.getElementById(`edit-${item.uuid}`).style.display = 'none'
+                                alerts.success(resposta.message)
+                                loadData()
+                            } else if (resposta.status === 200) {
+                                alerts.info(resposta.message)
+                            }
+                        }).catch(error => {
+                            resposta = error.toJSON();
+                            if (resposta.status === 404) {
+                                alerts.error('Erro 404 - Requisição invalida')
+                            } else if (resposta.status === 401) {
+                                alerts.error('Não autorizado')
+                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        })
+                }
+            }
+
+            return (
+                <tbody key={item.uuid}>
+                    <tr>
+                        <td>{item.wpo}</td>
+                        <td>{item.quantity}
+                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
+                        </td>
+                        <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
+                        <td className="area-trash-item" onClick={() => openEditWPO()}><TiEdit /></td>
+                        <td className="area-trash-item" onClick={() => deleteWPOU(item.uuid, item.wpo)}><FiTrash2 /></td>
+                    </tr>
+                </tbody>
+            )
+        }
+
         const renderOptionsFeedstock = (optionFeedstock) => {
             return (<option key={optionFeedstock.uuid} value={optionFeedstock.uuid}>{optionFeedstock.name} - {optionFeedstock.quantity} {optionFeedstock.measurement}</option>)
+        }
+
+        const renderOptionsWPO = (optionWPO) => {
+            return (<option key={optionWPO.uuid} value={optionWPO.uuid}>{optionWPO.name} - {optionWPO.quantity}</option>)
         }
 
         function addFeedstock() {
@@ -436,6 +542,53 @@ const CardProduction = () => {
                     .then(async resp => {
                         resposta = resp.data;
                         if (resposta.status === 201) {
+                            document.getElementById("sel-feedstock")["value"] = "0"
+                            document.getElementById("quantity")["value"] = ""
+                            alerts.success(resposta.message)
+                            loadData()
+                        } else if (resposta.status === 200) {
+                            alerts.info(resposta.message)
+                        }
+                    }).catch(error => {
+                        resposta = error.toJSON();
+                        if (resposta.status === 404) {
+                            alerts.error('Erro 404 - Requisição invalida')
+                        } else if (resposta.status === 401) {
+                            alerts.error('Não autorizado')
+                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    })
+            }
+        }
+
+        function addWPO() {
+            const wpoSel = document.getElementById("sel-wpo")["value"]
+            const quantity = document.getElementById("quantity-wpo")["value"]
+            if (wpoSel === "0") {
+                alerts.info("Selecione uma matéria prima")
+            } else if (quantity === "") {
+                alerts.info("Insira a quantidade")
+            } else {
+
+                var resposta;
+                // @ts-ignore
+                api({
+                    method: 'POST',
+                    url: '/wpoused',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token
+                    },
+                    data: {
+                        "wpoid": wpoSel,
+                        "quantity": quantity,
+                        "productionid": uuidSel
+                    }
+                })
+                    .then(async resp => {
+                        resposta = resp.data;
+                        if (resposta.status === 201) {
+                            document.getElementById("sel-wpo")["value"] = "0"
+                            document.getElementById("quantity-wpo")["value"] = ""
                             alerts.success(resposta.message)
                             loadData()
                         } else if (resposta.status === 200) {
@@ -484,42 +637,135 @@ const CardProduction = () => {
                             } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                         })
                 } catch (error) {
-                    alerts.error("Erro ao tentar exluir")
+                    alerts.error("Erro ao tentar excluir")
                 }
             }
         }
+
+        function deleteWPOU(uuidDel, nameDel) {
+            const confirmDelete = window.confirm(`Remover ${nameDel}?`)
+            if (confirmDelete === true) {
+                try {
+                    var resposta;
+                    // @ts-ignore
+                    api({
+                        method: 'DELETE',
+                        url: '/wpoused',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: token
+                        },
+                        data: {
+                            "uuid": uuidDel
+                        }
+                    })
+                        .then(async resp => {
+                            resposta = resp.data;
+                            alerts.success(resposta.message)
+                            if (resposta.status === 201) {
+                                loadData()
+                            }
+                        }).catch(error => {
+                            resposta = error.toJSON();
+                            if (resposta.status === 404) {
+                                alerts.error('Erro 404 - Requisição invalida')
+                            } else if (resposta.status === 401) {
+                                alerts.error('Não autorizado')
+                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        })
+                } catch (error) {
+                    alerts.error("Erro ao tentar excluir")
+                }
+            }
+        }
+
+        function showList() {
+            if (displayShow === 'none') {
+                setDisplayShow('flex')
+                setIconShow(<><IoIosArrowDown /></>)
+            } else {
+                setDisplayShow('none')
+                setIconShow(<><IoIosArrowUp /></>)
+            }
+        }
+        function showListWpo() {
+            if (displayShowWPO === 'none') {
+                setDisplayShowWPO('flex')
+                setIconShowWPO(<><IoIosArrowDown /></>)
+            } else {
+                setDisplayShowWPO('none')
+                setIconShowWPO(<><IoIosArrowUp /></>)
+            }
+        }
+
+
         return (<>
+
             <div className="modal-button">
                 <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} >Fechar</button>
             </div>
             <h2>{feedstockUsedTitle}</h2>
-            <div className="area-add-feedstockused">
-                <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
-                    <option value='0' hidden >Materia Prima</option>
-                    {feedstockList.map(renderOptionsFeedstock)}
-                </select>
-                <div className="modal-button-add">
-                    <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
-                    <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} >Adicionar</button>
+
+            <div onClick={() => showList()} className="title-list"><p>Matéria Prima</p><div className="icon-showlist">{iconShow}</div></div>
+            <div style={{ display: displayShow, flexDirection: 'column', width: '100%', maxWidth: '550px', marginBottom: '1px solid #FFFFFF' }}>
+                <div className="area-add-feedstockused">
+                    <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
+                        <option value='0' hidden >Matéria Prima</option>
+                        {feedstockList.map(renderOptionsFeedstock)}
+                    </select>
+                    <div className="modal-button-add">
+                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
+                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} >Adicionar</button>
+                    </div>
+                </div>
+                <div className="modal-inputs">
+                    <div className="table-feedstockused">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Máteria Prima</td>
+                                    <td>Quantidade</td>
+                                    <td>Custo</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            {feedstockUsedGallery.map(RenderListFsu)}
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div className="modal-inputs">
-                <div className="table-feedstockused">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Máteria Prima</td>
-                                <td>Quantidade</td>
-                                <td>Custo</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </thead>
-                        {feedstockUsedGallery.map(renderListFsu)}
-                    </table>
+            <div onClick={() => showListWpo()} className="title-list"><p>Mão de Obra, Embalagens e Outros</p><div className="icon-showlist">{iconShowWPO}</div></div>
+            <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '550px' }}>
+                <div className="area-add-feedstockused">
+                    <select className="modal-input modal-fu-feedstock" id="sel-wpo">
+                        <option value='0' hidden >WPO</option>
+                        {wpoList.map(renderOptionsWPO)}
+                    </select>
+                    <div className="modal-button-add">
+                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity-wpo')} id="quantity-wpo" placeholder="Quantidade"></input>
+                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addWPO()} >Adicionar</button>
+                    </div>
+                </div>
+                <div className="modal-inputs">
+                    <div className="table-feedstockused">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Descrição</td>
+                                    <td>Quantidade</td>
+                                    <td>Custo</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            {wpoUsedGallery.map(RenderListWPOU)}
+                        </table>
+                    </div>
                 </div>
             </div>
-        </>)
+        </>
+        )
     }
 }
 
