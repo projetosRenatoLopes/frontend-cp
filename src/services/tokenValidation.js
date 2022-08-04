@@ -17,8 +17,7 @@ const tokenValidation = () => {
         })
             .then(resp => {
                 resposta = resp.data;
-                if (resposta.status === 200) {
-                    console.log(resposta)
+                if (resposta.status === 200) {                    
                     localStorage.setItem('userName', resposta.user)
                 } else {
                     localStorage.removeItem('token')

@@ -1,18 +1,18 @@
 import React from "react";
-import CardDash from "../components/CardDash";
+import CardOthers from "../components/CardOthers";
 import HeaderBar from "../HeaderBar";
 
-const Home = () => {
 
+const Others = () => {
     return (
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Home</p>
-                <CardDash></CardDash>
+                <p>Cadastro de Mão de Obra, Embalagens e Outros</p>
+                <CardOthers />
             </div>
         </>
     )
 }
 
-export default Home;
+export default Others;

@@ -36,6 +36,8 @@ export default class HeaderBar extends React.Component {
             this.setState({ actualPage: "Matéria Prima" });
         } else if (this.state.pagePathName === '/production') {
             this.setState({ actualPage: "Produção" });
+        } else if (this.state.pagePathName === '/others') {
+            this.setState({ actualPage: "Outros" });
         } else {
             this.setState({ actualPage: 'Inicio' })
         }

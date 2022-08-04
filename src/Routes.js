@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import CustomMeasure from './pages/CustomMeasure'
 import Feedstock from './pages/Feedstock'
 import Production from "./pages/Production";
+import Others from "./pages/Others";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -20,6 +21,7 @@ export default () => {
             <Route exact path={'/Home'} element={<Home />} />
             <Route exact path={'/custommeasure'} element={<CustomMeasure />} />
             <Route exact path={'/feedstock'} element={<Feedstock />} />
+            <Route exact path={'/others'} element={<Others />} />
             <Route exact path={'/production'} element={<Production />} />            
             <Route exact path={'/user'} element={<User />} />
             <Route exact path={'/erro'} element={<Erro />} />            

@@ -323,8 +323,7 @@ const CardProduction = () => {
             }
 
             function saveEditFeedstock() {
-                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
-                console.log(quantityEdit)
+                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']                
                 if (quantityEdit === "") {
                     alerts.info("Insira a quantidade")
                 } else {

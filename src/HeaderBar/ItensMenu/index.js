@@ -11,7 +11,8 @@ const GalerryItens = (props) => {
         {
             id: '200', desc: 'Cadastros', router: '', subs: [
                 { id: '201', desc: 'Medidas', router: '/custommeasure' },
-                { id: '202', desc: 'Matéria Prima', router: '/feedstock' }
+                { id: '202', desc: 'Matéria Prima', router: '/feedstock' },
+                { id: '203', desc: 'Outros', router: '/others' }
             ]
         },
         {

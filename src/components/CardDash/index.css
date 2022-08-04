@@ -1,0 +1,13 @@
+.card-dashboard {
+    width: 100%;
+    min-height: 200px;
+    min-width: 100px;
+    max-width: 400px;
+    background-color: black;
+}
+
+.top-card-dash {}
+
+.body-card-dash {}
+
+.bottom-card-dash {}

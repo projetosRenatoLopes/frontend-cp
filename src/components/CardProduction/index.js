@@ -297,11 +297,6 @@ const CardProduction = () => {
             <div key={item.uuid} className="card">
                 <div className="top-card">
                     <div className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
-                    <div className="area-btns">
-                        <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
-                        <p>|</p>
-                        <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
-                    </div>
                 </div>
                 <div className="bottom-card">
                     <div className="bottom-card-left">
@@ -313,6 +308,11 @@ const CardProduction = () => {
                         <div>{percent.toFixed(2)}% </div>
                     </div>
                 </div>
+                    <div className="area-btns">
+                        <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
+                        <p className="bar-division-btn">|</p>
+                        <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                    </div>
             </div>
         )
     }
@@ -378,8 +378,7 @@ const CardProduction = () => {
             }
 
             function saveEditFeedstock() {
-                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
-                console.log(quantityEdit)
+                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']                
                 if (quantityEdit === "") {
                     alerts.info("Insira a quantidade")
                 } else {
@@ -452,8 +451,7 @@ const CardProduction = () => {
             }
 
             function saveEditWPO() {
-                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
-                console.log(quantityEdit)
+                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']                
                 if (quantityEdit === "") {
                     alerts.info("Insira a quantidade")
                 } else {
@@ -519,7 +517,7 @@ const CardProduction = () => {
             const feedstockSel = document.getElementById("sel-feedstock")["value"]
             const quantity = document.getElementById("quantity")["value"]
             if (feedstockSel === "0") {
-                alerts.info("Selecione uma matéria prima")
+                alerts.info("Selecione uma opção...")
             } else if (quantity === "") {
                 alerts.info("Insira a quantidade")
             } else {
@@ -564,7 +562,7 @@ const CardProduction = () => {
             const wpoSel = document.getElementById("sel-wpo")["value"]
             const quantity = document.getElementById("quantity-wpo")["value"]
             if (wpoSel === "0") {
-                alerts.info("Selecione uma matéria prima")
+                alerts.info("Selecione uma opção...")
             } else if (quantity === "") {
                 alerts.info("Insira a quantidade")
             } else {
@@ -710,7 +708,7 @@ const CardProduction = () => {
             <div style={{ display: displayShow, flexDirection: 'column', width: '100%', maxWidth: '550px', marginBottom: '1px solid #FFFFFF' }}>
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
-                        <option value='0' hidden >Matéria Prima</option>
+                        <option value='0' hidden >Selecione uma opção...</option>
                         {feedstockList.map(renderOptionsFeedstock)}
                     </select>
                     <div className="modal-button-add">
@@ -724,7 +722,7 @@ const CardProduction = () => {
                             <thead>
                                 <tr>
                                     <td>Máteria Prima</td>
-                                    <td>Quantidade</td>
+                                    <td>Qtd</td>
                                     <td>Custo</td>
                                     <td></td>
                                     <td></td>
@@ -739,7 +737,7 @@ const CardProduction = () => {
             <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '550px' }}>
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-wpo">
-                        <option value='0' hidden >WPO</option>
+                        <option value='0' hidden >Selecione uma opção...</option>
                         {wpoList.map(renderOptionsWPO)}
                     </select>
                     <div className="modal-button-add">
@@ -753,7 +751,7 @@ const CardProduction = () => {
                             <thead>
                                 <tr>
                                     <td>Descrição</td>
-                                    <td>Quantidade</td>
+                                    <td>Qtd</td>
                                     <td>Custo</td>
                                     <td></td>
                                     <td></td>
