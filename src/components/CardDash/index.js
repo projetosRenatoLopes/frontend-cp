@@ -36,13 +36,38 @@ const CardDash = () => {
     }, [])
 
     if (data === undefined || data.length === 0) {
+
+        function CardLoad() {
+            return (<>
+                <div className="card-dashboard card-load">
+                    <div className="top-card-dash-load">
+                        <h4></h4>
+                    </div>
+                    <div className="body-card-dash">
+                        <div className="card-load-itens">
+                        </div>
+                        <div className="card-load-itens">
+                        </div>
+                        <div className="card-load-itens">
+                        </div>
+                        <div className="card-load-itens">
+                        </div>
+                        <div className="card-load-itens">
+                        </div>
+
+                    </div>
+                    <div className="bottom-card-dash card-load-itens">
+                    </div>
+                </div>
+            </>)
+        }
+
         return (
             <>
-                <div className="card-dashboard card-load">
-                </div>
-                <div className="card-dashboard card-load">
-                </div>
-                <div className="card-dashboard card-load">
+                <div className="cards-group">
+                    <CardLoad />
+                    <CardLoad />
+                    <CardLoad />                   
                 </div>
             </>
         )
@@ -79,27 +104,27 @@ const CardDash = () => {
                         <h4>{item.name}</h4>
                     </div>
                     <div className="body-card-dash">
-                        <div className="itens-cad">
-                            <div className="name-item">Descrição</div>
-                            <div className="value-item">{item1.typevalue}</div>
+                        <div className="itens-card">
+                            <div className="name-item"  style={{color:"#ffffff9e"}}>Descrição</div>
+                            <div className="value-item"  style={{color:"#ffffff9e"}}>{item1.typevalue}</div>
                         </div>
-                        <div className="itens-cad">
-                            <div className="name-item">{item1.name}</div>
-                            <div className="value-item">{item1.value}</div>
+                        <div className="itens-card">
+                            <div className="name-item" style={{color:"red"}}>{item1.name}</div>
+                            <div className="value-item" style={{color:"red"}}>{item1.value}</div>
                         </div>
-                        <div className="itens-cad">
-                            <div className="name-item">{item2.name}</div>
-                            <div className="value-item">{item2.value}</div>
+                        <div className="itens-card">
+                            <div className="name-item" style={{color:"orange"}}>{item2.name}</div>
+                            <div className="value-item" style={{color:"orange"}}>{item2.value}</div>
                         </div>
-                        <div className="itens-cad">
-                            <div className="name-item">{item3.name}</div>
-                            <div className="value-item">{item3.value}</div>
+                        <div className="itens-card">
+                            <div className="name-item" style={{color:"yellow"}}>{item3.name}</div>
+                            <div className="value-item" style={{color:"yellow"}}>{item3.value}</div>
                         </div>
-                        <div className="itens-cad">
-                            <div className="name-item">{item4.name}</div>
-                            <div className="value-item">{item4.value}</div>
+                        <div className="itens-card">
+                            <div className="name-item" style={{color:"#00c4ff"}}>{item4.name}</div>
+                            <div className="value-item" style={{color:"#00c4ff"}}>{item4.value}</div>
                         </div>
-                        <div className="itens-cad">
+                        <div className="itens-card">
                             <div className="name-item">{item5.name}</div>
                             <div className="value-item">{item5.value}</div>
                         </div>

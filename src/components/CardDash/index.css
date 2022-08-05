@@ -2,6 +2,17 @@
     animation: changeBackgroundColor 2s infinite;
 }
 
+.card-load-itens{
+    animation: changeBackgroundColorItens 2s infinite;
+    height: 19px;
+    margin: 6px;
+    width: 98%;
+    display: flex;
+    flex-direction: row;
+    margin: 6px;    
+    background-color: aliceblue;
+}
+
 @keyframes changeBackgroundColor {
     0% {
         background: rgb(0, 0, 0);
@@ -13,6 +24,20 @@
 
     100% {
         background: rgb(0, 0, 0);
+    }
+}
+
+@keyframes changeBackgroundColorItens {
+    0% {
+        background: rgb(36, 36, 36);
+    }
+
+    50% {
+        background: rgb(46, 46, 46);
+    }
+
+    100% {
+        background: rgb(36, 36, 36);
     }
 }
 
@@ -35,7 +60,7 @@
 .bottom-card-dash {}
 
 
-.itens-cad {
+.itens-card {
     width: 96%;
     display: flex;
     flex-direction: row;

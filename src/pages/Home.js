@@ -8,7 +8,7 @@ const Home = () => {
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Home</p>
+                <p>Dashboard</p>
                 <CardDash></CardDash>
             </div>
         </>

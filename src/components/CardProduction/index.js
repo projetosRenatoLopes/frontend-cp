@@ -16,6 +16,7 @@ import { FiTrash2 } from 'react-icons/fi'
 import { TiEdit } from 'react-icons/ti'
 import { FiSave } from 'react-icons/fi'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
+import { MdAddBox } from 'react-icons/md'
 
 const CardProduction = () => {
     const alerts = useAlert();
@@ -39,6 +40,8 @@ const CardProduction = () => {
     const [displayShow, setDisplayShow] = useState('Flex')
     const [iconShowWPO, setIconShowWPO] = useState(<><IoIosArrowDown /></>)
     const [displayShowWPO, setDisplayShowWPO] = useState('Flex')
+    const [btnQttFS, setBtnQttFS] = useState(false)
+    const [btnQttWPO, setBtnQttWPO] = useState(false)
 
     async function loadData() {
         const token = localStorage.getItem('token')
@@ -308,11 +311,11 @@ const CardProduction = () => {
                         <p>{percent.toFixed(2)}% </p>
                     </div>
                 </div>
-                    <div className="area-btns">
-                        <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
-                        <p className="bar-division-btn">|</p>
-                        <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
-                    </div>
+                <div className="area-btns">
+                    <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
+                    <p className="bar-division-btn">|</p>
+                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                </div>
             </div>
         )
     }
@@ -378,7 +381,7 @@ const CardProduction = () => {
             }
 
             function saveEditFeedstock() {
-                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']                
+                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
                 if (quantityEdit === "") {
                     alerts.info("Insira a quantidade")
                 } else {
@@ -425,14 +428,14 @@ const CardProduction = () => {
                             <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`}></input><button className="btn-edit-feedstock" onClick={() => saveEditFeedstock()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
-                        <td className="area-trash-item" onClick={() => openEditFeedstock()}><TiEdit /></td>
-                        <td className="area-trash-item" onClick={() => deleteFeedstock(item.uuid, item.feedstock)}><FiTrash2 /></td>
+                        <td className="area-trash-item btn-el" onClick={() => openEditFeedstock()}><TiEdit /></td>
+                        <td className="area-trash-item btn-rm" onClick={() => deleteFeedstock(item.uuid, item.feedstock)}><FiTrash2 /></td>
                     </tr>
                 </tbody>
             )
         }
 
-        const RenderListWPOU = (item) => {
+        const RenderListWPOU = (item) => {            
             const price = item.price.toFixed(2)
 
             function openEditWPO() {
@@ -451,7 +454,7 @@ const CardProduction = () => {
             }
 
             function saveEditWPO() {
-                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']                
+                const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
                 if (quantityEdit === "") {
                     alerts.info("Insira a quantidade")
                 } else {
@@ -490,6 +493,43 @@ const CardProduction = () => {
                 }
             }
 
+            function deleteWPOUS() {
+                const confirmDelete = window.confirm(`Remover ${item.wpo}?`)
+                if (confirmDelete === true) {
+                    try {
+                        var resposta;
+                        // @ts-ignore
+                        api({
+                            method: 'DELETE',
+                            url: '/wpoused',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: token
+                            },
+                            data: {
+                                "uuid": item.uuid
+                            }
+                        })
+                            .then(async resp => {
+                                resposta = resp.data;
+                                alerts.success(resposta.message)
+                                if (resposta.status === 201) {
+                                    loadData()
+                                }
+                            }).catch(error => {
+                                resposta = error.toJSON();
+                                if (resposta.status === 404) {
+                                    alerts.error('Erro 404 - Requisição invalida')
+                                } else if (resposta.status === 401) {
+                                    alerts.error('Não autorizado')
+                                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                            })
+                    } catch (error) {
+                        alerts.error("Erro ao tentar excluir")
+                    }
+                }
+            }
+
             return (
                 <tbody key={item.uuid}>
                     <tr>
@@ -498,8 +538,8 @@ const CardProduction = () => {
                             <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
-                        <td className="area-trash-item" onClick={() => openEditWPO()}><TiEdit /></td>
-                        <td className="area-trash-item" onClick={() => deleteWPOU(item.uuid, item.wpo)}><FiTrash2 /></td>
+                        <td className="area-trash-item btn-el" onClick={() => openEditWPO()}><TiEdit /></td>
+                        <td className="area-trash-item btn-rm" onClick={() => deleteWPOUS()}><FiTrash2 /></td>
                     </tr>
                 </tbody>
             )
@@ -514,6 +554,7 @@ const CardProduction = () => {
         }
 
         function addFeedstock() {
+            setBtnQttFS(true)
             const feedstockSel = document.getElementById("sel-feedstock")["value"]
             const quantity = document.getElementById("quantity")["value"]
             if (feedstockSel === "0") {
@@ -556,9 +597,11 @@ const CardProduction = () => {
                         } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                     })
             }
+            setBtnQttFS(false)
         }
 
         function addWPO() {
+            setBtnQttWPO(true)
             const wpoSel = document.getElementById("sel-wpo")["value"]
             const quantity = document.getElementById("quantity-wpo")["value"]
             if (wpoSel === "0") {
@@ -601,6 +644,7 @@ const CardProduction = () => {
                         } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                     })
             }
+            setBtnQttWPO(false)
         }
 
         function deleteFeedstock(uuidDel, nameDel) {
@@ -713,7 +757,7 @@ const CardProduction = () => {
                     </select>
                     <div className="modal-button-add">
                         <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
-                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} >Adicionar</button>
+                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} disabled={btnQttFS}><MdAddBox className="icon-add" /></button>
                     </div>
                 </div>
                 <div className="modal-inputs">
@@ -722,7 +766,7 @@ const CardProduction = () => {
                             <thead>
                                 <tr>
                                     <td>Máteria Prima</td>
-                                    <td>Qtd</td>
+                                    <td>Qtd.</td>
                                     <td>Custo</td>
                                     <td></td>
                                     <td></td>
@@ -742,7 +786,7 @@ const CardProduction = () => {
                     </select>
                     <div className="modal-button-add">
                         <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity-wpo')} id="quantity-wpo" placeholder="Quantidade"></input>
-                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addWPO()} >Adicionar</button>
+                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addWPO()} disabled={btnQttWPO} ><MdAddBox /></button>
                     </div>
                 </div>
                 <div className="modal-inputs">
@@ -751,7 +795,7 @@ const CardProduction = () => {
                             <thead>
                                 <tr>
                                     <td>Descrição</td>
-                                    <td>Qtd</td>
+                                    <td>Qtd.</td>
                                     <td>Custo</td>
                                     <td></td>
                                     <td></td>

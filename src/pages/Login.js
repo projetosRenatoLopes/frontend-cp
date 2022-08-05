@@ -28,7 +28,7 @@ const Login = () => {
 
 
             document.getElementById('msg')['textContent'] = 'Entrando...'
-            document.getElementById('msg').style.color = 'blue'
+            document.getElementById('msg').style.color = '#FFF'
 
             const dadosUser = {
                 "user": user,
@@ -41,7 +41,7 @@ const Login = () => {
                 data: dadosUser,
             }).then(async res => {
                 if (res.status === 204) {
-                    document.getElementById('msg')['textContent'] = 'Usuário e/ou senha incorretos'
+                    document.getElementById('msg')['textContent'] = 'Dados de Login incorretos!'
                     document.getElementById('msg').style.color = 'red'
                 } else if (res.status === 200) {
                     if (res.data.token !== undefined && res.data.id !== undefined) {
@@ -74,10 +74,8 @@ const Login = () => {
                     <img src={'/img/LogoSemFundo.png'} alt='logo' className="logo-top"></img>
                 </div>
                 <div className="field-login">
-                    <h5 id='msg'> </h5>
-
-                    {/* <input type='text'  placeholder="Login" style={{ 'width': '50%' }}></input>
-            <input type='password' placeholder="Senha" style={{ 'width': '50%' }}></input> */}
+                    <h2>Login</h2>
+                    <h5 id='msg'> </h5>                    
                     <InputEmail className='input-user' placeholder='Usuário' />
                     <InputPass id='pass' className='input-pass' placeholder='Senha' />
                     <div className="area-btn-login">

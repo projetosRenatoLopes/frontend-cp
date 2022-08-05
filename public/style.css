@@ -31,19 +31,21 @@ body {
     display: flex;
 }
 
-#__react-alert__{
+#__react-alert__ {
     z-index: 150000;
     position: fixed;
 }
 
-#__react-alert__ div div div span{
+#__react-alert__ div div div span {
     width: 80%;
-    max-width: 200px; 
+    max-width: 200px;
 }
 
-.MuiBox-root, .css-1nltrol{
+.MuiBox-root,
+.css-1nltrol {
     background-color: #212529;
 }
+
 .btn-remove,
 .btn-adc-rem {
     display: inline-block;
@@ -167,11 +169,15 @@ fieldset:disabled .btn {
 }
 
 .field-login {
-    width: 100%;    
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.field-login h2 {
+    color: black;
 }
 
 .field-user {
@@ -185,10 +191,11 @@ fieldset:disabled .btn {
 
 .btn-login {
     width: 150px;
- 
+
 }
-.area-btn-login{
-    margin-top: 25px;   
+
+.area-btn-login {
+    margin-top: 25px;
 }
 
 .logo-top {
@@ -207,7 +214,7 @@ fieldset:disabled .btn {
 }
 
 .bodypagelogin {
-    display: flex;    
+    display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0;
@@ -245,8 +252,12 @@ fieldset:disabled .btn {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background-color: #2e3030;
+        background-color: #000000;
         height: 100vh;
+    }
+
+    .field-login h2 {
+        color: white;
     }
 }
 
@@ -279,7 +290,7 @@ fieldset:disabled .btn {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background-color: #646464;
+        background-color: #000000;
         height: 100vh;
     }
 }
