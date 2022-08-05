@@ -21,7 +21,7 @@ const CardOthers = () => {
     const [titleModal, setTitleModal] = useState("Cadastrar Outros")
     const [descModal, setDescModal] = useState("")
     const [quantModal, setQuantModal] = useState("")
-    const [priceModal, setPriceModal] = useState("")    
+    const [priceModal, setPriceModal] = useState("")
     const [uuidSel, setUuidSel] = useState("")
 
 
@@ -60,7 +60,7 @@ const CardOthers = () => {
     function openModal() {
         setTitleModal("Cadastrar Outros")
         setDescModal("")
-        setQuantModal("")        
+        setQuantModal("")
         setPriceModal("")
         setUuidSel("")
         setOpen(true)
@@ -76,7 +76,7 @@ const CardOthers = () => {
 
     const saveWPO = () => {
         const desc = document.getElementById('desc')['value']
-        const quantity = document.getElementById('quantity')['value']        
+        const quantity = document.getElementById('quantity')['value']
         const priceInput = document.getElementById('price')['value']
         const price = formatRealRev(priceInput)
         if (desc === "") {
@@ -96,7 +96,7 @@ const CardOthers = () => {
                     Authorization: token
                 },
                 data: {
-                    "name": desc,                    
+                    "name": desc,
                     "quantity": quantity,
                     "price": price
                 }
@@ -124,7 +124,7 @@ const CardOthers = () => {
 
     const updateWPO = () => {
         const desc = document.getElementById('desc')['value']
-        const quantity = document.getElementById('quantity')['value']        
+        const quantity = document.getElementById('quantity')['value']
         const priceInput = document.getElementById('price')['value']
         const price = formatRealRev(priceInput)
         if (desc === "") {
@@ -145,7 +145,7 @@ const CardOthers = () => {
                 },
                 data: {
                     "uuid": uuidSel,
-                    "name": desc,                    
+                    "name": desc,
                     "quantity": quantity,
                     "price": price
                 }
@@ -158,7 +158,7 @@ const CardOthers = () => {
                         loadData()
                         setTitleModal("Cadastrar Outros")
                         setDescModal("")
-                        setQuantModal("")                        
+                        setQuantModal("")
                         setPriceModal("")
                         setUuidSel("")
                     }
@@ -186,7 +186,7 @@ const CardOthers = () => {
             setUuidSel(item.uuid)
             setTitleModal("Editar Outros")
             setDescModal(item.name)
-            setQuantModal(item.quantity)            
+            setQuantModal(item.quantity)
             setPriceModal(`R$ ${item.price.replace(/[.]/, ',')}`)
             setOpen(true)
         }
@@ -227,10 +227,13 @@ const CardOthers = () => {
             <div key={item.uuid} className="card">
                 <div className="top-card">
                     <p>{item.name}</p>
-                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
                 </div>
                 <div className="bottom-card">
-                    {qtdPrice}
+                    <p>{qtdPrice}</p>
+                </div>
+                <div className="area-btns">
+                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                    <p className="bar-division-btn">|</p>
                     <div className="btn-excluir" onClick={deleteWPO}>Excluir <FiTrash2 /></div>
                 </div>
             </div>
@@ -269,7 +272,7 @@ const CardOthers = () => {
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                        <input className="modal-input modal-measure-quantity" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>                        
+                        <input className="modal-input modal-measure-quantity" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
                         <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Valor por quantidade"></input>
                     </Typography>
                     <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>

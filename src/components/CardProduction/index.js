@@ -300,12 +300,12 @@ const CardProduction = () => {
                 </div>
                 <div className="bottom-card">
                     <div className="bottom-card-left">
-                        <div>Custo: {`R$ ${cost.replace(/[.]/, ',')}`}</div>
-                        <div>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</div>
+                        <p>Custo: {`R$ ${cost.replace(/[.]/, ',')}`}</p>
+                        <p>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</p>
                     </div>
                     <div className="bottom-card-right">
-                        <div>Lucro: {`R$ ${profit.toFixed(2).replace(/[.]/, ',')}`}</div>
-                        <div>{percent.toFixed(2)}% </div>
+                        <p>Lucro: {`R$ ${profit.toFixed(2).replace(/[.]/, ',')}`}</p>
+                        <p>{percent.toFixed(2)}% </p>
                     </div>
                 </div>
                     <div className="area-btns">

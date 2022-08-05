@@ -1,5 +1,6 @@
 .card {
     width: 90%;
+    min-width: 160px;
     max-width: 1000px;
     border: 1px solid #5e5e5e;
     padding: 5px;
@@ -20,6 +21,12 @@
 .top-card p,
 .bottom-card p {
     margin: 2px;
+    font-size: 12px;
+}
+
+.bottom-card-left p,
+.bottom-card-right p {
+    font-size: 12px;
 }
 
 .top-card p {
@@ -52,23 +59,23 @@
     color: rgb(209, 6, 6);
 }
 
-
 .area-btns {
     display: flex;
     justify-content: flex-end;
-    align-items: center;    
+    align-items: center;
 }
 
 .area-btns div,
-.area-btns p {
-    margin-left: 5px;
+.area-btns p {    
+    padding: 0;
+    margin: 0 2px 0 1px;
+
 }
 
 .bottom-card {
     display: flex;
     justify-content: space-between;
     margin-top: 5px;
-    font-size: 12px;
 }
 
 
@@ -245,16 +252,22 @@
     padding: 0;
 }
 
+.bar-division-btn{
+    font-size: 20px;    
+}
+
 @media only screen and (max-width: 203px) {
     .area-btns {
         width: 100%;
         display: flex;
-        flex-direction: column;        
+        flex-direction: column;
     }
-    .bar-division-btn{
+
+    .bar-division-btn {
         display: none;
     }
-    .bottom-card{
+
+    .bottom-card {
         display: flex;
         flex-direction: column;
     }

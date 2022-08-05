@@ -1,13 +1,89 @@
+.card-load {
+    animation: changeBackgroundColor 2s infinite;
+}
+
+@keyframes changeBackgroundColor {
+    0% {
+        background: rgb(0, 0, 0);
+    }
+
+    50% {
+        background: rgb(30, 30, 30);
+    }
+
+    100% {
+        background: rgb(0, 0, 0);
+    }
+}
+
 .card-dashboard {
     width: 100%;
     min-height: 200px;
     min-width: 100px;
-    max-width: 400px;
+    max-width: 600px;
     background-color: black;
+    margin-bottom: 10px;
 }
 
-.top-card-dash {}
+.top-card-dash h4 {
+    margin: 5px;
+    padding: 0;
+}
 
 .body-card-dash {}
 
 .bottom-card-dash {}
+
+
+.itens-cad {
+    width: 96%;
+    display: flex;
+    flex-direction: row;
+    margin: 6px;    
+    background-color:  rgb(30, 30, 30);
+}
+
+.name-item {
+    width: 80%;
+}
+
+.value-item {
+    width: 20%;
+}
+
+.cards-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.card-dashboard {
+    width: 100%;
+    min-height: 200px;
+    min-width: 100px;
+    max-width: 600px;
+    background-color: black;
+    margin-bottom: 10px;
+}
+
+@media only screen and (min-width: 700px) {
+    .cards-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card-dashboard {
+        width: 100%;
+        min-height: 200px;
+        min-width: 100px;
+        max-width: 600px;
+        background-color: black;
+        margin: 10px;
+        
+    }
+}

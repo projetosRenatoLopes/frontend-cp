@@ -256,10 +256,13 @@ const CardMeasures = () => {
             <div key={item.uuid} className="card">
                 <div className="top-card">
                     <p>{item.name}</p>
-                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
                 </div>
                 <div className="bottom-card">
                     <p>{item.quantity} {item.typemeasure}</p>
+                </div>
+                <div className="area-btns">
+                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                    <p className="bar-division-btn">|</p>
                     <div className="btn-excluir" onClick={deleteMeasure}>Excluir <FiTrash2 /></div>
                 </div>
             </div>

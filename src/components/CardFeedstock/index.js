@@ -273,10 +273,13 @@ const CardFeedstock = () => {
             <div key={item.uuid} className="card">
                 <div className="top-card">
                     <p>{item.name}</p>
-                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
                 </div>
                 <div className="bottom-card">
-                    {qtdPrice}
+                    <p>{qtdPrice}</p>
+                </div>
+                <div className="area-btns">
+                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                    <p className="bar-division-btn">|</p>
                     <div className="btn-excluir" onClick={deleteFeedstock}>Excluir <FiTrash2 /></div>
                 </div>
             </div>
