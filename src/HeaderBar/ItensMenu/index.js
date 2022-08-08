@@ -17,7 +17,12 @@ const GalerryItens = (props) => {
         },
         {
             id: '300', desc: 'Produção', router: '/production', subs: []
-        }
+        },
+        {
+            id: '400', desc: 'Configurações', router: '', subs: [
+                { id: '401', desc: 'Backup', router: '/backup' }
+            ]
+        },
     ]
     const [gallery, setGallery] = useState(menus)
 
@@ -33,8 +38,8 @@ const GalerryItens = (props) => {
                 </Link>
             )
         } else {
-            const renderSubMenus = (subMenus) => {       
-                  
+            const renderSubMenus = (subMenus) => {
+
                 return (
                     <Link to={`${subMenus.router}`} key={`${subMenus.id}`}>
                         <div className="itens-menu-div" style={{ display: `${displayShow}`, paddingLeft: '25px', width: '205px', height: '35px', backgroundColor: '#0f7195' }}>{subMenus.desc}</div>
@@ -54,7 +59,7 @@ const GalerryItens = (props) => {
 
             return (
                 <div key={gallery.id}>
-                    <div onClick={() => showSubs()} style={{ justifyContent: 'space-between' }}  className="itens-menu-div">
+                    <div onClick={() => showSubs()} style={{ justifyContent: 'space-between' }} className="itens-menu-div">
                         <p>{gallery.desc}</p>
                         <p style={{ paddingRight: '5px' }}>{iconsShow}</p>
                     </div>
