@@ -248,6 +248,7 @@
     max-height: 98vh;
     width: 95%;
     padding: 0;
+    max-width: 400px;
 }
 
 .title-list {
@@ -319,11 +320,6 @@
     }
 }
 
-@media only screen and (min-width: 1300px) {
-    .MuiBox-root {
-        margin-left: 130px;
-    }
-}
 
 /* TABELA DE MATERIA PRIMA UTILIZADA */
 

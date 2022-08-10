@@ -84,7 +84,7 @@
     height: 100vh;
 }
 
-.itens-menu div:hover {
+.itens-menu-div:hover,.subs:hover {
     background-color: #ffffff65;
     color: black
 }
@@ -135,6 +135,10 @@
     .subs {
         display: flex;
     }
+    .subs:hover {
+        background-color: #ffffff00;
+        color: rgba(255, 254, 254, 0)
+    }
 
     .item-menu-child {
         display: none;
@@ -165,7 +169,8 @@
 
     .itens-menu-div:hover,.user-menu:hover {
         cursor: pointer;
-        background-color: #64646491;        
+        background-color: #64646491;  
+        color: black;
     }
 
     .menu,
