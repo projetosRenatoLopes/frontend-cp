@@ -4,11 +4,12 @@ import HeaderBar from "../HeaderBar";
 import tokenValidation from "../services/tokenValidation";
 
 
-const Production = () => {   
+const Production = () => {
     return (
         <>
             <HeaderBar />
             <div className='bodyPage'>
+                <p>Produção</p>
                 <CardProduction />
             </div>
         </>

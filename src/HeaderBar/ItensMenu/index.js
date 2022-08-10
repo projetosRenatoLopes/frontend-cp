@@ -42,7 +42,8 @@ const GalerryItens = (props) => {
 
                 return (
                     <Link to={`${subMenus.router}`} key={`${subMenus.id}`}>
-                        <div className="itens-menu-div" style={{ display: `${displayShow}`, paddingLeft: '25px', width: '205px', height: '35px', backgroundColor: '#0f7195' }}>{subMenus.desc}</div>
+                        <div className="itens-menu-div" style={{ display: `${displayShow}`, paddingLeft: '25px', width: '205px', height: '35px', backgroundColor: '#0f7195'}}>{subMenus.desc}</div>
+                        <div className="itens-menu-div item-menu-child" >{subMenus.desc}</div>
                     </Link>
                 )
             }
@@ -58,8 +59,8 @@ const GalerryItens = (props) => {
             }
 
             return (
-                <div key={gallery.id}>
-                    <div onClick={() => showSubs()} style={{ justifyContent: 'space-between' }} className="itens-menu-div">
+                <div key={gallery.id} className="subs">
+                    <div onClick={() => showSubs()} style={{ justifyContent: 'space-between' }} className="itens-menu-div item-menu-mother">
                         <p>{gallery.desc}</p>
                         <p style={{ paddingRight: '5px' }}>{iconsShow}</p>
                     </div>

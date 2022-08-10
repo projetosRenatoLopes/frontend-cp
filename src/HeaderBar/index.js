@@ -72,7 +72,16 @@ export default class HeaderBar extends React.Component {
             <>
                 <div className="headerBar">
                     <div className='menuBar' onClick={() => this.openMenu()}><AiOutlineMenuUnfold /><p>{this.state.actualPage}</p></div>
-                    <Link to={`/user`}>
+                    <div className='itens-menu-headbar'>
+                        <ItensMenu />
+                        <Link to={`/user`} className="user-menu">
+                        <div className='userBar'>
+                            <p>{this.state.user}</p>
+                        </div>
+                    </Link>
+                        <div className='itens-menu-div' key='sair' onClick={() => this.logout()}>Sair</div>
+                    </div>
+                    <Link to={`/user`} className="user-menu-rigth">
                         <div className='userBar'>
                             <p>{this.state.user}</p>
                         </div>

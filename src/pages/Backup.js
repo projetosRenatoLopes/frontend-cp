@@ -1,9 +1,9 @@
 // @ts-nocheck
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import api from "../services/api"
 import HeaderBar from "../HeaderBar";
 import { useAlert } from "react-alert";
-import { wait } from "@testing-library/user-event/dist/utils";
+
 
 const Backup = () => {
     const alerts = useAlert();
@@ -340,7 +340,7 @@ const Backup = () => {
             allItens.push({ "table": "production", "reg": element })
         });
 
-        await bkpRestore.users.forEach(element => {            
+        await bkpRestore.users.forEach(element => {
             allItens.push({ "table": "users", "reg": element })
         });
 
