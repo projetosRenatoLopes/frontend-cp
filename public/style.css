@@ -222,6 +222,47 @@ fieldset:disabled .btn {
     height: 100vh;
 }
 
+.backup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+
+}
+
+.area-buttom-bkp {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.area-buttom-restore {
+    display: flex;
+    flex-direction: column;
+}
+
+.area-buttom-restore input {
+    margin-bottom: 10px;
+}
+
+.table-bkp {
+    margin-top: 35px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.area-list-restore{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 @media only screen and (min-width: 700px) {
     .bodypagelogin {
         display: flex;

@@ -4,8 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 
 
-function App() {
-  console.log(process.env)
+function App() {  
   return (
     <BrowserRouter>
       <div className='App'>

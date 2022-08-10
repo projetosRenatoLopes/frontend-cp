@@ -111,9 +111,9 @@ const CardMeasures = () => {
         if (desc === "") {
             alerts.info('Insira a descrição')
         } else if (quantity === "") {
-            alert.info('Insira a quantidade')
+            alerts.info('Insira a quantidade')
         } else if (sel === "0") {
-            alert.info('Selecione o tipo de medida')
+            alerts.info('Selecione o tipo de medida')
         } else {
             var resposta;
             // @ts-ignore
