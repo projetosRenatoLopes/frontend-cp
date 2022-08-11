@@ -80,7 +80,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -90,7 +90,7 @@ const Backup = () => {
                             <table>
                                 <thead>
                                     <tr><td colSpan="2">Medidas Sistema</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td>Descrição</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.exactmeasure.map(renderList)}
                             </table>
@@ -107,7 +107,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -117,7 +117,7 @@ const Backup = () => {
                             <table>
                                 <thead>
                                     <tr><td colSpan="2">Medidas Usuário</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td>Descrição</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.simplemeasure.map(renderList)}
                             </table>
@@ -134,7 +134,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -144,7 +144,7 @@ const Backup = () => {
                             <table>
                                 <thead>
                                     <tr><td colSpan="2">Matéria Prima</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td>Descrição</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.feedstock.map(renderList)}
                             </table>
@@ -161,7 +161,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.production}</td><td>{item.feedstock}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -170,8 +170,8 @@ const Backup = () => {
                         <div className="table-bkp">
                             <table>
                                 <thead>
-                                    <tr><td colSpan="2">Matéria Prima Utilizada</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td colSpan="3">Matéria Prima Utilizada</td></tr>
+                                    <tr><td>Produção</td><td>Máteria Prima</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.feedstockused.map(renderList)}
                             </table>
@@ -188,7 +188,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -198,7 +198,7 @@ const Backup = () => {
                             <table>
                                 <thead>
                                     <tr><td colSpan="2">Outros Custos</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td>Descrição</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.wpo.map(renderList)}
                             </table>
@@ -215,7 +215,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.production}</td><td>{item.wpo}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -224,8 +224,8 @@ const Backup = () => {
                         <div className="table-bkp">
                             <table>
                                 <thead>
-                                    <tr><td colSpan="2">Outros Custos Utilizados</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td colSpan="3">Outros Custos Utilizados</td></tr>
+                                    <tr><td>Produção</td><td>Custo</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.wpoused.map(renderList)}
                             </table>
@@ -243,7 +243,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -253,7 +253,7 @@ const Backup = () => {
                             <table>
                                 <thead>
                                     <tr><td colSpan="2">Produção</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td>Descrição</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.production.map(renderList)}
                             </table>
@@ -270,7 +270,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.uuid}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
                             </tbody>
                         </>)
                     }
@@ -280,7 +280,7 @@ const Backup = () => {
                             <table>
                                 <thead>
                                     <tr><td colSpan="2">Usuários</td></tr>
-                                    <tr><td>uuid</td><td>status</td></tr>
+                                    <tr><td>Nome</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.users.map(renderList)}
                             </table>

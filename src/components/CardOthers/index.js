@@ -216,7 +216,7 @@ const CardOthers = () => {
                         if (resposta.status === 404) {
                             alerts.error('Requisição invalida')
                         } else if (resposta.status === 401) {
-                            alerts.error('Item sendo utilizada por Produção')
+                            alerts.error('Item sendo utilizado por Produção')
                         } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                     })
             }

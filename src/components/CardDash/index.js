@@ -37,9 +37,9 @@ const CardDash = () => {
 
     if (data === undefined || data.length === 0) {
 
-        function CardLoad() {
+        function CardLoad(key) {
             return (<>
-                <div className="card-dashboard card-load">
+                <div className="card-dashboard card-load" key={key}>
                     <div className="top-card-dash-load">
                         <h4></h4>
                     </div>
@@ -65,64 +65,61 @@ const CardDash = () => {
         return (
             <>
                 <div className="cards-group">
-                    <CardLoad />
-                    <CardLoad />
-                    <CardLoad />                   
+                    <CardLoad key='1' />
+                    <CardLoad key='2' />
+                    <CardLoad key='3' />
                 </div>
             </>
         )
     } else {
 
-        console.log(data)
-
-
         const renderCards = (item) => {
             var item1, item2, item3, item4, item5;
-            item1 = item2 = item3 = item4 = item5 = [{ name: "", value: "" }];
+            item1 = item2 = item3 = item4 = item5 = { name: "", value: "" };
             try {
                 if (item.data[0].name !== undefined) {
-                    item1 = item.data[0]
+                    item1 = { "name": item.data[0].name, "value": item.data[0].value.toFixed(2).replace(/[.]/, ',') }
                 }
                 if (item.data[1].name !== undefined) {
-                    item2 = item.data[1]
+                    item2 = { "name": item.data[1].name, "value": item.data[1].value.toFixed(2).replace(/[.]/, ',') }
                 }
                 if (item.data[2].name !== undefined) {
-                    item3 = item.data[2]
+                    item3 = { "name": item.data[2].name, "value": item.data[2].value.toFixed(2).replace(/[.]/, ',') }
                 }
                 if (item.data[3].name !== undefined) {
-                    item4 = item.data[3]
+                    item4 = { "name": item.data[3].name, "value": item.data[3].value.toFixed(2).replace(/[.]/, ',') }
                 }
                 if (item.data[4].name !== undefined) {
-                    item5 = item.data[4]
+                    item5 = { "name": item.data[4].name, "value": item.data[4].value.toFixed(2).replace(/[.]/, ',') }
                 }
             } catch (error) {
-                console.log('.')
+                console.log(error)
             }
             return (<>
-                <div className="card-dashboard" key={item.index}>
+                <div className="card-dashboard" key={item.name}>
                     <div className="top-card-dash">
                         <h4>{item.name}</h4>
                     </div>
                     <div className="body-card-dash">
                         <div className="itens-card">
-                            <div className="name-item"  style={{color:"#ffffff9e"}}>Descrição</div>
-                            <div className="value-item"  style={{color:"#ffffff9e"}}>{item1.typevalue}</div>
+                            <div className="name-item" style={{ color: "#ffffff9e" }}>Descrição</div>
+                            <div className="value-item" style={{ color: "#ffffff9e" }}>{item.typevalue}</div>
                         </div>
                         <div className="itens-card">
-                            <div className="name-item" style={{color:"red"}}>{item1.name}</div>
-                            <div className="value-item" style={{color:"red"}}>{item1.value}</div>
+                            <div className="name-item" style={{ color: "red" }}>{item1.name}</div>
+                            <div className="value-item" style={{ color: "red" }}>{item1.value}</div>
                         </div>
                         <div className="itens-card">
-                            <div className="name-item" style={{color:"orange"}}>{item2.name}</div>
-                            <div className="value-item" style={{color:"orange"}}>{item2.value}</div>
+                            <div className="name-item" style={{ color: "orange" }}>{item2.name}</div>
+                            <div className="value-item" style={{ color: "orange" }}>{item2.value}</div>
                         </div>
                         <div className="itens-card">
-                            <div className="name-item" style={{color:"yellow"}}>{item3.name}</div>
-                            <div className="value-item" style={{color:"yellow"}}>{item3.value}</div>
+                            <div className="name-item" style={{ color: "yellow" }}>{item3.name}</div>
+                            <div className="value-item" style={{ color: "yellow" }}>{item3.value}</div>
                         </div>
                         <div className="itens-card">
-                            <div className="name-item" style={{color:"#00c4ff"}}>{item4.name}</div>
-                            <div className="value-item" style={{color:"#00c4ff"}}>{item4.value}</div>
+                            <div className="name-item" style={{ color: "#00c4ff" }}>{item4.name}</div>
+                            <div className="value-item" style={{ color: "#00c4ff" }}>{item4.value}</div>
                         </div>
                         <div className="itens-card">
                             <div className="name-item">{item5.name}</div>
