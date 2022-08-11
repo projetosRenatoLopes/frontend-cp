@@ -16,6 +16,7 @@ export default class HeaderBar extends React.Component {
             user: '',
         }
     }
+    username = localStorage.getItem('userName');
 
     openMenu(params) {
         this.setState({ displayMenu: 'menu-show' })
@@ -25,7 +26,7 @@ export default class HeaderBar extends React.Component {
         this.setState({ displayMenu: 'menu-ocult' })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (this.state.pagePathName === '/home') {
             this.setState({ actualPage: 'Inicio' });
         } else if (this.state.pagePathName === '/custommeasure') {
@@ -44,9 +45,8 @@ export default class HeaderBar extends React.Component {
             this.setState({ actualPage: 'Inicio' })
         }
         tokenValidation()
-        const username = localStorage.getItem('userName')
-        if (username !== 'undefined' && username !== undefined) {
-            this.setState({ user: username })
+        if (this.username !== 'undefined' && this.username !== undefined) {
+            this.setState({ user: this.username })
         } else {
             this.setState({ user: 'Carregando Usuário...' })
         }

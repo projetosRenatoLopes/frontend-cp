@@ -5,10 +5,10 @@ import InputPass from "../components/InputPass";
 import tokenValidation from "../services/tokenValidation";
 
 const Login = () => {
-    const token = localStorage.getItem(`token`)
+    const token = localStorage.getItem('token')
     if (token !== null && token !== undefined) {
         tokenValidation()
-        window.location.href = `/home`
+        window.location.href = '/home'
     }
 
     const signin = async () => {
@@ -45,12 +45,12 @@ const Login = () => {
                     document.getElementById('msg').style.color = 'red'
                 } else if (res.status === 200) {
                     if (res.data.token !== undefined && res.data.id !== undefined) {
-                        localStorage.setItem(`token`, res.data.token)
-                        localStorage.setItem(`userName`, res.data.user)
+                        localStorage.setItem('token', res.data.token)
+                        localStorage.setItem('userName', res.data.name)
                     }
                     document.getElementById('msg')['textContent'] = res.data.name
                     document.getElementById('msg').style.color = 'green'
-                    window.location.href = `/home`
+                    window.location.href = '/home'
                 } else {
                     document.getElementById('msg')['textContent'] = 'Erro ao consultar usuário! Tente novamente.'
                     document.getElementById('msg').style.color = 'red'

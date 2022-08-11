@@ -2,21 +2,22 @@
 import InputEmail from "../components/InputEmail";
 import InputPass from "../components/InputPass";
 import api from "../services/api";
-import React, { Fragment } from "react";
+import React, { useState } from "react";
 import HeaderBar from "../HeaderBar";
 import { useAlert } from "react-alert";
+import { useEffect } from "react";
 
 
 const User = () => {
+    const [user, setUser] = useState('')
     const alert = useAlert();
     const userName = localStorage.getItem('userName')
 
-    var user;
-    if (userName === undefined) {
-        user = ''
-    } else {
-        user = userName
-    }
+    useEffect(()=>{
+        if (userName !== undefined && userName !== "undefined") {
+            setUser(userName)
+        }
+    },[userName])
 
     const validPass = () => {
         var pass = document.getElementById('pass')["value"];
@@ -74,7 +75,6 @@ const User = () => {
         document.getElementById("rep-new-pass").style.boxShadow = 'none';
         document.getElementById("validation-pass").innerText = ("")
     }
-
     const validName = () => {
         var name = document.getElementById('user')["value"];
         if (name === "") {
