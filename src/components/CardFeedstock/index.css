@@ -13,7 +13,7 @@
 
 .btn-editar svg{
     font-size: 30px;
-    color: green;
+    color: #36e794;
 }
 
 .top-card p, .bottom-card p{
@@ -31,6 +31,7 @@
 
 .btn-editar:hover{
     cursor: pointer;
+    color: #198754;
 }
 
 .bottom-card{

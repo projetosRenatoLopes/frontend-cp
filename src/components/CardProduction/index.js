@@ -18,6 +18,7 @@ import { FiSave } from 'react-icons/fi'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { MdAddBox } from 'react-icons/md'
 import { BiArrowBack } from 'react-icons/bi'
+import { MdLibraryAdd } from 'react-icons/md'
 
 const CardProduction = () => {
     const alerts = useAlert();
@@ -339,7 +340,8 @@ const CardProduction = () => {
         return (
             <>
                 <div className="area-button">
-                    <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button>
+                    {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
+                    <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
                 </div>
                 {gallery.map(RenderCards)}
                 <Modal

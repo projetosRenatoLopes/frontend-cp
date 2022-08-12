@@ -8,7 +8,7 @@ const Others = () => {
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Cadastro de Mão de Obra, Embalagens e Outros</p>
+                <p className="title-page">Cadastro de Mão de Obra, Embalagens e Outros</p>
                 <CardOthers />
             </div>
         </>

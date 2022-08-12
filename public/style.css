@@ -6,7 +6,6 @@ body {
     color: #FFFFFF;
 }
 
-
 .bodyPage {
     display: flex;
     justify-content: center;
@@ -93,7 +92,7 @@ body {
 
 .btn-l {
     border-radius: 8px 0 0 8px;
-    color: #198754;
+    color: #36e794;
 }
 
 .btn-c {
@@ -252,7 +251,7 @@ fieldset:disabled .btn {
     overflow-y: auto;
     overflow-x: auto;
     margin-bottom: 25px;
-    margin-top: 25px;        
+    margin-top: 25px;
 }
 
 
@@ -263,6 +262,28 @@ fieldset:disabled .btn {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.title-page {
+    display: none;
+}
+
+.btn-new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #36e794;
+    font-size: 17px;
+}
+
+
+.btn-new svg {
+    margin-right: 4px;
+}
+
+.btn-new:hover{
+    cursor: pointer;
+    color: #198754;
 }
 
 @media only screen and (min-width: 700px) {
@@ -301,6 +322,12 @@ fieldset:disabled .btn {
 
     .field-login h2 {
         color: white;
+    }
+}
+
+@media only screen and (min-width: 1300px) {
+    .title-page {
+        display: flex;
     }
 }
 

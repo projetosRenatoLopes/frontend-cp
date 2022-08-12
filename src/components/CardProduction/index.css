@@ -15,7 +15,7 @@
 
 .btn-editar svg {
     font-size: 30px;
-    color: green;
+    color: #36e794;
 }
 
 .top-card p,
@@ -50,14 +50,20 @@
     align-items: center;
 }
 
-.btn-editar:hover {
+.btn-editar:hover.btn-editar svg:hover {
     cursor: pointer;
+    color: #198754;
 }
 
 .btn-excluir svg {
     font-size: 25px;
+    color: rgb(224, 99, 99);
+}
+
+.btn-excluir svg:hover,.btn-excluir:hover {    
     color: rgb(209, 6, 6);
 }
+
 
 .area-btns {
     display: flex;
@@ -66,7 +72,7 @@
 }
 
 .area-btns div,
-.area-btns p {    
+.area-btns p {
     padding: 0;
     margin: 0 2px 0 1px;
 
@@ -197,12 +203,13 @@
     justify-content: center;
 }
 
-.btn-lm svg{
+.btn-lm svg {
     font-size: 32px;
     color: #198754;
 }
 
-.btn-lm:hover,.btn-lm svg:hover {
+.btn-lm:hover,
+.btn-lm svg:hover {
     background-color: #198754;
     color: #FFFF;
 }
@@ -223,7 +230,7 @@
     color: #FFFF;
 }
 
-.btn-el {    
+.btn-el {
     color: #2bd686;
 }
 
@@ -272,8 +279,8 @@
     padding: 0;
 }
 
-.bar-division-btn{
-    font-size: 20px;    
+.bar-division-btn {
+    font-size: 20px;
 }
 
 @media only screen and (max-width: 203px) {

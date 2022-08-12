@@ -8,7 +8,7 @@ const Feedstock = () => {
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Cadastro de Matéria Prima</p>
+                <p className="title-page">Cadastro de Matéria Prima</p>
                 <CardFeedstock />
             </div>
         </>

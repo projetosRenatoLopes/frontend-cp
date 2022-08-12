@@ -13,7 +13,7 @@
 
 .btn-editar svg{
     font-size: 30px;
-    color: green;
+    color: #36e794;
 }
 
 .top-card p, .bottom-card p{
@@ -31,6 +31,7 @@
 
 .btn-editar:hover{
     cursor: pointer;
+    color: #198754;
 }
 
 .btn-excluir{
@@ -44,7 +45,7 @@
 
 .btn-excluir svg{
     font-size: 25px;
-    color: rgb(209, 6, 6);
+    color: #d10606;
 }
 
 .btn-excluir p{

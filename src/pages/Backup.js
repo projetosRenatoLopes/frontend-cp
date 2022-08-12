@@ -376,7 +376,7 @@ const Backup = () => {
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Backup</p>
+                <p className="title-page">Backup</p>
 
                 <div className="backup">
                     <div className="area-buttom-bkp">

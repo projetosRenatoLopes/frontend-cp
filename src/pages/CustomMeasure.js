@@ -10,7 +10,7 @@ const CustomMeasure = () => {
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Cadastro de Medidas</p>
+                <p className="title-page">Cadastro de Medidas</p>
                 <CardMeasures />
             </div>
         </>

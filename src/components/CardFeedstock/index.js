@@ -1,16 +1,21 @@
 // @ts-nocheck
 import React, { useEffect, useState, memo } from "react";
+
 import "./index.css"
 import api from "../../services/api"
-import { AiTwotoneEdit } from 'react-icons/ai'
+
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+
 import formatNum from "../../utils/formatNum";
 import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
+
+import { AiTwotoneEdit } from 'react-icons/ai'
 import { useAlert } from "react-alert";
 import { FiTrash2 } from 'react-icons/fi'
+import { MdLibraryAdd } from 'react-icons/md'
 
 const CardFeedstock = () => {
     const alerts = useAlert();
@@ -303,7 +308,8 @@ const CardFeedstock = () => {
     return (
         <>
             <div className="area-button">
-                <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button>
+                {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
+                <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
             </div>
             {gallery.map(RenderCards)}
             <Modal

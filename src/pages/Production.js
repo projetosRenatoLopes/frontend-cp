@@ -9,7 +9,7 @@ const Production = () => {
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p>Produção</p>
+                <p className="title-page">Produção</p>
                 <CardProduction />
             </div>
         </>
