@@ -119,6 +119,18 @@
     display: none;
 }
 
+.app-version{
+    display: flex;
+    margin:5px;
+    padding: 0px;
+    font-size: 13px;
+    color: black;
+}
+
+.app-version-head{
+    display: none;
+}
+
 @media only screen and (min-width: 1300px) {
     .back-menu {
         display: flex;
@@ -183,4 +195,14 @@
         display: none;
     }
 
+    .app-version-head{
+        display: flex;        
+        font-size: 13px;
+        color: rgb(255, 255, 255);
+        margin: 0;      
+        padding: 0;
+        justify-content: center;
+    }
+
 }
+

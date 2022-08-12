@@ -87,11 +87,12 @@
     margin: 10px
 }
 
-.modal-button {
+.modal-button-production {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     width: 100%;
-    padding: 0;
+    max-width: 650px;
+    margin-bottom: 10px;
 }
 
 .modal-button button {
@@ -239,7 +240,7 @@
 .area-add-feedstockused {
     border: 1px #202020;
     width: 100%;
-    max-width: 550px;
+    max-width: 650px;
     display: flex;
 }
 
@@ -256,7 +257,7 @@
     margin-bottom: 10px;
     padding: 0;
     width: 100%;
-    max-width: 550px;
+    max-width: 650px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -344,6 +345,7 @@ table {
     letter-spacing: 1px;
     font-family: sans-serif;
     font-size: .4rem;
+    width: 100%;
 }
 
 td,
@@ -363,6 +365,7 @@ td {
     overflow-y: auto;
     overflow-x: auto;
     margin-bottom: 50px;
+    width: 100%;
 }
 
 .area-trash-item:hover {

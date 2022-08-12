@@ -259,11 +259,11 @@ const CardMeasures = () => {
                 </div>
                 <div className="bottom-card">
                     <p>{item.quantity} {item.typemeasure}</p>
-                </div>
-                <div className="area-btns">
-                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
-                    <p className="bar-division-btn">|</p>
-                    <div className="btn-excluir" id="btn-del" onClick={deleteMeasure}>Excluir <FiTrash2 /></div>
+                    <div className="area-btns">
+                        <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                        <p className="bar-division-btn">|</p>
+                        <div className="btn-excluir" id="btn-del" onClick={deleteMeasure}>Excluir <FiTrash2 /></div>
+                    </div>
                 </div>
             </div>
         )

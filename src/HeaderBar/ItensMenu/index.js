@@ -33,7 +33,7 @@ const GalerryItens = (props) => {
 
         if (gallery.subs.length === 0) {
             return (
-                <Link className="itens-menu-div" to={`${gallery.router}`} key={(gallery.id).toString()}>
+                <Link className="itens-menu-div" id={gallery.desc} to={`${gallery.router}`} key={(gallery.id).toString()}>
                     <div>{gallery.desc}</div>
                 </Link>
             )
@@ -41,7 +41,7 @@ const GalerryItens = (props) => {
             const renderSubMenus = (subMenus) => {
 
                 return (
-                    <Link to={`${subMenus.router}`} key={`${subMenus.id}`}>
+                    <Link to={`${subMenus.router}`} key={`${subMenus.id}`} id={subMenus.desc}>
                         <div className="itens-menu-div" style={{ display: `${displayShow}`, paddingLeft: '25px', width: '205px', height: '35px', backgroundColor: '#0f7195'}}>{subMenus.desc}</div>
                         <div className="itens-menu-div item-menu-child" >{subMenus.desc}</div>
                     </Link>

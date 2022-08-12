@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -29,18 +30,25 @@ export default class HeaderBar extends React.Component {
     async componentDidMount() {
         if (this.state.pagePathName === '/home') {
             this.setState({ actualPage: 'Inicio' });
+            document.getElementById('Inicio').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/custommeasure') {
             this.setState({ actualPage: "Medidas" });
+            document.getElementById('Medidas').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/user') {
             this.setState({ actualPage: "Usuário" });
+            document.getElementById('Usuário').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/feedstock') {
             this.setState({ actualPage: "Matéria Prima" });
+            document.getElementById('Matéria Prima').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/production') {
             this.setState({ actualPage: "Produção" });
+            document.getElementById('Produção').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/others') {
             this.setState({ actualPage: "Outros" });
+            document.getElementById('Outros').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/backup') {
             this.setState({ actualPage: "Backup" });
+            document.getElementById('Backup').style.borderBottom = '3px solid #FFF'
         } else {
             this.setState({ actualPage: 'Inicio' })
         }
@@ -75,7 +83,7 @@ export default class HeaderBar extends React.Component {
                     <div className='itens-menu-headbar'>
                         <ItensMenu />
                         <Link to={`/user`} className="user-menu">
-                        <div className='userBar'>
+                        <div className='userBar' id="Usuário">
                             <p>{this.state.user}</p>
                         </div>
                     </Link>
@@ -93,8 +101,9 @@ export default class HeaderBar extends React.Component {
                         <ItensMenu />
                         <div className='itens-menu-div' key='sair' onClick={() => this.logout()}>Sair</div>
                     </div>
+                        <p className='app-version'>v 1.0.0</p>
                 </div>
-                <div className={`back-menu ${this.state.displayMenu}`} onClick={() => this.closeMenu()}></div>
+                <div className={`back-menu ${this.state.displayMenu}`} onClick={() => this.closeMenu()}></div>                
             </>
         )
     }

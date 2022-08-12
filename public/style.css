@@ -227,7 +227,7 @@ fieldset:disabled .btn {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
 
 }
 
@@ -248,18 +248,20 @@ fieldset:disabled .btn {
 }
 
 .table-bkp {
-    margin-top: 35px;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-bottom: 25px;
+    margin-top: 25px;        
 }
 
-.area-list-restore{
+
+.area-list-restore {
     margin-top: 20px;
     display: flex;
+    width: 100%;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
@@ -335,4 +337,3 @@ fieldset:disabled .btn {
         height: 100vh;
     }
 }
-

@@ -9,6 +9,7 @@ const Home = () => {
             <HeaderBar />
             <div className='bodyPage'>
                 <p>Dashboard</p>
+                <p className='app-version-head'>v 1.0.0</p>
                 <CardDash></CardDash>
             </div>
         </>

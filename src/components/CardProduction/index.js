@@ -17,6 +17,7 @@ import { TiEdit } from 'react-icons/ti'
 import { FiSave } from 'react-icons/fi'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { MdAddBox } from 'react-icons/md'
+import { BiArrowBack } from 'react-icons/bi'
 
 const CardProduction = () => {
     const alerts = useAlert();
@@ -435,7 +436,7 @@ const CardProduction = () => {
             )
         }
 
-        const RenderListWPOU = (item) => {            
+        const RenderListWPOU = (item) => {
             const price = item.price.toFixed(2)
 
             function openEditWPO() {
@@ -743,13 +744,13 @@ const CardProduction = () => {
 
         return (<>
 
-            <div className="modal-button">
-                <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} >Fechar</button>
-            </div>
             <h2>{feedstockUsedTitle}</h2>
+            <div className="modal-button-production">
+                <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} ><BiArrowBack/> Voltar</button>
+            </div>
 
             <div onClick={() => showList()} className="title-list"><p>Matéria Prima</p><div className="icon-showlist">{iconShow}</div></div>
-            <div style={{ display: displayShow, flexDirection: 'column', width: '100%', maxWidth: '550px', marginBottom: '1px solid #FFFFFF' }}>
+            <div style={{ display: displayShow, flexDirection: 'column', width: '100%', maxWidth: '650px', marginBottom: '1px solid #FFFFFF' }}>
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
                         <option value='0' hidden >Selecione uma opção...</option>
@@ -778,7 +779,7 @@ const CardProduction = () => {
                 </div>
             </div>
             <div onClick={() => showListWpo()} className="title-list"><p>Mão de Obra, Embalagens e Outros</p><div className="icon-showlist">{iconShowWPO}</div></div>
-            <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '550px' }}>
+            <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '650px' }}>
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-wpo">
                         <option value='0' hidden >Selecione uma opção...</option>
