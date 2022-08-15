@@ -20,7 +20,8 @@
 
 .top-card p,
 .bottom-card p {
-    margin: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
     font-size: 12px;
 }
 
@@ -74,7 +75,7 @@
 .area-btns div,
 .area-btns p {
     padding: 0;
-    margin: 0 2px 0 1px;
+    margin: 0 4px 0 1px;
 
 }
 
@@ -408,4 +409,11 @@ td {
 .btn-edit-feedstock:hover {
     background-color: #198754;
     color: #FFFF;
+}
+
+.bar-division{
+    width: 2px;
+    height: 20px;
+    background-color: #757575;
+    border-radius: 30px;    
 }

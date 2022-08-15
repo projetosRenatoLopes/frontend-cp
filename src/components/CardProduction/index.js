@@ -23,7 +23,7 @@ import { MdLibraryAdd } from 'react-icons/md'
 const CardProduction = () => {
     const alerts = useAlert();
     const token = localStorage.getItem('token')
-    const [gallery, setGallery] = useState([])
+    const [gallery, setGallery] = useState("")
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
     const [openFsU, setOpenFsU] = useState(false);
@@ -315,7 +315,7 @@ const CardProduction = () => {
                 </div>
                 <div className="area-btns">
                     <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
-                    <p className="bar-division-btn">|</p>
+                    <p className="bar-division"></p>
                     <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
                 </div>
             </div>
@@ -336,34 +336,70 @@ const CardProduction = () => {
         backgroundColor: "#202020",
     };
 
-    if (screenView === 'cards') {
-        return (
-            <>
-                <div className="area-button">
-                    {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
-                    <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
-                </div>
-                {gallery.map(RenderCards)}
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            <strong>{titleModal}</strong>
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                            <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
-                        </Typography>
-                        <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
-                    </Box>
-                </Modal >
-            </>
+    const RenderCardsLoad = () => {
 
+        return (
+            <div className="card">
+                <div className="top-card">
+                    <div className="title-load"><strong></strong></div>
+                </div>
+                <div className="bottom-card">
+                    <div className="bottom-card-left">
+                        <p className="item-prod-load"></p>
+                        <p className="item-prod-load"></p>
+                    </div>
+                    <div className="bottom-card-right">
+                        <p className="item-prod-load"></p>
+                        <p className="item-prod-load"></p>
+                    </div>
+                </div>
+                <div className="area-btns">
+                    <div className="btn-excluir-load" ></div>
+                    <p className="bar-division-load"></p>
+                    <div className="btn-editar-load" ></div>
+                </div>
+            </div>
         )
+    }
+
+    if (screenView === 'cards') {
+        if (gallery === "") {
+            return (<>
+                <div className="area-button">
+                    <div className="btn-new-load" ></div>
+                </div>
+                <RenderCardsLoad />
+                <RenderCardsLoad />
+                <RenderCardsLoad />
+            </>)
+        } else {
+            return (
+                <>
+                    <div className="area-button">
+                        {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
+                        <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
+                    </div>
+                    {gallery.map(RenderCards)}
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                <strong>{titleModal}</strong>
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
+                                <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                            </Typography>
+                            <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
+                        </Box>
+                    </Modal >
+                </>
+            )
+        }
     } else {
         const RenderListFsu = (item) => {
             const price = item.price.toFixed(2)
@@ -748,7 +784,7 @@ const CardProduction = () => {
 
             <h2>{feedstockUsedTitle}</h2>
             <div className="modal-button-production">
-                <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} ><BiArrowBack/> Voltar</button>
+                <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} ><BiArrowBack /> Voltar</button>
             </div>
 
             <div onClick={() => showList()} className="title-list"><p>Matéria Prima</p><div className="icon-showlist">{iconShow}</div></div>

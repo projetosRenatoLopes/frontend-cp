@@ -16,8 +16,10 @@
     color: #36e794;
 }
 
-.top-card p, .bottom-card p{
- margin: 2px;
+.top-card p,
+.bottom-card p {
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .top-card p{

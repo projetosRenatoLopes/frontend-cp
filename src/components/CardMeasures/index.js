@@ -16,7 +16,7 @@ import { MdLibraryAdd } from 'react-icons/md'
 
 const CardMeasures = () => {
     const alerts = useAlert();
-    const [gallery, setGallery] = useState([])
+    const [gallery, setGallery] = useState("")
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
     const [optionsMeasure, setOptions] = useState([])
@@ -265,7 +265,7 @@ const CardMeasures = () => {
                     <p>{item.quantity} {item.typemeasure}</p>
                     <div className="area-btns">
                         <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
-                        <p className="bar-division-btn">|</p>
+                        <p className="bar-division"></p>
                         <div className="btn-excluir" id="btn-del" onClick={deleteMeasure}>Excluir <FiTrash2 /></div>
                     </div>
                 </div>
@@ -287,36 +287,67 @@ const CardMeasures = () => {
         backgroundColor: "#202020",
     };
 
-    return (
-        <>
-            <div className="area-button">
-                {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
-                <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
+
+    const RenderCardsLoad = () => {
+
+        return (
+            <div className="card">
+                <div className="top-card">
+                    <p className="title-load"></p>
+                </div>
+                <div className="bottom-card">
+                    <p className="qtdtype-load"> </p>
+                    <div className="area-btns">
+                        <div className="btn-editar-load" ></div>
+                        <p className="bar-division-load"></p>
+                        <div className="btn-excluir-load" id="btn-del" ></div>
+                    </div>
+                </div>
             </div>
-            {gallery.map(RenderCards)}
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        <strong>{titleModal}</strong>
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                        <input className="modal-input modal-measure-quantity" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
-                        <select className="modal-input modal-measure-typemeasure" id="sel" defaultValue={medModal}>
-                            <option value='0' hidden >Tipo de medida</option>
-                            {optionsMeasure.map(RenderOptions)}
-                        </select>
-                        <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>
-                    </Typography>
-                </Box>
-            </Modal >
-        </>
-    )
+        )
+    }
+
+    if (gallery === "") {
+        return (<>
+            <div className="area-button">                
+                <div className="btn-new-load" ></div>
+            </div>
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+        </>)
+    } else {
+        return (
+            <>
+                <div className="area-button">
+                    {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
+                    <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
+                </div>
+                {gallery.map(RenderCards)}
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            <strong>{titleModal}</strong>
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
+                            <input className="modal-input modal-measure-quantity" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
+                            <select className="modal-input modal-measure-typemeasure" id="sel" defaultValue={medModal}>
+                                <option value='0' hidden >Tipo de medida</option>
+                                {optionsMeasure.map(RenderOptions)}
+                            </select>
+                            <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>
+                        </Typography>
+                    </Box>
+                </Modal >
+            </>
+        )
+    }
 }
 
 export default memo(CardMeasures);
