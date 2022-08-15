@@ -464,7 +464,7 @@ const CardProduction = () => {
                     <tr>
                         <td>{item.feedstock}</td>
                         <td>{item.quantity} {item.measurement}
-                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`}></input><button className="btn-edit-feedstock" onClick={() => saveEditFeedstock()}><FiSave /></button></div>
+                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditFeedstock()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
                         <td className="area-trash-item btn-el" onClick={() => openEditFeedstock()}><TiEdit /></td>
@@ -574,7 +574,7 @@ const CardProduction = () => {
                     <tr>
                         <td>{item.wpo}</td>
                         <td>{item.quantity}
-                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
+                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
                         <td className="area-trash-item btn-el" onClick={() => openEditWPO()}><TiEdit /></td>
@@ -816,7 +816,7 @@ const CardProduction = () => {
                     </div>
                 </div>
             </div>
-            <div onClick={() => showListWpo()} className="title-list"><p>Mão de Obra, Embalagens e Outros</p><div className="icon-showlist">{iconShowWPO}</div></div>
+            <div onClick={() => showListWpo()} className="title-list"><p>Outros Custos</p><div className="icon-showlist">{iconShowWPO}</div></div>
             <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '650px' }}>
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-wpo">
