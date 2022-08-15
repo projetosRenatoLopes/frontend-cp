@@ -31,6 +31,7 @@ const CardProduction = () => {
     const [titleModal, setTitleModal] = useState("Cadastrar Produção")
     const [descModal, setDescModal] = useState("")
     const [priceModal, setPriceModal] = useState("")
+    const [priceSel, setPriceSel] = useState(0)
     const [uuidSel, setUuidSel] = useState("")
     const [feedstockUsedGallery, setFsUG] = useState([])
     const [wpoUsedGallery, setWPOUG] = useState([])
@@ -253,6 +254,7 @@ const CardProduction = () => {
             setWPOUG(item.wpoused)
             setUuidSel(item.uuid)
             setFsUT(item.name)
+            setPriceSel(item.price)
             setOpenFsU(true)
             setScreenView('item')
         }
@@ -402,6 +404,7 @@ const CardProduction = () => {
         }
     } else {
         const RenderListFsu = (item) => {
+
             const price = item.price.toFixed(2)
 
             function openEditFeedstock() {
@@ -779,12 +782,41 @@ const CardProduction = () => {
             }
         }
 
+        var fsu = 0;
+        feedstockUsedGallery.forEach((element) => {
+            fsu += element.price;
+        })
+        var wpou = 0;
+        wpoUsedGallery.forEach((element) => {
+            wpou += element.price;
+        })
+
+        const cost = fsu + wpou;
+        const price = priceSel.replace(['.'], [','])
+        const profit = priceSel - cost
+
+        var percent = 0;
+        if (cost > 0) {
+            percent = (profit * 100) / cost
+        } else {
+            percent = 100;
+        }
 
         return (<>
 
             <h2>{feedstockUsedTitle}</h2>
             <div className="modal-button-production">
                 <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} ><BiArrowBack /> Voltar</button>
+            </div>
+            <div className="indicators">
+                <div>
+                    <p><strong>Venda:</strong> R$ {price}</p>
+                    <p><strong>Lucro:</strong> R$ {profit.toFixed(2).replace(['.'], [','])}</p>
+                </div>
+                <div>
+                    <p><strong>Custo:</strong> R$ {cost.toFixed(2).replace(['.'], [','])}</p>
+                    <p><strong>% Lucro:</strong> {percent.toFixed(2)}</p>
+                </div>
             </div>
 
             <div onClick={() => showList()} className="title-list"><p>Matéria Prima</p><div className="icon-showlist">{iconShow}</div></div>
@@ -807,14 +839,14 @@ const CardProduction = () => {
                                     <td>Máteria Prima</td>
                                     <td>Qtd.</td>
                                     <td>Custo</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colSpan="2">Ações</td>
                                 </tr>
                             </thead>
                             {feedstockUsedGallery.map(RenderListFsu)}
                         </table>
                     </div>
                 </div>
+                <p className="total-itens">Total: R$ {fsu.toFixed(2).replace(['.'], [','])}</p>
             </div>
             <div onClick={() => showListWpo()} className="title-list"><p>Outros Custos</p><div className="icon-showlist">{iconShowWPO}</div></div>
             <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '650px' }}>
@@ -836,14 +868,14 @@ const CardProduction = () => {
                                     <td>Descrição</td>
                                     <td>Qtd.</td>
                                     <td>Custo</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colSpan="2">Ações</td>
                                 </tr>
                             </thead>
                             {wpoUsedGallery.map(RenderListWPOU)}
                         </table>
                     </div>
                 </div>
+                <p className="total-itens">Total: R$ {wpou.toFixed(2).replace(['.'], [','])}</p>
             </div>
         </>
         )

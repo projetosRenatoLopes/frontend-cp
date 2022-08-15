@@ -372,7 +372,7 @@ td {
     max-height: 300px;
     overflow-y: auto;
     overflow-x: auto;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     width: 100%;
 }
 
@@ -416,4 +416,23 @@ td {
     height: 20px;
     background-color: #757575;
     border-radius: 30px;    
+}
+
+.indicators{
+    display: flex;
+    width: 100%;
+    max-width: 650px;
+    justify-content: space-between;
+    background-color: #1f1f1f;    
+    margin-bottom: 20px;
+}
+
+.indicators p{
+    margin: 10px;
+    padding: 0;
+}
+
+.total-itens{
+    margin: 0 0 50px 0;
+    padding: 0;
 }
