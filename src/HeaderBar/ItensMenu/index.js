@@ -12,7 +12,7 @@ const GalerryItens = (props) => {
             id: '200', desc: 'Cadastros', router: '', subs: [
                 { id: '201', desc: 'Medidas', router: '/custommeasure' },
                 { id: '202', desc: 'Matéria Prima', router: '/feedstock' },
-                { id: '203', desc: 'Outros', router: '/others' }
+                { id: '203', desc: 'Outros Custos', router: '/others' }
             ]
         },
         {
@@ -42,7 +42,7 @@ const GalerryItens = (props) => {
 
                 return (
                     <Link to={`${subMenus.router}`} key={`${subMenus.id}`} id={subMenus.desc}>
-                        <div className="itens-menu-div" style={{ display: `${displayShow}`, paddingLeft: '25px', width: '205px', height: '35px', backgroundColor: '#0f7195'}}>{subMenus.desc}</div>
+                        <div className="itens-menu-div subs-menus" style={{ display: `${displayShow}`, paddingLeft: '25px', width: '205px', height: '35px'}}>{subMenus.desc}</div>
                         <div className="itens-menu-div item-menu-child" >{subMenus.desc}</div>
                     </Link>
                 )

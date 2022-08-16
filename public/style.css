@@ -1,3 +1,18 @@
+:root{
+    --add:#36e794;
+    --add-hover: #198754;
+    --del: #f55252;
+    --del-hover: #d10606;
+    --bg-load: #757575;
+    --color-pri-old: #0093c9; 
+    --color-sec-old: #005e80;
+    --color-pri: #0093c9; 
+    --color-sec: #005e80;
+    --color-text-pri: #FFF;
+    --color-text-sec: #000;
+    --color-hover-menu: #ffffff65;
+}
+
 body {
     background: #2e3030;
     font-family: verdana;

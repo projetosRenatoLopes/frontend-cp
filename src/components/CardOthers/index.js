@@ -23,7 +23,7 @@ const CardOthers = () => {
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
     const token = localStorage.getItem('token')
-    const [titleModal, setTitleModal] = useState("Cadastrar Outros")
+    const [titleModal, setTitleModal] = useState("Cadastrar Outros Custos")
     const [descModal, setDescModal] = useState("")
     const [quantModal, setQuantModal] = useState("")
     const [priceModal, setPriceModal] = useState("")
@@ -63,7 +63,7 @@ const CardOthers = () => {
     }, [])
 
     function openModal() {
-        setTitleModal("Cadastrar Outros")
+        setTitleModal("Cadastrar Outros Custos")
         setDescModal("")
         setQuantModal("")
         setPriceModal("")
@@ -161,7 +161,7 @@ const CardOthers = () => {
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
-                        setTitleModal("Cadastrar Outros")
+                        setTitleModal("Cadastrar Outros Custos")
                         setDescModal("")
                         setQuantModal("")
                         setPriceModal("")
@@ -179,7 +179,7 @@ const CardOthers = () => {
     }
 
     function checkModalOpen() {
-        if (titleModal === "Cadastrar Outros") {
+        if (titleModal === "Cadastrar Outros Custos") {
             saveWPO()
         } else {
             updateWPO()
@@ -189,7 +189,7 @@ const CardOthers = () => {
     const RenderCards = (item) => {
         function openEdit() {
             setUuidSel(item.uuid)
-            setTitleModal("Editar Outros")
+            setTitleModal("Editar Outros Custos")
             setDescModal(item.name)
             setQuantModal(item.quantity)
             setPriceModal(`R$ ${item.price.replace(/[.]/, ',')}`)

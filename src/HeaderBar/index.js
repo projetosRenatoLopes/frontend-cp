@@ -44,8 +44,8 @@ export default class HeaderBar extends React.Component {
             this.setState({ actualPage: "Produção" });
             document.getElementById('Produção').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/others') {
-            this.setState({ actualPage: "Outros" });
-            document.getElementById('Outros').style.borderBottom = '3px solid #FFF'
+            this.setState({ actualPage: "Outros Custos" });
+            document.getElementById('Outros Custos').style.borderBottom = '3px solid #FFF'
         } else if (this.state.pagePathName === '/backup') {
             this.setState({ actualPage: "Backup" });
             document.getElementById('Backup').style.borderBottom = '3px solid #FFF'
