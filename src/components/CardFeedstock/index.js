@@ -332,6 +332,13 @@ const CardFeedstock = () => {
             <RenderCardsLoad />
             <RenderCardsLoad />
             <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />            
         </>)
     } else {
 

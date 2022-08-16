@@ -68,6 +68,8 @@ const CardDash = () => {
                     <CardLoad key='1' />
                     <CardLoad key='2' />
                     <CardLoad key='3' />
+                    <CardLoad key='4' />
+                    <CardLoad key='5' />
                 </div>
             </>
         )

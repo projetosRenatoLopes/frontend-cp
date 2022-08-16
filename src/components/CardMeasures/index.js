@@ -315,6 +315,13 @@ const CardMeasures = () => {
             <RenderCardsLoad />
             <RenderCardsLoad />
             <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad /> 
         </>)
     } else {
         return (

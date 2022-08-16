@@ -373,6 +373,13 @@ const CardProduction = () => {
                 <RenderCardsLoad />
                 <RenderCardsLoad />
                 <RenderCardsLoad />
+                <RenderCardsLoad />
+                <RenderCardsLoad />
+                <RenderCardsLoad />
+                <RenderCardsLoad />
+                <RenderCardsLoad />
+                <RenderCardsLoad />
+                <RenderCardsLoad />
             </>)
         } else {
             return (
@@ -596,97 +603,104 @@ const CardProduction = () => {
         }
 
         function addFeedstock() {
-            setBtnQttFS(true)
-            const feedstockSel = document.getElementById("sel-feedstock")["value"]
-            const quantity = document.getElementById("quantity")["value"]
-            if (feedstockSel === "0") {
-                alerts.info("Selecione uma opção...")
-            } else if (quantity === "") {
-                alerts.info("Insira a quantidade")
-            } else {
+            if (btnQttFS === false) {
 
-                var resposta;
-                // @ts-ignore
-                api({
-                    method: 'POST',
-                    url: '/feedstockused',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: token
-                    },
-                    data: {
-                        "feedstockid": feedstockSel,
-                        "quantity": quantity,
-                        "productionid": uuidSel
-                    }
-                })
-                    .then(async resp => {
-                        resposta = resp.data;
-                        if (resposta.status === 201) {
-                            document.getElementById("sel-feedstock")["value"] = "0"
-                            document.getElementById("quantity")["value"] = ""
-                            alerts.success(resposta.message)
-                            loadData()
-                        } else if (resposta.status === 200) {
-                            alerts.info(resposta.message)
+                const feedstockSel = document.getElementById("sel-feedstock")["value"]
+                const quantity = document.getElementById("quantity")["value"]
+                if (feedstockSel === "0") {
+                    alerts.info("Selecione uma opção...")
+                } else if (quantity === "") {
+                    alerts.info("Insira a quantidade")
+                } else {
+                    setBtnQttFS(true)
+                    var resposta;
+                    // @ts-ignore
+                    api({
+                        method: 'POST',
+                        url: '/feedstockused',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: token
+                        },
+                        data: {
+                            "feedstockid": feedstockSel,
+                            "quantity": quantity,
+                            "productionid": uuidSel
                         }
-                    }).catch(error => {
-                        resposta = error.toJSON();
-                        if (resposta.status === 404) {
-                            alerts.error('Erro 404 - Requisição invalida')
-                        } else if (resposta.status === 401) {
-                            alerts.error('Não autorizado')
-                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                     })
+                        .then(async resp => {
+                            resposta = resp.data;
+                            if (resposta.status === 201) {
+                                document.getElementById("sel-feedstock")["value"] = "0"
+                                document.getElementById("quantity")["value"] = ""
+                                alerts.success(resposta.message)
+                                loadData()
+                                setBtnQttFS(false)
+                            } else if (resposta.status === 200) {
+                                alerts.info(resposta.message)
+                                setBtnQttFS(false)
+                            }
+                        }).catch(error => {
+                            setBtnQttFS(false)
+                            resposta = error.toJSON();
+                            if (resposta.status === 404) {
+                                alerts.error('Erro 404 - Requisição invalida')
+                            } else if (resposta.status === 401) {
+                                alerts.error('Não autorizado')
+                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        })
+                }
             }
-            setBtnQttFS(false)
         }
 
         function addWPO() {
-            setBtnQttWPO(true)
-            const wpoSel = document.getElementById("sel-wpo")["value"]
-            const quantity = document.getElementById("quantity-wpo")["value"]
-            if (wpoSel === "0") {
-                alerts.info("Selecione uma opção...")
-            } else if (quantity === "") {
-                alerts.info("Insira a quantidade")
-            } else {
-
-                var resposta;
-                // @ts-ignore
-                api({
-                    method: 'POST',
-                    url: '/wpoused',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: token
-                    },
-                    data: {
-                        "wpoid": wpoSel,
-                        "quantity": quantity,
-                        "productionid": uuidSel
-                    }
-                })
-                    .then(async resp => {
-                        resposta = resp.data;
-                        if (resposta.status === 201) {
-                            document.getElementById("sel-wpo")["value"] = "0"
-                            document.getElementById("quantity-wpo")["value"] = ""
-                            alerts.success(resposta.message)
-                            loadData()
-                        } else if (resposta.status === 200) {
-                            alerts.info(resposta.message)
+            if (btnQttWPO === false) {
+                const wpoSel = document.getElementById("sel-wpo")["value"]
+                const quantity = document.getElementById("quantity-wpo")["value"]
+                if (wpoSel === "0") {
+                    alerts.info("Selecione uma opção...")
+                } else if (quantity === "") {
+                    alerts.info("Insira a quantidade")
+                } else {
+                    setBtnQttWPO(true)
+                    var resposta;
+                    // @ts-ignore
+                    api({
+                        method: 'POST',
+                        url: '/wpoused',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: token
+                        },
+                        data: {
+                            "wpoid": wpoSel,
+                            "quantity": quantity,
+                            "productionid": uuidSel
                         }
-                    }).catch(error => {
-                        resposta = error.toJSON();
-                        if (resposta.status === 404) {
-                            alerts.error('Erro 404 - Requisição invalida')
-                        } else if (resposta.status === 401) {
-                            alerts.error('Não autorizado')
-                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                     })
+                        .then(async resp => {
+                            resposta = resp.data;
+                            if (resposta.status === 201) {
+                                document.getElementById("sel-wpo")["value"] = "0"
+                                document.getElementById("quantity-wpo")["value"] = ""
+                                alerts.success(resposta.message)
+                                loadData()
+                                setBtnQttWPO(false)
+                            } else if (resposta.status === 200) {
+                                alerts.info(resposta.message)
+                                setBtnQttWPO(false)
+                            }
+                        }).catch(error => {
+                            setBtnQttWPO(false)
+                            resposta = error.toJSON();
+                            if (resposta.status === 404) {
+                                alerts.error('Erro 404 - Requisição invalida')
+                            } else if (resposta.status === 401) {
+                                alerts.error('Não autorizado')
+                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        })
+                }
             }
-            setBtnQttWPO(false)
         }
 
         function deleteFeedstock(uuidDel, nameDel) {
@@ -828,7 +842,7 @@ const CardProduction = () => {
                     </select>
                     <div className="modal-button-add">
                         <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
-                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} disabled={btnQttFS}><MdAddBox className="icon-add" /></button>
+                        <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} ><MdAddBox className="icon-add" /></button>
                     </div>
                 </div>
                 <div className="modal-inputs">

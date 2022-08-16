@@ -288,6 +288,13 @@ const CardOthers = () => {
             <RenderCardsLoad />
             <RenderCardsLoad />
             <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad />
+            <RenderCardsLoad /> 
         </>)
     } else {
 
