@@ -3,6 +3,7 @@ import api from "../services/api"
 import InputEmail from "../components/InputEmail";
 import InputPass from "../components/InputPass";
 import tokenValidation from "../services/tokenValidation";
+import React from "react";
 
 const Login = () => {
     const token = localStorage.getItem('token')
@@ -12,6 +13,8 @@ const Login = () => {
     }
 
     const signin = async () => {
+     
+
         const user = document.getElementById('user')['value']
         const pass = document.getElementById('pass')['value']
         if (user === "") {
@@ -25,14 +28,15 @@ const Login = () => {
             document.getElementById('msg').style.color = 'red'
             document.getElementById('pass').style.boxShadow = '0px 1px 0px 0px red';
         } else {
-
+            var encryptPass;
+            encryptPass = `${pass}`
 
             document.getElementById('msg')['textContent'] = 'Entrando...'
             document.getElementById('msg').style.color = '#FFF'
 
             const dadosUser = {
                 "user": user,
-                "password": pass
+                "password": encryptPass
             }
 
             await api({
@@ -67,23 +71,22 @@ const Login = () => {
         }
     }
 
-    return (
-        <>
-            <div className='bodypagelogin'>
-                <div className="area-logo" >
-                    <img src={'/img/LogoSemFundo.png'} alt='logo' className="logo-top"></img>
-                </div>
-                <div className="field-login">
-                    <h2>Login</h2>
-                    <h5 id='msg'> </h5>                    
-                    <InputEmail className='input-user' placeholder='Usuário' />
-                    <InputPass id='pass' className='input-pass' placeholder='Senha' />
-                    <div className="area-btn-login">
-                        <button type='submit' className="btn-co btn-l btn-g btn-login" onClick={signin} >Entrar</button>
-                    </div>
+    return (<>
+        <div className='bodypagelogin'>
+            <div className="area-logo" >
+                <img src={'/img/LogoSemFundo.png'} alt='logo' className="logo-top"></img>
+            </div>
+            <div className="field-login">
+                <h2>Login</h2>
+                <h5 id='msg'> </h5>
+                <InputEmail className='input-user' placeholder='Usuário' />
+                <InputPass id='pass' className='input-pass' placeholder='Senha' />
+                <div className="area-btn-login">
+                    <button type='submit' className="btn-co btn-l btn-g btn-login" onClick={signin} >Entrar</button>
                 </div>
             </div>
-        </>
+        </div>
+    </>
     )
 
 }

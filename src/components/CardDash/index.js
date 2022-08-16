@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import api from "../../services/api"
 import './index.css'
