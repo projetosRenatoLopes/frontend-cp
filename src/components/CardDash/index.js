@@ -39,25 +39,40 @@ const CardDash = () => {
 
         function CardLoad(key) {
             return (<>
-                <div className="card-dashboard card-load" key={key}>
+                <div className="card-dashboard card-load">
                     <div className="top-card-dash-load">
-                        <h4></h4>
+                        <p></p>
                     </div>
                     <div className="body-card-dash">
-                        <div className="card-load-itens">
+                        <div className="itens-card card-load-itens">
+                            <div className="name-item"><p> </p></div>
+                            <div className="value-item"><p> </p></div>
                         </div>
-                        <div className="card-load-itens">
+                        <div className="itens-card card-load-itens">
+                            <div className="name-item" ><p> </p></div>
+                            <div className="value-item" ><p> </p></div>
                         </div>
-                        <div className="card-load-itens">
+                        <div className="itens-card card-load-itens">
+                            <div className="name-item" ><p> </p></div>
+                            <div className="value-item" ><p> </p></div>
                         </div>
-                        <div className="card-load-itens">
+                        <div className="itens-card card-load-itens">
+                            <div className="name-item" ><p> </p></div>
+                            <div className="value-item" ><p> </p></div>
                         </div>
-                        <div className="card-load-itens">
+                        <div className="itens-card card-load-itens">
+                            <div className="name-item"><p></p></div>
+                            <div className="value-item"><p></p></div>
                         </div>
+                        <div className="itens-card card-load-itens">
+                            <div className="name-item"><p></p></div>
+                            <div className="value-item"><p></p></div>
+                        </div>
+                    </div>
+                    <div className="bottom-card-dash">
 
                     </div>
-                    <div className="bottom-card-dash card-load-itens">
-                    </div>
+
                 </div>
             </>)
         }
@@ -77,22 +92,22 @@ const CardDash = () => {
 
         const renderCards = (item) => {
             var item1, item2, item3, item4, item5;
-            item1 = item2 = item3 = item4 = item5 = { name: "", value: "" };
+            item1 = item2 = item3 = item4 = item5 = { name: <></>, value: <></> };
             try {
                 if (item.data[0].name !== undefined) {
-                    item1 = { "name": item.data[0].name, "value": item.data[0].value.toFixed(2).replace(/[.]/, ',') }
+                    item1 = { "name": <p>{item.data[0].name}</p>, "value": <p>{item.data[0].value.toFixed(2).replace(/[.]/, ',')}</p> }
                 }
                 if (item.data[1].name !== undefined) {
-                    item2 = { "name": item.data[1].name, "value": item.data[1].value.toFixed(2).replace(/[.]/, ',') }
+                    item2 = { "name": <p>{item.data[1].name}</p>, "value": <p>{item.data[1].value.toFixed(2).replace(/[.]/, ',')}</p> }
                 }
                 if (item.data[2].name !== undefined) {
-                    item3 = { "name": item.data[2].name, "value": item.data[2].value.toFixed(2).replace(/[.]/, ',') }
+                    item3 = { "name": <p>{item.data[2].name}</p>, "value": <p>{item.data[2].value.toFixed(2).replace(/[.]/, ',')}</p> }
                 }
                 if (item.data[3].name !== undefined) {
-                    item4 = { "name": item.data[3].name, "value": item.data[3].value.toFixed(2).replace(/[.]/, ',') }
+                    item4 = { "name": <p>{item.data[3].name}</p>, "value": <p>{item.data[3].value.toFixed(2).replace(/[.]/, ',')}</p> }
                 }
                 if (item.data[4].name !== undefined) {
-                    item5 = { "name": item.data[4].name, "value": item.data[4].value.toFixed(2).replace(/[.]/, ',') }
+                    item5 = { "name": <p>{item.data[4].name}</p>, "value": <p>{item.data[4].value.toFixed(2).replace(/[.]/, ',')}</p> }
                 }
             } catch (error) {
                 console.log(error)
@@ -104,8 +119,8 @@ const CardDash = () => {
                     </div>
                     <div className="body-card-dash">
                         <div className="itens-card">
-                            <div className="name-item" style={{ color: "#ffffff9e" }}>Descrição</div>
-                            <div className="value-item" style={{ color: "#ffffff9e" }}>{item.typevalue}</div>
+                            <div className="name-item" style={{ color: "#ffffff9e" }}><p>Descrição</p></div>
+                            <div className="value-item" style={{ color: "#ffffff9e" }}><p>{item.typevalue}</p></div>
                         </div>
                         <div className="itens-card">
                             <div className="name-item" style={{ color: "red" }}>{item1.name}</div>

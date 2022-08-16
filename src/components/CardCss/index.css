@@ -222,6 +222,11 @@
     border-radius: 30px;
 }
 
+.top-card-dash-load p {
+    padding: 12.5px;
+    margin: 0;
+}
+
 .qtdtype-load {
     height: 15px;
     margin-bottom: 11px;
@@ -232,7 +237,7 @@
 
 .btn-new-load {
     height: 21px;
-    width: 50px;
+    width: 64px;
     background-color: var(--bg-load);
     border-radius: 30px;
 }
@@ -260,12 +265,9 @@
 }
 
 .card-load-itens {
-    height: 19px;
-    margin: 6px;
-    width: 98%;
+    height: 25px;
     display: flex;
     flex-direction: row;
-    margin: 6px;
     background-color: aliceblue;
 }
 
