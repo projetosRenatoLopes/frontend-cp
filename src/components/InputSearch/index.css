@@ -1,5 +1,5 @@
 .searchinput {
-    width: 90%;
+    width: 85%;
     background: transparent;
     outline-width: 0;
     border-top: none;
@@ -22,4 +22,8 @@
 
 .search-comp svg {
     color: #FFF;
+}
+
+.icon-clean-serach:hover{
+color: var(--del-hover);
 }

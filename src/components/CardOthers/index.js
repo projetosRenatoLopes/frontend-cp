@@ -49,6 +49,21 @@ const CardOthers = () => {
                 resposta = resp.data;
                 setGallery(resposta.wpo)
                 setGallerySaved(resposta.wpo)
+
+                const searchText = document.getElementById('search-item')['value']
+                if (searchText !== "") {
+                    var newList = [];
+                    resposta.wpo.forEach(element => {
+                        const stringElement = replaceAccent(element.name.toLowerCase())
+                        const stringSearch = replaceAccent(searchText.toLowerCase())
+                        if (stringElement.includes(stringSearch)) {
+                            newList.push(element)
+                        }
+                    });
+                    setGallery(newList)
+                }
+
+
             }).catch(error => {
                 resposta = error.toJSON();
                 if (resposta.status === 404) {

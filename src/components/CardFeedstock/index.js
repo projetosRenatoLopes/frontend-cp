@@ -73,6 +73,22 @@ const CardFeedstock = () => {
                 resposta = resp.data;
                 setGallery(resposta.feedstock)
                 setGallerySaved(resposta.feedstock)
+
+                const searchText = document.getElementById('search-item')['value']
+                if (searchText !== "") {
+                    var newList = [];
+                    resposta.feedstock.forEach(element => {
+                        const stringElement = replaceAccent(element.name.toLowerCase())
+                        const stringSearch = replaceAccent(searchText.toLowerCase())
+                        if (stringElement.includes(stringSearch)) {
+                            newList.push(element)
+                        }
+                    });
+                    setGallery(newList)
+                }
+
+
+
             }).catch(error => {
                 resposta = error.toJSON();
                 if (resposta.status === 404) {
@@ -370,7 +386,7 @@ const CardFeedstock = () => {
 
         return (
             <>
-                <div className="area-button">                    
+                <div className="area-button">
                     <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
                     <InputSearch onChange={() => searchItem()}></InputSearch>
                 </div>

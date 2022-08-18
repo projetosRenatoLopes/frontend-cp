@@ -41,6 +41,7 @@
 
 .input-search {
     background-color: var(--card-bg);
+    border: 1px solid #202020;
     color: var(--color-text-pri);
 }
 
