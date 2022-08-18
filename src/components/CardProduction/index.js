@@ -430,6 +430,10 @@ const CardProduction = () => {
                 const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
                 if (quantityEdit === "") {
                     alerts.info("Insira a quantidade")
+                } else if (quantityEdit === "0.") {
+                    alerts.info("Insira a quantidade corretamente")
+                } else if (quantityEdit === "0" || quantityEdit <= 0) {
+                    alerts.info("A quantidade não pode ser 0")
                 } else {
                     var resposta;
                     // @ts-ignore
@@ -501,8 +505,13 @@ const CardProduction = () => {
 
             function saveEditWPO() {
                 const quantityEdit = document.getElementById(`qtd-${item.uuid}`)['value']
+                console.log(parseInt(quantityEdit).toFixed(2))
                 if (quantityEdit === "") {
                     alerts.info("Insira a quantidade")
+                } else if (quantityEdit === "0.") {
+                    alerts.info("Insira a quantidade corretamente")
+                } else if (quantityEdit === "0" || quantityEdit <= 0) {
+                    alerts.info("A quantidade não pode ser 0")
                 } else {
                     var resposta;
                     // @ts-ignore
@@ -610,7 +619,7 @@ const CardProduction = () => {
                     alerts.info("Insira a quantidade")
                 } else if (quantity === "0.") {
                     alerts.info("Insira a quantidade corretamente")
-                } else if (quantity === "0") {
+                } else if (quantity === "0" || quantity <= 0) {
                     alerts.info("A quantidade não pode ser 0")
                 } else {
                     setBtnQttFS(true)
@@ -664,7 +673,7 @@ const CardProduction = () => {
                     alerts.info("Insira a quantidade")
                 } else if (quantity === "0.") {
                     alerts.info("Insira a quantidade corretamente")
-                } else if (quantity === "0") {
+                } else if (quantity === "0" || quantity <= 0) {
                     alerts.info("A quantidade não pode ser 0")
                 } else {
                     setBtnQttWPO(true)
