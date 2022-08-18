@@ -1,7 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useState, memo } from "react";
 
-import "./index.css"
 import api from "../../services/api"
 
 import Box from '@mui/material/Box';

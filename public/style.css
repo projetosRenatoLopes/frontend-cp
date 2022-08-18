@@ -1,16 +1,17 @@
-:root{
-    --add:#36e794;
+:root {
+    --add: #36e794;
     --add-hover: #198754;
     --del: #f55252;
     --del-hover: #d10606;
     --bg-load: #757575;
-    --color-pri-old: #0093c9; 
+    --color-pri-old: #0093c9;
     --color-sec-old: #005e80;
-    --color-pri: #0093c9; 
+    --color-pri: #0093c9;
     --color-sec: #005e80;
     --color-text-pri: #FFF;
     --color-text-sec: #000;
-    --color-hover-menu: #ffffff65;
+    --color-hover-menu: #ffffff65;    
+    --card-bg: #1f1f1f;
 }
 
 body {
@@ -246,32 +247,39 @@ fieldset:disabled .btn {
 }
 
 .area-buttom-bkp {
+    background-color: var(--card-bg);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100px;
-    border: 1px solid #ffffff;
-    margin-bottom: 40px;
+    height: 150px;    
+    margin-top: 50px;
+}
+
+.area-buttom-bkp button {
+    margin-bottom: 20px;
 }
 
 .area-buttom-restore {
+    background-color: var(--card-bg);
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    min-height: 150px;
-    border: 1px solid #ffffff;    
+    min-height: 150px;    
+    margin-top: 10px;
 }
 
 .area-buttom-restore input {
     margin-bottom: 10px;
 }
 
-#file-bkp{
+#file-bkp {
     margin-top: 15px;
 }
+
 .table-bkp {
     width: 100%;
     overflow-y: auto;
@@ -307,7 +315,7 @@ fieldset:disabled .btn {
     margin-right: 4px;
 }
 
-.btn-new:hover{
+.btn-new:hover {
     cursor: pointer;
     color: #198754;
 }

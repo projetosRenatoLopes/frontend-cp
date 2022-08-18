@@ -5,7 +5,7 @@
     min-height: 211px;
     min-width: 100px;
     max-width: 600px;
-    background-color: black;
+    background-color: var(--card-bg);
     margin-bottom: 10px;
     padding: 10px;
 }
@@ -20,7 +20,7 @@
     display: flex;
     flex-direction: row;
     margin: 6px 0 0 0;    
-    background-color:  rgb(36, 36, 36);       
+    background-color:  rgb(50, 50, 50);       
 }
 .itens-card p{
     padding: 3px;
@@ -59,8 +59,7 @@
         width: 100%;
         min-height: 200px;
         min-width: 100px;
-        max-width: 600px;
-        background-color: black;
+        max-width: 600px;        
         margin: 10px;
         
     }

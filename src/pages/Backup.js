@@ -8,14 +8,13 @@ import { useAlert } from "react-alert";
 const Backup = () => {
     const alerts = useAlert();
     const [btn, setBnt] = useState(<button className="btn-co btn-l btn-g" onClick={() => backup()}>Baixar dados</button>)
-    const [btnRestore, setBntRestore] = useState(<button className="btn-co btn-l btn-g" onClick={() => loadFile()}>Carregar arquivo</button>)
-    const [btnSelFile, setBtnSelFile] = useState(<input type='file' id='file-bkp' name='bkpfile' accept=".bkpcp" onChange={(e) => verifyFile(e)} />)
+    const [btnSelFile, setBtnSelFile] = useState('sel')
     const [fileNameText, setFileNameText] = useState("file.name")
     const [bkpRestore, setBkpRestore] = useState()
+    const [bkpTextTemp, setBkpTextTemp] = useState([]);
 
     const token = localStorage.getItem('token')
-    var bkpTextTemp;    
-    
+
     async function backup() {
         const img = '/img/loading.gif'
         setBnt(<img src={img} alt='loading' style={{ width: '60PX', height: '60px' }}></img>)
@@ -40,8 +39,9 @@ const Backup = () => {
         setBnt(<button className="btn-co btn-l btn-g" onClick={() => backup()}>Baixar dados</button>)
     }
 
-    async function verifyFile(event) {
-    
+    function verifyFile(event) {
+
+
         var pathFile = document.getElementById("file-bkp")['value'];
         var fileName = pathFile;
         var idxDot = fileName.lastIndexOf(".") + 1;
@@ -49,29 +49,29 @@ const Backup = () => {
         if (extFile === "bkpcp") {
 
             let reader = new FileReader();
-            let file = event.target.files[0];            
-            setFileNameText(file.name)
+            let file = event.target.files[0];
             reader.readAsText(file);
             reader.onloadend = () => {
-                bkpTextTemp = JSON.parse(`${reader.result}`);
+                setBkpTextTemp(JSON.parse(`${reader.result}`))
             };
 
+            setFileNameText(file.name)
+            setBtnSelFile('selected')
         } else {
             document.getElementById("file-bkp")['value'] = ""
             alerts.error("Arquivo de backup inválido!");
         }
     }
 
-    function cancelBkp (){
-        setBtnSelFile(<input type='file' id='file-bkp' name='bkpfile' accept=".bkpcp" onChange={(e) => verifyFile(e)} />)
+    function cancelBkp() {
+        setBtnSelFile('sel')
         setBkpRestore()
-        setBntRestore(<button className="btn-co btn-l btn-g" onClick={() => loadFile()}>Carregar arquivo</button>)        
     }
 
     function loadFile() {
-        setBkpRestore(bkpTextTemp)        
-        setBtnSelFile(<p>{fileNameText}</p>)
-        setBntRestore(<button className="btn-co btn-r btn-g" onClick={() => cancelBkp()}>Cancelar</button>)
+        console.log(bkpTextTemp)
+        setBkpRestore(bkpTextTemp)
+        setBtnSelFile('')
     }
 
     function download(filename, textInput) {
@@ -384,20 +384,43 @@ const Backup = () => {
         });
     }
 
+    const BtnSelectFile = () => {
+        if (btnSelFile === 'sel') {
+            return (
+                <>
+                    <input type='file' id='file-bkp' name='bkpfile' accept=".bkpcp" onChange={(e) => verifyFile(e)} />
+                </>
+            )
+        } else if (btnSelFile === 'selected') {
+            return (
+                <>
+                    <p>{fileNameText}</p>
+                    <button className="btn-co btn-l btn-g" onClick={() => loadFile()}>Carregar arquivo</button>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <p>{fileNameText}</p>
+                    <button className="btn-co btn-r btn-g" onClick={() => cancelBkp()}>Cancelar</button>
+                </>
+            )
+        }
+    }
+
     return (
         <>
             <HeaderBar />
             <div className='bodyPage'>
-                <p className="title-page">Backup</p>
-
                 <div className="backup">
                     <div className="area-buttom-bkp">
+                        <p>Backup</p>
                         {btn}
                     </div>
                     <div className="area-buttom-restore">
-                        {btnSelFile}
-                        {btnRestore}
-                    <TablesRestore />
+                        <p>Restaurar</p>
+                        <BtnSelectFile />
+                        <TablesRestore />
                     </div>
                 </div>
             </div>

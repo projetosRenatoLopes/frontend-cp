@@ -3,7 +3,6 @@ import React, { useEffect, useState, memo } from "react";
 
 import api from "../../services/api"
 import formatNum from "../../utils/formatNum";
-import "./index.css"
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
