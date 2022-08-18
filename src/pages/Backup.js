@@ -7,11 +7,14 @@ import { useAlert } from "react-alert";
 
 const Backup = () => {
     const alerts = useAlert();
-    const [btn, setBnt] = useState(<button className="btn-co btn-l btn-g" onClick={() => backup()}>Baixar backup</button>)
+    const [btn, setBnt] = useState(<button className="btn-co btn-l btn-g" onClick={() => backup()}>Baixar dados</button>)
+    const [btnRestore, setBntRestore] = useState(<button className="btn-co btn-l btn-g" onClick={() => loadFile()}>Carregar arquivo</button>)
+    const [btnSelFile, setBtnSelFile] = useState(<input type='file' id='file-bkp' name='bkpfile' accept=".bkpcp" onChange={(e) => verifyFile(e)} />)
+    const [fileNameText, setFileNameText] = useState("file.name")
     const [bkpRestore, setBkpRestore] = useState()
-    const token = localStorage.getItem('token')
-    var bkpTextTemp;
 
+    const token = localStorage.getItem('token')
+    var bkpTextTemp;    
     
     async function backup() {
         const img = '/img/loading.gif'
@@ -34,10 +37,11 @@ const Backup = () => {
                 // @ts-ignore
                 alert('erro ao baixar dados...')
             })
-        setBnt(<button className="btn-co btn-l btn-g" onClick={() => backup()}>Fazer backup</button>)
+        setBnt(<button className="btn-co btn-l btn-g" onClick={() => backup()}>Baixar dados</button>)
     }
 
     async function verifyFile(event) {
+    
         var pathFile = document.getElementById("file-bkp")['value'];
         var fileName = pathFile;
         var idxDot = fileName.lastIndexOf(".") + 1;
@@ -45,8 +49,8 @@ const Backup = () => {
         if (extFile === "bkpcp") {
 
             let reader = new FileReader();
-            let file = event.target.files[0];
-
+            let file = event.target.files[0];            
+            setFileNameText(file.name)
             reader.readAsText(file);
             reader.onloadend = () => {
                 bkpTextTemp = JSON.parse(`${reader.result}`);
@@ -58,8 +62,16 @@ const Backup = () => {
         }
     }
 
+    function cancelBkp (){
+        setBtnSelFile(<input type='file' id='file-bkp' name='bkpfile' accept=".bkpcp" onChange={(e) => verifyFile(e)} />)
+        setBkpRestore()
+        setBntRestore(<button className="btn-co btn-l btn-g" onClick={() => loadFile()}>Carregar arquivo</button>)        
+    }
+
     function loadFile() {
-        setBkpRestore(bkpTextTemp)
+        setBkpRestore(bkpTextTemp)        
+        setBtnSelFile(<p>{fileNameText}</p>)
+        setBntRestore(<button className="btn-co btn-r btn-g" onClick={() => cancelBkp()}>Cancelar</button>)
     }
 
     function download(filename, textInput) {
@@ -383,10 +395,10 @@ const Backup = () => {
                         {btn}
                     </div>
                     <div className="area-buttom-restore">
-                        <input type='file' id='file-bkp' name='bkpfile' accept=".bkpcp" onChange={(e) => verifyFile(e)} />
-                        <button className="btn-co btn-l btn-g" onClick={() => loadFile()}>Carregar arquivo</button>
-                    </div>
+                        {btnSelFile}
+                        {btnRestore}
                     <TablesRestore />
+                    </div>
                 </div>
             </div>
         </>

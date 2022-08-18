@@ -24,10 +24,10 @@ const GalerryItens = (props) => {
             ]
         },
     ]
-    const [gallery, setGallery] = useState(menus)
+    const [gallery] = useState(menus)
 
     const RenderCards = (gallery) => {
-        const [subMenus, setSubMenus] = useState(gallery.subs)
+        const [subMenus] = useState(gallery.subs)
         const [displayShow, setDisplayShow] = useState('none')
         const [iconsShow, setIconShow] = useState(<><IoIosArrowUp key={`iconUp1-${gallery.id}`} /></>)
 

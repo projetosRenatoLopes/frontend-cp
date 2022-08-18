@@ -26,8 +26,6 @@ const CardProduction = () => {
     const [gallery, setGallery] = useState("")
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
-    const [openFsU, setOpenFsU] = useState(false);
-    const handleCloseFsU = () => setOpenFsU(false);
     const [titleModal, setTitleModal] = useState("Cadastrar Produção")
     const [descModal, setDescModal] = useState("")
     const [priceModal, setPriceModal] = useState("")
@@ -255,7 +253,6 @@ const CardProduction = () => {
             setUuidSel(item.uuid)
             setFsUT(item.name)
             setPriceSel(item.price)
-            setOpenFsU(true)
             setScreenView('item')
         }
 
@@ -611,6 +608,10 @@ const CardProduction = () => {
                     alerts.info("Selecione uma opção...")
                 } else if (quantity === "") {
                     alerts.info("Insira a quantidade")
+                } else if (quantity === "0.") {
+                    alerts.info("Insira a quantidade corretamente")
+                } else if (quantity === "0") {
+                    alerts.info("A quantidade não pode ser 0")
                 } else {
                     setBtnQttFS(true)
                     var resposta;
@@ -661,6 +662,10 @@ const CardProduction = () => {
                     alerts.info("Selecione uma opção...")
                 } else if (quantity === "") {
                     alerts.info("Insira a quantidade")
+                } else if (quantity === "0.") {
+                    alerts.info("Insira a quantidade corretamente")
+                } else if (quantity === "0") {
+                    alerts.info("A quantidade não pode ser 0")
                 } else {
                     setBtnQttWPO(true)
                     var resposta;
@@ -712,43 +717,6 @@ const CardProduction = () => {
                     api({
                         method: 'DELETE',
                         url: '/feedstockused',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: token
-                        },
-                        data: {
-                            "uuid": uuidDel
-                        }
-                    })
-                        .then(async resp => {
-                            resposta = resp.data;
-                            alerts.success(resposta.message)
-                            if (resposta.status === 201) {
-                                loadData()
-                            }
-                        }).catch(error => {
-                            resposta = error.toJSON();
-                            if (resposta.status === 404) {
-                                alerts.error('Erro 404 - Requisição invalida')
-                            } else if (resposta.status === 401) {
-                                alerts.error('Não autorizado')
-                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
-                        })
-                } catch (error) {
-                    alerts.error("Erro ao tentar excluir")
-                }
-            }
-        }
-
-        function deleteWPOU(uuidDel, nameDel) {
-            const confirmDelete = window.confirm(`Remover ${nameDel}?`)
-            if (confirmDelete === true) {
-                try {
-                    var resposta;
-                    // @ts-ignore
-                    api({
-                        method: 'DELETE',
-                        url: '/wpoused',
                         headers: {
                             'Content-Type': 'application/json',
                             Authorization: token

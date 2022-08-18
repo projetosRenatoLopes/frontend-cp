@@ -1,12 +1,13 @@
 
 
 .card-dashboard {
-    width: 100%;
-    min-height: 200px;
+    width: 95%;
+    min-height: 211px;
     min-width: 100px;
     max-width: 600px;
     background-color: black;
     margin-bottom: 10px;
+    padding: 10px;
 }
 
 .top-card-dash h4 {
@@ -42,15 +43,7 @@
     width: 100%;
 }
 
-.card-dashboard {
-    width: 100%;
-    min-height: 200px;
-    min-width: 100px;
-    max-width: 600px;
-    background-color: black;
-    margin-bottom: 10px;
-    padding: 10px;
-}
+
 
 @media only screen and (min-width: 700px) {
     .cards-group {

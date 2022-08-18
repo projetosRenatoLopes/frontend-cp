@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import api from "../../services/api"
 import './index.css'
 
-
-const CardDash = () => {
-    const alerts = useAlert();
+const CardDash = () => {    
     const [data, setData] = useState([])
 
     async function loadData() {

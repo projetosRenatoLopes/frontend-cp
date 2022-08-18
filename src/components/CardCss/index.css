@@ -109,6 +109,7 @@
 .btn-editar {
     display: flex;
     align-items: center;
+    width: 79px;
 }
 
 .btn-editar svg {
@@ -126,6 +127,7 @@
 .btn-excluir {
     display: flex;
     align-items: center;
+    width: 79px;
 }
 
 .btn-excluir svg {
@@ -245,7 +247,7 @@
 .btn-editar-load,
 .btn-excluir-load {
     height: 30px;
-    width: 77px;
+    width: 79px;
     background-color: var(--bg-load);
     border-radius: 30px;
 }
