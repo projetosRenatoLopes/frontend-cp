@@ -10,6 +10,7 @@ import api from "../../services/api"
 import formatNumPonto from "../../utils/formatNumPonto";
 import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
+import replaceAccent from '../../utils/replaceAccent';
 
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { FiTrash2 } from 'react-icons/fi'
@@ -24,6 +25,7 @@ const CardProduction = () => {
     const alerts = useAlert();
     const token = localStorage.getItem('token')
     const [gallery, setGallery] = useState("")
+    const [gallerySaved, setGallerySaved] = useState("")
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
     const [titleModal, setTitleModal] = useState("Cadastrar Produção")
@@ -59,6 +61,7 @@ const CardProduction = () => {
             .then(async resp => {
                 resposta = resp.data;
                 setGallery(resposta.productions)
+                setGallerySaved(resposta.productions)
                 if (uuidSel !== "") {
                     resposta.productions.forEach(prod => {
                         if (prod.uuid === uuidSel) {
@@ -140,6 +143,25 @@ const CardProduction = () => {
         // @ts-ignore
         document.getElementById(`${el}`)['value'] = formatNumPonto(num)
     }
+
+    function searchItem() {
+        const searchText = document.getElementById('search-item')['value']
+        const listItens = gallerySaved;
+        var newList = [];
+        listItens.forEach(element => {
+            const stringElement = replaceAccent(element.name.toLowerCase())
+            const stringSearch = replaceAccent(searchText.toLowerCase())
+            if (stringElement.includes(stringSearch)) {
+                newList.push(element)
+            }
+        });
+        if (searchText === "") {
+            setGallery(gallerySaved)
+        } else {
+            setGallery(newList)
+        }
+    }
+
 
     const saveProduction = () => {
         const desc = document.getElementById('desc')['value']
@@ -366,6 +388,10 @@ const CardProduction = () => {
             return (<>
                 <div className="area-button">
                     <div className="btn-new-load" ></div>
+                    <div className="input-search input-search-load"></div>
+                </div>
+                <div className="indicator-quantity">
+                    <p className="ind-qtd-load"></p>
                 </div>
                 <RenderCardsLoad />
                 <RenderCardsLoad />
@@ -384,6 +410,10 @@ const CardProduction = () => {
                     <div className="area-button">
                         {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
                         <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
+                        <input className="input-search" placeholder="Pesquisar" id='search-item' onChange={() => searchItem()}></input>
+                    </div>
+                    <div className="indicator-quantity">
+                        <p >{gallery.length} itens.</p>
                     </div>
                     {gallery.map(RenderCards)}
                     <Modal

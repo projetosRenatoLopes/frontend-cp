@@ -3,6 +3,7 @@ import React, { useEffect, useState, memo } from "react";
 
 import api from "../../services/api"
 import formatNum from "../../utils/formatNum";
+import replaceAccent from '../../utils/replaceAccent';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -16,6 +17,7 @@ import { MdLibraryAdd } from 'react-icons/md'
 const CardMeasures = () => {
     const alerts = useAlert();
     const [gallery, setGallery] = useState("")
+    const [gallerySaved, setGallerySaved] = useState("")
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
     const [optionsMeasure, setOptions] = useState([])
@@ -43,6 +45,7 @@ const CardMeasures = () => {
             .then(async resp => {
                 resposta = resp.data;
                 setGallery(resposta.simplemeasure)
+                setGallerySaved(resposta.simplemeasure)
             }).catch(error => {
                 resposta = error.toJSON();
                 if (resposta.status === 404) {
@@ -80,6 +83,25 @@ const CardMeasures = () => {
     useEffect(() => {
         loadData()
     }, [])
+
+
+    function searchItem() {
+        const searchText = document.getElementById('search-item')['value']
+        const listItens = gallerySaved;
+        var newList = [];
+        listItens.forEach(element => {
+            const stringElement = replaceAccent(element.name.toLowerCase())
+            const stringSearch = replaceAccent(searchText.toLowerCase())
+            if (stringElement.includes(stringSearch)) {
+                newList.push(element)
+            }
+        });
+        if (searchText === "") {
+            setGallery(gallerySaved)
+        } else {
+            setGallery(newList)
+        }
+    }
 
     // eslint-disable-next-line no-unused-vars
 
@@ -308,8 +330,12 @@ const CardMeasures = () => {
 
     if (gallery === "") {
         return (<>
-            <div className="area-button">                
+            <div className="area-button">
                 <div className="btn-new-load" ></div>
+                <div className="input-search input-search-load"></div>
+            </div>
+            <div className="indicator-quantity">
+                <p className="ind-qtd-load"></p>
             </div>
             <RenderCardsLoad />
             <RenderCardsLoad />
@@ -320,7 +346,7 @@ const CardMeasures = () => {
             <RenderCardsLoad />
             <RenderCardsLoad />
             <RenderCardsLoad />
-            <RenderCardsLoad /> 
+            <RenderCardsLoad />
         </>)
     } else {
         return (
@@ -328,6 +354,10 @@ const CardMeasures = () => {
                 <div className="area-button">
                     {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
                     <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
+                    <input className="input-search" placeholder="Pesquisar" id='search-item' onChange={() => searchItem()}></input>
+                </div>
+                <div className="indicator-quantity">
+                    <p >{gallery.length} itens.</p>
                 </div>
                 {gallery.map(RenderCards)}
                 <Modal

@@ -35,11 +35,28 @@
     width: 90%;
     max-width: 1000px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin: 10px
 }
 
+.input-search {
+    background-color: var(--card-bg);
+    color: var(--color-text-pri);
+}
 
+.indicator-quantity {
+    margin: 3px 0 10px 0;
+    width: 90%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 14px;
+}
+
+.indicator-quantity p {
+    margin: 0;
+    padding: 0;
+}
 
 .area-btns {
     display: flex;
@@ -244,6 +261,10 @@
     border-radius: 30px;
 }
 
+.input-search-load {
+    height: 28px;
+}
+
 .btn-editar-load,
 .btn-excluir-load {
     height: 30px;
@@ -280,12 +301,21 @@
 .btn-new-load,
 .item-prod-load,
 .bar-division-load,
-.card-load-itens {
+.card-load-itens,
+.ind-qtd-load,
+.input-search-load {
     animation: changeBackgroundColorItens 2s infinite;
 }
 
 .card-load {
     animation: changeBackgroundColor 2s infinite;
+}
+
+.ind-qtd-load {
+    height: 16px;
+    width: 60px;
+    background-color: var(--bg-load);
+    border-radius: 30px;
 }
 
 @keyframes changeBackgroundColor {
