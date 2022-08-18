@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import api from "../services/api"
 import HeaderBar from "../HeaderBar";
 import { useAlert } from "react-alert";
-
+import InputSearch from '../components/InputSearch'
 
 const Backup = () => {
     const alerts = useAlert();
@@ -423,6 +423,7 @@ const Backup = () => {
                         <TablesRestore />
                     </div>
                 </div>
+                <InputSearch></InputSearch>
             </div>
         </>
     )

@@ -6,6 +6,7 @@ import api from "../../services/api"
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import InputSearch from '../InputSearch'
 
 import formatNum from "../../utils/formatNum";
 import formatReal from "../../utils/formatReal";
@@ -326,9 +327,8 @@ const CardOthers = () => {
         return (
             <>
                 <div className="area-button">
-                    {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
                     <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
-                    <input className="input-search" placeholder="Pesquisar" id='search-item' onChange={() => searchItem()}></input>
+                    <InputSearch onChange={() => searchItem()}></InputSearch>
                 </div>
                 <div className="indicator-quantity">
                     <p >{gallery.length} itens.</p>

@@ -4,6 +4,7 @@ import React, { useEffect, useState, memo } from "react";
 import api from "../../services/api"
 import formatNum from "../../utils/formatNum";
 import replaceAccent from '../../utils/replaceAccent';
+import InputSearch from '../InputSearch'
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -352,9 +353,8 @@ const CardMeasures = () => {
         return (
             <>
                 <div className="area-button">
-                    {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
                     <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
-                    <input className="input-search" placeholder="Pesquisar" id='search-item' onChange={() => searchItem()}></input>
+                    <InputSearch onChange={() => searchItem()}></InputSearch>
                 </div>
                 <div className="indicator-quantity">
                     <p >{gallery.length} itens.</p>

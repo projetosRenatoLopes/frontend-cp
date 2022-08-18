@@ -1,6 +1,7 @@
-.bodyPage h2{
+.bodyPage h2 {
     text-align: center;
 }
+
 .card {
     min-width: 160px;
 }
@@ -37,6 +38,7 @@
     justify-content: center;
     flex-direction: column;
 }
+
 
 .modal-p-fsu {
     margin: 0;

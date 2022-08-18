@@ -11,6 +11,7 @@ import formatNumPonto from "../../utils/formatNumPonto";
 import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
 import replaceAccent from '../../utils/replaceAccent';
+import InputSearch from '../InputSearch'
 
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { FiTrash2 } from 'react-icons/fi'
@@ -407,10 +408,9 @@ const CardProduction = () => {
         } else {
             return (
                 <>
-                    <div className="area-button">
-                        {/* <button className="btn-co btn-l btn-g" onClick={() => openModal()}>Adicionar</button> */}
-                        <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
-                        <input className="input-search" placeholder="Pesquisar" id='search-item' onChange={() => searchItem()}></input>
+                    <div className="area-button">                        
+                        <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>                        
+                        <InputSearch onChange={() => searchItem()}></InputSearch>
                     </div>
                     <div className="indicator-quantity">
                         <p >{gallery.length} itens.</p>

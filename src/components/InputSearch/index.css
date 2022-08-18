@@ -1,0 +1,25 @@
+.searchinput {
+    width: 90%;
+    background: transparent;
+    outline-width: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #FFF;
+    padding: 0 0px 0 5px;
+}
+
+.search-comp {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 25px;
+}
+
+.search-comp svg {
+    color: #FFF;
+}
