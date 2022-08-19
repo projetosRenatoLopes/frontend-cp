@@ -6,12 +6,13 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import "./index.css"
+import InputSearch from '../InputSearch'
 import api from "../../services/api"
 import formatNumPonto from "../../utils/formatNumPonto";
 import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
 import replaceAccent from '../../utils/replaceAccent';
-import InputSearch from '../InputSearch'
+import markText from "../../utils/markText";
 
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { FiTrash2 } from 'react-icons/fi'
@@ -25,27 +26,33 @@ import { MdLibraryAdd } from 'react-icons/md'
 const CardProduction = () => {
     const alerts = useAlert();
     const token = localStorage.getItem('token')
+
     const [gallery, setGallery] = useState("")
     const [gallerySaved, setGallerySaved] = useState("")
+
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
+
     const [titleModal, setTitleModal] = useState("Cadastrar Produção")
     const [descModal, setDescModal] = useState("")
     const [priceModal, setPriceModal] = useState("")
-    const [priceSel, setPriceSel] = useState(0)
+
     const [uuidSel, setUuidSel] = useState("")
-    const [feedstockUsedGallery, setFsUG] = useState([])
-    const [wpoUsedGallery, setWPOUG] = useState([])
-    const [feedstockUsedTitle, setFsUT] = useState("")
+    const [objSelected, setObjSelected] = useState({})
+
     const [feedstockList, setFeedstockList] = useState([])
     const [wpoList, setWPOList] = useState([])
+
     const [screenView, setScreenView] = useState('cards')
+
     const [iconShow, setIconShow] = useState(<><IoIosArrowDown /></>)
     const [displayShow, setDisplayShow] = useState('Flex')
     const [iconShowWPO, setIconShowWPO] = useState(<><IoIosArrowDown /></>)
     const [displayShowWPO, setDisplayShowWPO] = useState('Flex')
+
     const [btnQttFS, setBtnQttFS] = useState(false)
     const [btnQttWPO, setBtnQttWPO] = useState(false)
+
     const [textSearch, setTextSearch] = useState("")
 
     async function loadData() {
@@ -64,21 +71,20 @@ const CardProduction = () => {
                 resposta = resp.data;
                 setGallery(resposta.productions)
                 setGallerySaved(resposta.productions)
-                if (uuidSel !== "") {
+                if (objSelected.hasOwnProperty("uuid")) {
                     resposta.productions.forEach(prod => {
-                        if (prod.uuid === uuidSel) {
-                            setFsUG(prod.feedstockused)
-                            setWPOUG(prod.wpoused)
+                        if (prod.uuid === objSelected.uuid) {
+                            setObjSelected(prod)
                         }
                     })
                 }
 
-                const searchText = document.getElementById('search-item')['value']
-                if (searchText !== "") {
+                //const searchText = document.getElementById('search-item')['value']
+                if (textSearch !== "") {
                     var newList = [];
                     resposta.productions.forEach(element => {
                         const stringElement = replaceAccent(element.name.toLowerCase())
-                        const stringSearch = replaceAccent(searchText.toLowerCase())
+                        const stringSearch = replaceAccent(textSearch.toLowerCase())
                         if (stringElement.includes(stringSearch)) {
                             newList.push(element)
                         }
@@ -87,12 +93,12 @@ const CardProduction = () => {
                 }
 
             }).catch(error => {
-                resposta = error.toJSON();
+                resposta = error;
                 if (resposta.status === 404) {
                     alerts.error('Erro 404 - Requisição invalida')
                 } else if (resposta.status === 401) {
                     alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                } else { alerts.error('Erro interno') }
             })
 
         var feedstockListGet;
@@ -160,7 +166,7 @@ const CardProduction = () => {
         document.getElementById(`${el}`)['value'] = formatNumPonto(num)
     }
 
-    function searchItem() {
+    async function searchItem() {
         const searchText = document.getElementById('search-item')['value']
         setTextSearch(searchText)
         const listItens = gallerySaved;
@@ -173,12 +179,13 @@ const CardProduction = () => {
             }
         });
         if (searchText === "") {
-            setGallery(gallerySaved)
+            await setGallery(gallerySaved)
         } else {
-            setGallery(newList)
+            await setGallery(newList)
         }
-    }
 
+        markText(searchText)
+    }
 
     const saveProduction = () => {
         const desc = document.getElementById('desc')['value']
@@ -287,21 +294,9 @@ const CardProduction = () => {
         }
 
         function openListFsU() {
-            setFsUG(item.feedstockused)
-            setWPOUG(item.wpoused)
             setUuidSel(item.uuid)
-            setFsUT(item.name)
-            setPriceSel(item.price)
+            setObjSelected(item)
             setScreenView('item')
-        }
-
-        const cost = item.cost.toFixed(2)
-        const profit = item.price - cost
-        var percent = 0;
-        if (cost > 0) {
-            percent = (profit * 100) / cost
-        } else {
-            percent = 100;
         }
 
         const deleteProduction = () => {
@@ -338,17 +333,17 @@ const CardProduction = () => {
 
         return (
             <div key={item.uuid} className="card">
-                <div className="top-card">
-                    <div className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
+                <div id='top-cards' className="top-card">
+                    <div id='title-card' className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
                 </div>
                 <div className="bottom-card">
                     <div className="bottom-card-left">
-                        <p>Custo: {`R$ ${cost.replace(/[.]/, ',')}`}</p>
+                        <p>Custo: {`R$ ${item.cost.toFixed(2).replace(/[.]/, ',')}`}</p>
                         <p>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</p>
                     </div>
                     <div className="bottom-card-right">
-                        <p>Lucro: {`R$ ${profit.toFixed(2).replace(/[.]/, ',')}`}</p>
-                        <p>{percent.toFixed(2)}% </p>
+                        <p>Lucro: {`R$ ${item.profit.toFixed(2).replace(/[.]/, ',')}`}</p>
+                        <p>{item.percent.toFixed(2)}% </p>
                     </div>
                 </div>
                 <div className="area-btns">
@@ -443,8 +438,8 @@ const CardProduction = () => {
                                 <strong>{titleModal}</strong>
                             </Typography>
                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                <input className="modal-input modal-measure-desc" id="desc" autocomplete="off" placeholder="Descrição" defaultValue={descModal}></input>
-                                <input className="modal-input modal-measure-price" autocomplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                                <input className="modal-input modal-measure-desc" id="desc" autoComplete="off" placeholder="Descrição" defaultValue={descModal}></input>
+                                <input className="modal-input modal-measure-price" autoComplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
                             </Typography>
                             <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
                         </Box>
@@ -458,7 +453,7 @@ const CardProduction = () => {
             const price = item.price.toFixed(2)
 
             function openEditFeedstock() {
-                feedstockUsedGallery.forEach(fsug => {
+                objSelected.feedstockused.forEach(fsug => {
                     if (fsug.uuid === item.uuid) {
                         const verifuDisplay = document.getElementById(`edit-${item.uuid}`).style.display
                         if (verifuDisplay === 'flex') {
@@ -521,7 +516,7 @@ const CardProduction = () => {
                     <tr>
                         <td>{item.feedstock}</td>
                         <td>{item.quantity} {item.measurement}
-                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} autocomplete="off" className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditFeedstock()}><FiSave /></button></div>
+                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} autoComplete="off" className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditFeedstock()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
                         <td className="area-trash-item btn-el" onClick={() => openEditFeedstock()}><TiEdit /></td>
@@ -535,7 +530,7 @@ const CardProduction = () => {
             const price = item.price.toFixed(2)
 
             function openEditWPO() {
-                wpoUsedGallery.forEach(wpoug => {
+                objSelected.wpoused.forEach(wpoug => {
                     if (wpoug.uuid === item.uuid) {
                         const verifuDisplay = document.getElementById(`edit-${item.uuid}`).style.display
                         if (verifuDisplay === 'flex') {
@@ -636,7 +631,7 @@ const CardProduction = () => {
                     <tr>
                         <td>{item.wpo}</td>
                         <td>{item.quantity}
-                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} autocomplete="off" className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
+                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} autoComplete="off" className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
                         <td className="area-trash-item btn-el" onClick={() => openEditWPO()}><TiEdit /></td>
@@ -809,6 +804,7 @@ const CardProduction = () => {
                 setIconShow(<><IoIosArrowUp /></>)
             }
         }
+
         function showListWpo() {
             if (displayShowWPO === 'none') {
                 setDisplayShowWPO('flex')
@@ -820,51 +816,40 @@ const CardProduction = () => {
         }
 
         var fsu = 0;
-        feedstockUsedGallery.forEach((element) => {
+        objSelected.feedstockused.forEach((element) => {
             fsu += element.price;
         })
         var wpou = 0;
-        wpoUsedGallery.forEach((element) => {
+        objSelected.wpoused.forEach((element) => {
             wpou += element.price;
         })
 
-        const cost = fsu + wpou;
-        const price = priceSel.replace(['.'], [','])
-        const profit = priceSel - cost
-
-        var percent = 0;
-        if (cost > 0) {
-            percent = (profit * 100) / cost
-        } else {
-            percent = 100;
-        }
-
         return (<>
 
-            <h2>{feedstockUsedTitle}</h2>
+            <h2>{objSelected.name}</h2>
             <div className="modal-button-production">
-                <button className="btn-co-mini btn-rm btn-gm" onClick={() => setScreenView('cards')} ><BiArrowBack /> Voltar</button>
+                <div className="btn-co-mini btn-c btn-gm" id="btn-back" onClick={() => setScreenView('cards')} ><BiArrowBack /> Voltar</div>
             </div>
             <div className="indicators">
                 <div>
-                    <p><strong>Venda:</strong> R$ {price}</p>
-                    <p><strong>Lucro:</strong> R$ {profit.toFixed(2).replace(['.'], [','])}</p>
+                    <p><strong>Venda:</strong> R$ {objSelected.price}</p>
+                    <p><strong>Lucro:</strong> R$ {objSelected.profit.toFixed(2).replace(['.'], [','])}</p>
                 </div>
                 <div>
-                    <p><strong>Custo:</strong> R$ {cost.toFixed(2).replace(['.'], [','])}</p>
-                    <p><strong>% Lucro:</strong> {percent.toFixed(2)}</p>
+                    <p><strong>Custo:</strong> R$ {objSelected.cost.toFixed(2).replace(['.'], [','])}</p>
+                    <p><strong>% Lucro:</strong> {objSelected.percent.toFixed(2)}</p>
                 </div>
             </div>
 
             <div onClick={() => showList()} className="title-list"><p>Matéria Prima</p><div className="icon-showlist">{iconShow}</div></div>
-            <div style={{ display: displayShow, flexDirection: 'column', width: '100%', maxWidth: '650px', marginBottom: '1px solid #FFFFFF' }}>
+            <div style={{ display: displayShow, flexDirection: 'column', width: '100%', maxWidth: '1000px', marginBottom: '1px solid #FFFFFF' }}>
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
                         <option value='0' hidden >Selecione uma opção...</option>
                         {feedstockList.map(renderOptionsFeedstock)}
                     </select>
                     <div className="modal-button-add">
-                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} autocomplete="off" id="quantity" placeholder="Quantidade"></input>
+                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} autoComplete="off" id="quantity" placeholder="Quantidade"></input>
                         <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} ><MdAddBox className="icon-add" /></button>
                     </div>
                 </div>
@@ -879,21 +864,21 @@ const CardProduction = () => {
                                     <td colSpan="2">Ações</td>
                                 </tr>
                             </thead>
-                            {feedstockUsedGallery.map(RenderListFsu)}
+                            {objSelected.feedstockused.map(RenderListFsu)}
                         </table>
                     </div>
                 </div>
                 <p className="total-itens">Total: R$ {fsu.toFixed(2).replace(['.'], [','])}</p>
             </div>
             <div onClick={() => showListWpo()} className="title-list"><p>Outros Custos</p><div className="icon-showlist">{iconShowWPO}</div></div>
-            <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '650px' }}>
+            <div style={{ display: displayShowWPO, flexDirection: 'column', width: '100%', maxWidth: '1000px' }}>
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-wpo">
                         <option value='0' hidden >Selecione uma opção...</option>
                         {wpoList.map(renderOptionsWPO)}
                     </select>
                     <div className="modal-button-add">
-                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity-wpo')} autocomplete="off" id="quantity-wpo" placeholder="Quantidade"></input>
+                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity-wpo')} autoComplete="off" id="quantity-wpo" placeholder="Quantidade"></input>
                         <button className="btn-co-mini btn-lm btn-gm" onClick={() => addWPO()} disabled={btnQttWPO} ><MdAddBox /></button>
                     </div>
                 </div>
@@ -908,7 +893,7 @@ const CardProduction = () => {
                                     <td colSpan="2">Ações</td>
                                 </tr>
                             </thead>
-                            {wpoUsedGallery.map(RenderListWPOU)}
+                            {objSelected.wpoused.map(RenderListWPOU)}
                         </table>
                     </div>
                 </div>

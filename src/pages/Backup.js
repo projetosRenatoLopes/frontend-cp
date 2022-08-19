@@ -4,6 +4,7 @@ import api from "../services/api"
 import HeaderBar from "../HeaderBar";
 import { useAlert } from "react-alert";
 
+
 const Backup = () => {
     const alerts = useAlert();
     const [btn, setBnt] = useState(<button className="btn-co btn-l btn-g" onClick={() => backup()}>Baixar dados</button>)
@@ -90,7 +91,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -117,7 +118,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -144,7 +145,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -171,7 +172,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.production}</td><td>{item.feedstock}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.production}</td><td>{item.feedstock}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -198,7 +199,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -225,7 +226,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.production}</td><td>{item.wpo}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.production}</td><td>{item.wpo}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -253,7 +254,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -280,7 +281,7 @@ const Backup = () => {
                     const renderList = (item) => {
                         return (<>
                             <tbody key={item.uuid}>
-                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>waiting</td></tr>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
                             </tbody>
                         </>)
                     }
@@ -361,7 +362,10 @@ const Backup = () => {
     function sendItens(allItens) {
         allItens.forEach((element, i) => {
             setTimeout(() => {
-                document.getElementById(`status-${element.reg.uuid}`).innerText = 'initiated'
+                const elementDOM = document.getElementById(`status-${element.reg.uuid}`)
+                if (elementDOM !== null) {
+                    elementDOM.innerText = 'Iniciando...'
+                }
                 api({
                     method: 'POST',
                     url: '/backup',
@@ -375,9 +379,13 @@ const Backup = () => {
                     }
                 })
                     .then(resp => {
-                        document.getElementById(`status-${element.reg.uuid}`).innerText = resp.data.status
+                        if (elementDOM !== null) {
+                            elementDOM.innerText = resp.data.status
+                        }
                     }).catch(error => {
-                        document.getElementById(`status-${element.reg.uuid}`).innerText = 'internal error'
+                        if (elementDOM !== null) {
+                            elementDOM.innerText = 'Erro Interno'
+                        }
                     })
             }, i * 3000);
         });
@@ -421,7 +429,7 @@ const Backup = () => {
                         <BtnSelectFile />
                         <TablesRestore />
                     </div>
-                </div>                
+                </div>
             </div>
         </>
     )

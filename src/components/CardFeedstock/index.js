@@ -17,6 +17,7 @@ import { AiTwotoneEdit } from 'react-icons/ai'
 import { useAlert } from "react-alert";
 import { FiTrash2 } from 'react-icons/fi'
 import { MdLibraryAdd } from 'react-icons/md'
+import markText from "../../utils/markText";
 
 const CardFeedstock = () => {
     const alerts = useAlert();
@@ -106,7 +107,7 @@ const CardFeedstock = () => {
     }, [])
 
 
-    function searchItem() {
+    async function searchItem() {
         const searchText = document.getElementById('search-item')['value']
         setTextSearch(searchText)
         const listItens = gallerySaved;
@@ -119,10 +120,11 @@ const CardFeedstock = () => {
             }
         });
         if (searchText === "") {
-            setGallery(gallerySaved)
+            await setGallery(gallerySaved)
         } else {
-            setGallery(newList)
+            await setGallery(newList)
         }
+        markText(searchText)
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -316,7 +318,7 @@ const CardFeedstock = () => {
         return (
             <div key={item.uuid} className="card">
                 <div className="top-card">
-                    <p>{item.name}</p>
+                    <p className="title-card">{item.name}</p>
                 </div>
                 <div className="bottom-card">
                     <p>{qtdPrice}</p>

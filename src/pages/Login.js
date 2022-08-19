@@ -3,9 +3,10 @@ import api from "../services/api"
 import InputEmail from "../components/InputEmail";
 import InputPass from "../components/InputPass";
 import tokenValidation from "../services/tokenValidation";
-import React from "react";
+import React, { useState } from "react";
 
 const Login = () => {
+    const [logo, setLogo] = useState(process.env.REACT_APP_LOGO)
     const token = localStorage.getItem('token')
     if (token !== null && token !== undefined) {
         tokenValidation()
@@ -13,7 +14,7 @@ const Login = () => {
     }
 
     const signin = async () => {
-     
+
 
         const user = document.getElementById('user')['value']
         const pass = document.getElementById('pass')['value']
@@ -71,11 +72,26 @@ const Login = () => {
         }
     }
 
+    const Logo = () => {
+
+        if (process.env.REACT_APP_LOGO === "") {
+            return (<>
+                <div className="area-logo" >
+                    <img src={'/img/LogoSemFundo.png'} alt='logo' className="logo-top"></img>
+                </div>
+            </>)
+        } else {
+            return (<>
+                <div className="area-logo" >
+                    <img src={process.env.REACT_APP_LOGO} alt='logo' className="logo-top"></img>
+                </div>
+            </>)
+        }
+    }
+
     return (<>
         <div className='bodypagelogin'>
-            <div className="area-logo" >
-                <img src={'/img/LogoSemFundo.png'} alt='logo' className="logo-top"></img>
-            </div>
+            <Logo />
             <div className="field-login">
                 <h2>Login</h2>
                 <h5 id='msg'> </h5>

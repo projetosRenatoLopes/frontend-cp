@@ -12,6 +12,7 @@ import formatNum from "../../utils/formatNum";
 import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
 import replaceAccent from '../../utils/replaceAccent';
+import markText from "../../utils/markText";
 
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { useAlert } from "react-alert";
@@ -82,7 +83,7 @@ const CardOthers = () => {
     }, [])
 
 
-    function searchItem() {
+    async function searchItem() {
         const searchText = document.getElementById('search-item')['value']
         setTextSearch(searchText)
         const listItens = gallerySaved;
@@ -95,10 +96,11 @@ const CardOthers = () => {
             }
         });
         if (searchText === "") {
-            setGallery(gallerySaved)
+            await setGallery(gallerySaved)
         } else {
-            setGallery(newList)
+            await setGallery(newList)
         }
+        markText(searchText)
     }
 
     function openModal() {
@@ -270,7 +272,7 @@ const CardOthers = () => {
         return (
             <div key={item.uuid} className="card">
                 <div className="top-card">
-                    <p>{item.name}</p>
+                    <p className="title-card">{item.name}</p>
                 </div>
                 <div className="bottom-card">
                     <p>{qtdPrice}</p>
