@@ -30,6 +30,7 @@ const CardOthers = () => {
     const [quantModal, setQuantModal] = useState("")
     const [priceModal, setPriceModal] = useState("")
     const [uuidSel, setUuidSel] = useState("")
+    const [textSearch, setTextSearch] = useState("")
 
 
 
@@ -83,6 +84,7 @@ const CardOthers = () => {
 
     function searchItem() {
         const searchText = document.getElementById('search-item')['value']
+        setTextSearch(searchText)
         const listItens = gallerySaved;
         var newList = [];
         listItens.forEach(element => {
@@ -343,7 +345,7 @@ const CardOthers = () => {
             <>
                 <div className="area-button">
                     <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
-                    <InputSearch onChange={() => searchItem()}></InputSearch>
+                    <InputSearch onChange={() => searchItem()} defaultValue={textSearch}></InputSearch>
                 </div>
                 <div className="indicator-quantity">
                     <p >{gallery.length} itens.</p>
