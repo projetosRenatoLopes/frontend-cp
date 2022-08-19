@@ -46,6 +46,7 @@ const CardProduction = () => {
     const [displayShowWPO, setDisplayShowWPO] = useState('Flex')
     const [btnQttFS, setBtnQttFS] = useState(false)
     const [btnQttWPO, setBtnQttWPO] = useState(false)
+    const [textSearch, setTextSearch] = useState("")
 
     async function loadData() {
         const token = localStorage.getItem('token')
@@ -73,7 +74,7 @@ const CardProduction = () => {
                 }
 
                 const searchText = document.getElementById('search-item')['value']
-                if (searchText !== "") {                                    
+                if (searchText !== "") {
                     var newList = [];
                     resposta.productions.forEach(element => {
                         const stringElement = replaceAccent(element.name.toLowerCase())
@@ -161,6 +162,7 @@ const CardProduction = () => {
 
     function searchItem() {
         const searchText = document.getElementById('search-item')['value']
+        setTextSearch(searchText)
         const listItens = gallerySaved;
         var newList = [];
         listItens.forEach(element => {
@@ -424,7 +426,7 @@ const CardProduction = () => {
                 <>
                     <div className="area-button">
                         <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
-                        <InputSearch onChange={() => searchItem()}></InputSearch>
+                        <InputSearch defaultValue={textSearch} onChange={() => searchItem()}></InputSearch>
                     </div>
                     <div className="indicator-quantity">
                         <p >{gallery.length} itens.</p>
@@ -441,8 +443,8 @@ const CardProduction = () => {
                                 <strong>{titleModal}</strong>
                             </Typography>
                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                                <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                                <input className="modal-input modal-measure-desc" id="desc" autocomplete="off" placeholder="Descrição" defaultValue={descModal}></input>
+                                <input className="modal-input modal-measure-price" autocomplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
                             </Typography>
                             <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
                         </Box>
@@ -519,7 +521,7 @@ const CardProduction = () => {
                     <tr>
                         <td>{item.feedstock}</td>
                         <td>{item.quantity} {item.measurement}
-                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditFeedstock()}><FiSave /></button></div>
+                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} autocomplete="off" className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditFeedstock()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
                         <td className="area-trash-item btn-el" onClick={() => openEditFeedstock()}><TiEdit /></td>
@@ -634,7 +636,7 @@ const CardProduction = () => {
                     <tr>
                         <td>{item.wpo}</td>
                         <td>{item.quantity}
-                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
+                            <div id={`edit-${item.uuid}`} className="edit-geral" style={{ display: 'none' }}><input defaultValue={item.quantity} autocomplete="off" className="qtd-edit-feedstock" id={`qtd-${item.uuid}`} onChange={() => verifyNum(`qtd-${item.uuid}`)}></input><button className="btn-edit-feedstock" onClick={() => saveEditWPO()}><FiSave /></button></div>
                         </td>
                         <td>{`R$ ${price.replace(/[.]/, ',')}`}</td>
                         <td className="area-trash-item btn-el" onClick={() => openEditWPO()}><TiEdit /></td>
@@ -862,7 +864,7 @@ const CardProduction = () => {
                         {feedstockList.map(renderOptionsFeedstock)}
                     </select>
                     <div className="modal-button-add">
-                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} id="quantity" placeholder="Quantidade"></input>
+                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} autocomplete="off" id="quantity" placeholder="Quantidade"></input>
                         <button className="btn-co-mini btn-lm btn-gm" onClick={() => addFeedstock()} ><MdAddBox className="icon-add" /></button>
                     </div>
                 </div>
@@ -891,7 +893,7 @@ const CardProduction = () => {
                         {wpoList.map(renderOptionsWPO)}
                     </select>
                     <div className="modal-button-add">
-                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity-wpo')} id="quantity-wpo" placeholder="Quantidade"></input>
+                        <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity-wpo')} autocomplete="off" id="quantity-wpo" placeholder="Quantidade"></input>
                         <button className="btn-co-mini btn-lm btn-gm" onClick={() => addWPO()} disabled={btnQttWPO} ><MdAddBox /></button>
                     </div>
                 </div>

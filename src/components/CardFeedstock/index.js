@@ -405,13 +405,13 @@ const CardFeedstock = () => {
                             <strong>{titleModal}</strong>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <input className="modal-input modal-measure-desc" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                            <input className="modal-input modal-measure-quantity" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
+                            <input className="modal-input modal-measure-desc" autocomplete="off" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
+                            <input className="modal-input modal-measure-quantity" autocomplete="off" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
                             <select className="modal-input modal-measure-typemeasure" id="sel" defaultValue={medModal}>
                                 <option value='0' hidden >Tipo de medida</option>
                                 {optionsMeasure.map(RenderOptions)}
                             </select>
-                            <input className="modal-input modal-measure-price" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                            <input className="modal-input modal-measure-price" autocomplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
                         </Typography>
                         <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>
                     </Box>

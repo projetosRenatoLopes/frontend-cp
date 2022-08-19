@@ -1,5 +1,5 @@
 .searchinput {
-    width: 85%;
+    width: 100%;
     background: transparent;
     outline-width: 0;
     border-top: none;
@@ -16,14 +16,29 @@
 .search-comp {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     height: 25px;
+
 }
 
 .search-comp svg {
     color: #FFF;
+    width: auto;
 }
 
-.icon-clean-serach:hover{
-color: var(--del-hover);
+.icon-clean-serach:hover {
+    color: var(--del-hover);
+}
+
+.svg-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px
+}
+
+.group-search{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }

@@ -1,34 +1,37 @@
 // @ts-nocheck
 import './index.css'
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineSearch } from 'react-icons/ai'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 
-const InputSearch = ({ onChange }) => {
-    const [iconClean, setIconClean] = useState(<></>)
-    function verifyText() {
-        const searchText = document.getElementById('search-item')['value']
-        if (searchText !== "") {
-            setIconClean(<AiOutlineCloseCircle className='icon-clean-serach' onClick={cleanText}></AiOutlineCloseCircle>)
-        } else {
-            setIconClean(<></>)
-        }
-        console.log('tests')
-    }
+const InputSearch = ({ onChange, defaultValue }) => {
 
     function cleanText() {
-        document.getElementById('search-item')['value'] = ""        
-        setIconClean(<></>)
+        document.getElementById('search-item')['value'] = ""
         onChange()
+    }
+
+    const IconShow = () => {
+        if (defaultValue === "") {
+            return (<></>)
+        } else {
+            return (<AiOutlineCloseCircle className='icon-clean-serach' onClick={cleanText}></AiOutlineCloseCircle>)
+        }
     }
 
     return (
         <>
             <div className="input-search search-comp">
-                <AiOutlineSearch></AiOutlineSearch>
-                <input className='searchinput' id='search-item' placeholder="Pesquisar" onChangeCapture={() => verifyText()} onChange={onChange}></input>
-                {iconClean}
+                <div className='svg-div'>
+                    <AiOutlineSearch></AiOutlineSearch>
+                </div>
+                <div className='group-search'>
+                    <input className='searchinput' defaultValue={defaultValue} id='search-item' placeholder="Pesquisar" onChange={onChange}></input>
+                    <div className='svg-div'>
+                        <IconShow></IconShow>
+                    </div>
+                </div>
             </div>
 
         </>
