@@ -32,7 +32,7 @@ const CardFeedstock = () => {
     const [priceModal, setPriceModal] = useState("")
     const [medModal, setMedModal] = useState("0")
     const [uuidSel, setUuidSel] = useState("")
-
+    const [textSearch, setTextSearch] = useState("")
 
 
     async function loadData() {
@@ -108,6 +108,7 @@ const CardFeedstock = () => {
 
     function searchItem() {
         const searchText = document.getElementById('search-item')['value']
+        setTextSearch(searchText)
         const listItens = gallerySaved;
         var newList = [];
         listItens.forEach(element => {
@@ -388,7 +389,7 @@ const CardFeedstock = () => {
             <>
                 <div className="area-button">
                     <div className="btn-new" onClick={() => openModal()}><MdLibraryAdd /> Novo</div>
-                    <InputSearch onChange={() => searchItem()}></InputSearch>
+                    <InputSearch defaultValue={textSearch} onChange={() => searchItem()}></InputSearch>
                 </div>
                 <div className="indicator-quantity">
                     <p >{gallery.length} itens.</p>
