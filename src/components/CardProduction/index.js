@@ -213,10 +213,12 @@ const CardProduction = () => {
             })
                 .then(async resp => {
                     resposta = resp.data;
-                    alerts.success(resposta.message)
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
+                        alerts.success(resposta.message)
+                    } else {
+                         alerts.info(resposta.message)
                     }
                 }).catch(error => {
                     resposta = error.toJSON();
@@ -255,8 +257,7 @@ const CardProduction = () => {
 
             })
                 .then(async resp => {
-                    resposta = resp.data;
-                    alerts.success(resposta.message)
+                    resposta = resp.data;                    
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
@@ -264,6 +265,9 @@ const CardProduction = () => {
                         setPriceModal("")
                         setUuidSel("")
                         setTitleModal("Cadastar Produção")
+                        alerts.success(resposta.message)
+                    } else {
+                         alerts.info(resposta.message)
                     }
                 }).catch(error => {
                     resposta = error.toJSON();
