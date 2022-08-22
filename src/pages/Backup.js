@@ -302,10 +302,39 @@ const Backup = () => {
                 }
             }
 
+            const CategoryList = () => {
+                if (bkpRestore.hasOwnProperty("category") && bkpRestore.category.length !== 0) {
+
+                    const renderList = (item) => {
+                        return (<>
+                            <tbody key={item.uuid}>
+                                <tr><td>{item.name}</td><td id={`status-${item.uuid}`}>aguardando</td></tr>
+                            </tbody>
+                        </>)
+                    }
+
+                    return (
+                        <div className="table-bkp">
+                            <table>
+                                <thead>
+                                    <tr><td colSpan="2">Categorias</td></tr>
+                                    <tr><td>Descrição</td><td>status</td></tr>
+                                </thead>
+                                {bkpRestore.category.map(renderList)}
+                            </table>
+                        </div>
+                    )
+                } else {
+                    return (<></>)
+                }
+            }
+
+
             return (
                 <div className="area-list-restore" >
                     <button className="btn-co btn-l btn-g" onClick={() => restoreBackup()} >Iniciar restauração</button>
                     <ExacMeasureList />
+                    <CategoryList />
                     <SimpleMeasureList />
                     <FeedstockList />
                     <FeedstockUsedList />
