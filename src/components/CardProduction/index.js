@@ -223,7 +223,7 @@ const CardProduction = () => {
                 }).catch(error => {
                     resposta = error.toJSON();
                     if (resposta.status === 404) {
-                        alerts.error('Erro 404 - Requisição invalida')
+                        alerts.error(resposta.message)
                     } else if (resposta.status === 401) {
                         alerts.error('Não autorizado')
                     } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
@@ -272,7 +272,7 @@ const CardProduction = () => {
                 }).catch(error => {
                     resposta = error.toJSON();
                     if (resposta.status === 404) {
-                        alerts.error('Erro 404 - Requisição invalida')
+                        alerts.error(resposta.message)
                     } else if (resposta.status === 401) {
                         alerts.error('Não autorizado')
                     } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
@@ -326,7 +326,7 @@ const CardProduction = () => {
                     }).catch(error => {
                         resposta = error.toJSON();
                         if (resposta.status === 404) {
-                            alerts.error('Requisição invalida')
+                            alerts.error(resposta.message)
                         } else if (resposta.status === 401) {
                             alerts.error('Matéria Prima sendo utilizada por Produção')
                         } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
