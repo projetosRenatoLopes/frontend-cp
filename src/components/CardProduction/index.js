@@ -443,7 +443,7 @@ const CardProduction = () => {
                             </Typography>
                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                 <input className="modal-input modal-measure-desc" id="desc" autoComplete="off" placeholder="Descrição" defaultValue={descModal}></input>
-                                <input className="modal-input modal-measure-price" autoComplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                                <input className="modal-input modal-measure-price" autoComplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de venda"></input>
                             </Typography>
                             <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
                         </Box>
