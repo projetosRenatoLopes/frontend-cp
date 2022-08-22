@@ -10,6 +10,7 @@ const GalerryItens = (props) => {
         },
         {
             id: '200', desc: 'Cadastros', router: '', subs: [
+                { id: '204', desc: 'Categorias', router: '/category' },
                 { id: '201', desc: 'Medidas', router: '/custommeasure' },
                 { id: '202', desc: 'Matéria Prima', router: '/feedstock' },
                 { id: '203', desc: 'Outros Custos', router: '/others' }

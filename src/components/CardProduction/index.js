@@ -36,12 +36,14 @@ const CardProduction = () => {
     const [titleModal, setTitleModal] = useState("Cadastrar Produção")
     const [descModal, setDescModal] = useState("")
     const [priceModal, setPriceModal] = useState("")
+    const [selectModal, setSelectModal] = useState("0")
 
     const [uuidSel, setUuidSel] = useState("")
     const [objSelected, setObjSelected] = useState({})
 
     const [feedstockList, setFeedstockList] = useState([])
     const [wpoList, setWPOList] = useState([])
+    const [categoryList, setCategoryList] = useState([])
 
     const [screenView, setScreenView] = useState('cards')
 
@@ -144,6 +146,28 @@ const CardProduction = () => {
                     alerts.error('Não autorizado')
                 } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
             })
+
+        var categoryListGet;
+        // @ts-ignore
+        await api({
+            method: 'GET',
+            url: '/category',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token
+            }
+        })
+            .then(async resp => {
+                categoryListGet = resp.data;
+                setCategoryList(categoryListGet.category)
+            }).catch(error => {
+                resposta = error.toJSON();
+                if (resposta.status === 404) {
+                    alerts.erro('Erro 404 - Requisição invalida')
+                } else if (resposta.status === 401) {
+                    alerts.error('Não autorizado')
+                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+            })
     }
 
     useEffect(() => {
@@ -154,6 +178,7 @@ const CardProduction = () => {
         setTitleModal("Cadastrar Produção")
         setDescModal("")
         setPriceModal("")
+        setSelectModal("")
         setUuidSel("")
         setOpen(true)
     }
@@ -191,10 +216,13 @@ const CardProduction = () => {
         const desc = document.getElementById('desc')['value']
         const priceInput = document.getElementById('price')['value']
         const price = formatRealRev(priceInput)
+        const categoryid = document.getElementById('sel-categ')['value']
         if (desc === "") {
             alert('Insira a descrição')
         } else if (price === "") {
             alert('Insira o preço')
+        } else if (categoryid === "0") {
+            alert('Selecione uma categoria')
         } else {
             var resposta;
             // @ts-ignore
@@ -207,7 +235,8 @@ const CardProduction = () => {
                 },
                 data: {
                     "name": desc,
-                    "price": price
+                    "price": price,
+                    "categoryid": categoryid
                 }
 
             })
@@ -218,7 +247,7 @@ const CardProduction = () => {
                         loadData()
                         alerts.success(resposta.message)
                     } else {
-                         alerts.info(resposta.message)
+                        alerts.info(resposta.message)
                     }
                 }).catch(error => {
                     resposta = error.toJSON();
@@ -235,10 +264,13 @@ const CardProduction = () => {
         const desc = document.getElementById('desc')['value']
         const priceInput = document.getElementById('price')['value']
         const price = formatRealRev(priceInput)
+        const categoryid = document.getElementById('sel-categ')['value']
         if (desc === "") {
             alert('Insira a descrição')
         } else if (price === "") {
             alert('Insira o preço')
+        } else if (categoryid === "0") {
+            alert('Selecione uma categoria')
         } else {
             var resposta;
             // @ts-ignore
@@ -252,22 +284,24 @@ const CardProduction = () => {
                 data: {
                     "uuid": uuidSel,
                     "name": desc,
-                    "price": price
+                    "price": price,
+                    "categoryid": categoryid
                 }
 
             })
                 .then(async resp => {
-                    resposta = resp.data;                    
+                    resposta = resp.data;
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
                         setDescModal("")
                         setPriceModal("")
+                        setSelectModal("")
                         setUuidSel("")
                         setTitleModal("Cadastar Produção")
                         alerts.success(resposta.message)
                     } else {
-                         alerts.info(resposta.message)
+                        alerts.info(resposta.message)
                     }
                 }).catch(error => {
                     resposta = error.toJSON();
@@ -294,6 +328,7 @@ const CardProduction = () => {
             setUuidSel(item.uuid)
             setDescModal(item.name)
             setPriceModal(`R$ ${item.price.replace(/[.]/, ',')}`)
+            setSelectModal(item.categoryid)
             setOpen(true)
         }
 
@@ -336,7 +371,7 @@ const CardProduction = () => {
 
 
         return (
-            <div key={item.uuid} className="card">
+            <div key={item.uuid} className="card-prod">
                 <div id='top-cards' className="top-card">
                     <div id='title-card' className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
                 </div>
@@ -358,6 +393,29 @@ const CardProduction = () => {
             </div>
         )
     }
+    const RenderCardsCateg = (item) => {
+        var productionsListCateg = []
+        gallery.forEach(prod => {
+            if (prod.categoryid === item.uuid) {
+                productionsListCateg.push(prod)
+            }
+        })
+
+        if (productionsListCateg.length > 0) {
+            return (
+                <>
+                    <div className="categ-Name">
+                        <p><strong>{item.name}</strong></p>
+                        {productionsListCateg.map(RenderCards)}
+                    </div>
+                </>
+            )
+        } else {
+            return (<></>)
+        }
+
+    }
+
 
     const style = {
         position: 'absolute',
@@ -430,7 +488,8 @@ const CardProduction = () => {
                     <div className="indicator-quantity">
                         <p >{gallery.length} itens.</p>
                     </div>
-                    {gallery.map(RenderCards)}
+                    {categoryList.map(RenderCardsCateg)}
+                    {/* {gallery.map(RenderCards)} */}
                     <Modal
                         open={open}
                         onClose={handleClose}
@@ -444,6 +503,10 @@ const CardProduction = () => {
                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                 <input className="modal-input modal-measure-desc" id="desc" autoComplete="off" placeholder="Descrição" defaultValue={descModal}></input>
                                 <input className="modal-input modal-measure-price" autoComplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de venda"></input>
+                                <select className="modal-input modal-fu-feedstock" id="sel-categ" defaultValue={selectModal}>
+                                    <option value="0" hidden >Selecione uma categoria...</option>
+                                    {categoryList.map((options) => { return (<option key={options.uuid} value={options.uuid}>{options.name}</option>) })}
+                                </select>
                             </Typography>
                             <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
                         </Box>
@@ -645,14 +708,6 @@ const CardProduction = () => {
             )
         }
 
-        const renderOptionsFeedstock = (optionFeedstock) => {
-            return (<option key={optionFeedstock.uuid} value={optionFeedstock.uuid}>{optionFeedstock.name} - {optionFeedstock.quantity} {optionFeedstock.measurement}</option>)
-        }
-
-        const renderOptionsWPO = (optionWPO) => {
-            return (<option key={optionWPO.uuid} value={optionWPO.uuid}>{optionWPO.name} - {optionWPO.quantity}</option>)
-        }
-
         function addFeedstock() {
             if (btnQttFS === false) {
 
@@ -850,7 +905,7 @@ const CardProduction = () => {
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-feedstock">
                         <option value='0' hidden >Selecione uma opção...</option>
-                        {feedstockList.map(renderOptionsFeedstock)}
+                        {feedstockList.map((optionFeedstock) => { return (<option key={optionFeedstock.uuid} value={optionFeedstock.uuid}>{optionFeedstock.name} - {optionFeedstock.quantity} {optionFeedstock.measurement}</option>) })}
                     </select>
                     <div className="modal-button-add">
                         <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity')} autoComplete="off" id="quantity" placeholder="Quantidade"></input>
@@ -879,7 +934,7 @@ const CardProduction = () => {
                 <div className="area-add-feedstockused">
                     <select className="modal-input modal-fu-feedstock" id="sel-wpo">
                         <option value='0' hidden >Selecione uma opção...</option>
-                        {wpoList.map(renderOptionsWPO)}
+                        {wpoList.map((optionWPO) => { return (<option key={optionWPO.uuid} value={optionWPO.uuid}>{optionWPO.name} - {optionWPO.quantity}</option>) })}
                     </select>
                     <div className="modal-button-add">
                         <input className="modal-input modal-fu-quantity" onChange={() => verifyNum('quantity-wpo')} autoComplete="off" id="quantity-wpo" placeholder="Quantidade"></input>

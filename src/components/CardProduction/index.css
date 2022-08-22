@@ -10,6 +10,20 @@
     min-width: 160px;
 }
 
+.card-prod {
+    width: 100%;
+    max-width: 1000px;
+    border: 1px solid #202020;
+    background-color: var(--card-bg);
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.categ-Name{
+    width: 100%;
+    max-width: 1000px;
+}
+
 .bottom-card-left p,
 .bottom-card-right p {
     font-size: 12px;
