@@ -10,8 +10,7 @@
     min-width: 160px;
 }
 
-.card-prod {
-    width: 100%;
+.card-prod {    
     max-width: 1000px;
     border: 1px solid #202020;
     background-color: var(--card-bg);

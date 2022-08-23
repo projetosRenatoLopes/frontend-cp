@@ -322,84 +322,86 @@ const CardProduction = () => {
         }
     }
 
-    const RenderCards = (item) => {
-        function openEdit() {
-            setTitleModal("Editar Produção")
-            setUuidSel(item.uuid)
-            setDescModal(item.name)
-            setPriceModal(`R$ ${item.price.replace(/[.]/, ',')}`)
-            setSelectModal(item.categoryid)
-            setOpen(true)
-        }
 
-        function openListFsU() {
-            setUuidSel(item.uuid)
-            setObjSelected(item)
-            setScreenView('item')
-        }
-
-        const deleteProduction = () => {
-            const del = window.confirm(`Deseja excluir ${item.name}?`)
-            if (del === true) {
-                var resposta;
-                // @ts-ignore
-                api({
-                    method: 'DELETE',
-                    url: '/production',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: token
-                    },
-                    data: {
-                        "uuid": item.uuid,
-                    }
-                })
-                    .then(async resp => {
-                        resposta = resp.data;
-                        loadData()
-                        alerts.success(resposta.message)
-                    }).catch(error => {
-                        resposta = error.toJSON();
-                        if (resposta.status === 404) {
-                            alerts.error(resposta.message)
-                        } else if (resposta.status === 401) {
-                            alerts.error('Matéria Prima sendo utilizada por Produção')
-                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
-                    })
-            }
-        }
-
-
-        return (
-            <div key={item.uuid} className="card-prod">
-                <div id='top-cards' className="top-card">
-                    <div id='title-card' className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
-                </div>
-                <div className="bottom-card">
-                    <div className="bottom-card-left">
-                        <p>Custo: {`R$ ${item.cost.toFixed(2).replace(/[.]/, ',')}`}</p>
-                        <p>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</p>
-                    </div>
-                    <div className="bottom-card-right">
-                        <p>Lucro: {`R$ ${item.profit.toFixed(2).replace(/[.]/, ',')}`}</p>
-                        <p>{item.percent.toFixed(2)}% </p>
-                    </div>
-                </div>
-                <div className="area-btns">
-                    <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
-                    <p className="bar-division"></p>
-                    <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
-                </div>
-            </div>
-        )
-    }
+    var productionsListCateg = []
     const RenderCardsCateg = (item) => {
-        var productionsListCateg = []
         gallery.forEach(prod => {
             if (prod.categoryid === item.uuid) {
                 productionsListCateg.push(prod)
             }
         })
+
+        const RenderCards = (item) => {
+            function openEdit() {
+                setTitleModal("Editar Produção")
+                setUuidSel(item.uuid)
+                setDescModal(item.name)
+                setPriceModal(`R$ ${item.price.replace(/[.]/, ',')}`)
+                setSelectModal(item.categoryid)
+                setOpen(true)
+            }
+
+            function openListFsU() {
+                setUuidSel(item.uuid)
+                setObjSelected(item)
+                setScreenView('item')
+            }
+
+            const deleteProduction = () => {
+                const del = window.confirm(`Deseja excluir ${item.name}?`)
+                if (del === true) {
+                    var resposta;
+                    // @ts-ignore
+                    api({
+                        method: 'DELETE',
+                        url: '/production',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: token
+                        },
+                        data: {
+                            "uuid": item.uuid,
+                        }
+                    })
+                        .then(async resp => {
+                            resposta = resp.data;
+                            loadData()
+                            alerts.success(resposta.message)
+                        }).catch(error => {
+                            resposta = error.toJSON();
+                            if (resposta.status === 404) {
+                                alerts.error(resposta.message)
+                            } else if (resposta.status === 401) {
+                                alerts.error('Matéria Prima sendo utilizada por Produção')
+                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        })
+                }
+            }
+
+
+            return (
+                <div key={item.uuid} className="card-prod">
+                    <div id='top-cards' className="top-card">
+                        <div id='title-card' className="title-card" onClick={() => openListFsU()}><strong>{item.name}</strong></div>
+                    </div>
+                    <div className="bottom-card">
+                        <div className="bottom-card-left">
+                            <p>Custo: {`R$ ${item.cost.toFixed(2).replace(/[.]/, ',')}`}</p>
+                            <p>Venda: {`R$ ${item.price.replace(/[.]/, ',')}`}</p>
+                        </div>
+                        <div className="bottom-card-right">
+                            <p>Lucro: {`R$ ${item.profit.toFixed(2).replace(/[.]/, ',')}`}</p>
+                            <p>{item.percent.toFixed(2)}% </p>
+                        </div>
+                    </div>
+                    <div className="area-btns">
+                        <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
+                        <p className="bar-division"></p>
+                        <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                    </div>
+                </div>
+            )
+        }
 
         if (productionsListCateg.length > 0) {
             return (
@@ -458,7 +460,7 @@ const CardProduction = () => {
     }
 
     if (screenView === 'cards') {
-        if (gallery === "") {
+        if (gallery === "" && productionsListCateg.length === 0) {
             return (<>
                 <div className="area-button">
                     <div className="btn-new-load" ></div>
@@ -486,7 +488,7 @@ const CardProduction = () => {
                         <InputSearch defaultValue={textSearch} onChange={() => searchItem()}></InputSearch>
                     </div>
                     <div className="indicator-quantity">
-                        <p >{gallery.length} itens.</p>
+                        <p>{gallery.length} itens.</p>
                     </div>
                     {categoryList.map(RenderCardsCateg)}
                     {/* {gallery.map(RenderCards)} */}
