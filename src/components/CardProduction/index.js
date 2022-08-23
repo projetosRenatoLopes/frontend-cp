@@ -59,6 +59,29 @@ const CardProduction = () => {
 
     async function loadData() {
         const token = localStorage.getItem('token')
+
+        var categoryListGet;
+        // @ts-ignore
+        await api({
+            method: 'GET',
+            url: '/category',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token
+            }
+        })
+            .then(async resp => {
+                categoryListGet = resp.data;
+                setCategoryList(categoryListGet.category)
+            }).catch(error => {
+                resposta = error.toJSON();
+                if (resposta.status === 404) {
+                    alerts.erro('Erro 404 - Requisição invalida')
+                } else if (resposta.status === 401) {
+                    alerts.error('Não autorizado')
+                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+            })
+
         var resposta;
         // @ts-ignore
         await api({
@@ -147,27 +170,7 @@ const CardProduction = () => {
                 } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
             })
 
-        var categoryListGet;
-        // @ts-ignore
-        await api({
-            method: 'GET',
-            url: '/category',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: token
-            }
-        })
-            .then(async resp => {
-                categoryListGet = resp.data;
-                setCategoryList(categoryListGet.category)
-            }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.erro('Erro 404 - Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
-            })
+
     }
 
     useEffect(() => {
@@ -436,7 +439,7 @@ const CardProduction = () => {
     const RenderCardsLoad = () => {
 
         return (
-            <div className="card">
+            <div className="card-prod">
                 <div className="top-card">
                     <div className="title-load"><strong></strong></div>
                 </div>
@@ -469,16 +472,19 @@ const CardProduction = () => {
                 <div className="indicator-quantity">
                     <p className="ind-qtd-load"></p>
                 </div>
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
-                <RenderCardsLoad />
+                <div className="categ-Name">
+                    <p className="categ-title"><strong></strong></p>
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                    <RenderCardsLoad />
+                </div>
             </>)
         } else {
             return (
@@ -488,7 +494,7 @@ const CardProduction = () => {
                         <InputSearch defaultValue={textSearch} onChange={() => searchItem()}></InputSearch>
                     </div>
                     <div className="indicator-quantity">
-                        <p>{gallery.length} itens.</p>
+                        <p>{gallery.length} itens</p>
                     </div>
                     {categoryList.map(RenderCardsCateg)}
                     {/* {gallery.map(RenderCards)} */}

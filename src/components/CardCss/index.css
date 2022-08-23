@@ -242,6 +242,13 @@
     border-radius: 30px;
 }
 
+.categ-title{
+    height: 24px;
+    width: 250px;
+    background-color: var(--bg-load);
+    border-radius: 30px;
+}
+
 .top-card-dash-load p {
     padding: 12.5px;
     margin: 0;
@@ -304,7 +311,8 @@
 .bar-division-load,
 .card-load-itens,
 .ind-qtd-load,
-.input-search-load {
+.input-search-load,
+.categ-title {
     animation: changeBackgroundColorItens 2s infinite;
 }
 
