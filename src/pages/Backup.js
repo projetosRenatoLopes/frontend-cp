@@ -127,7 +127,7 @@ const Backup = () => {
                         <div className="table-bkp">
                             <table>
                                 <thead>
-                                    <tr><td colSpan="2">Medidas Usuário</td></tr>
+                                    <tr><td colSpan="2">Medidas</td></tr>
                                     <tr><td>Descrição</td><td>status</td></tr>
                                 </thead>
                                 {bkpRestore.simplemeasure.map(renderList)}
@@ -332,8 +332,7 @@ const Backup = () => {
 
             return (
                 <div className="area-list-restore" >
-                    <button className="btn-co btn-l btn-g" onClick={() => restoreBackup()} >Iniciar restauração</button>
-                    <ExacMeasureList />
+                    <button className="btn-co btn-l btn-g" onClick={() => restoreBackup()} >Iniciar restauração</button>                   
                     <CategoryList />
                     <SimpleMeasureList />
                     <FeedstockList />
@@ -352,8 +351,9 @@ const Backup = () => {
 
     async function restoreBackup() {
         var allItens = []
-        await bkpRestore.exactmeasure.forEach(element => {
-            allItens.push({ "table": "exactmeasure", "reg": element })
+
+        await bkpRestore.category.forEach(element => {
+            allItens.push({ "table": "category", "reg": element })
         });
 
         await bkpRestore.simplemeasure.forEach(element => {
@@ -382,7 +382,7 @@ const Backup = () => {
 
         await bkpRestore.users.forEach(element => {
             allItens.push({ "table": "users", "reg": element })
-        });
+        });       
 
         sendItens(allItens)
 

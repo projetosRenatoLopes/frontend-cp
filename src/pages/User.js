@@ -120,7 +120,7 @@ const User = () => {
             })
                 .then(async resp => {
 
-                    resposta = resp.data;
+                    resposta = await resp.data;
                     alert.success('Alterações salvas com sucesso')
                     window.location.href = `/home`
                 }).catch(error => {
