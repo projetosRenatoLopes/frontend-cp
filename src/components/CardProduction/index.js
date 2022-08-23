@@ -326,8 +326,8 @@ const CardProduction = () => {
     }
 
 
-    var productionsListCateg = []
     const RenderCardsCateg = (item) => {
+        var productionsListCateg = []
         gallery.forEach(prod => {
             if (prod.categoryid === item.uuid) {
                 productionsListCateg.push(prod)
@@ -463,7 +463,7 @@ const CardProduction = () => {
     }
 
     if (screenView === 'cards') {
-        if (gallery === "" && productionsListCateg.length === 0) {
+        if (gallery === "") {
             return (<>
                 <div className="area-button">
                     <div className="btn-new-load" ></div>
