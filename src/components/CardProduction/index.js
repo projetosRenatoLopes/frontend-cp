@@ -94,10 +94,10 @@ const CardProduction = () => {
         })
             .then(async resp => {
                 resposta = resp.data;
-                setGallery(resposta.productions)
-                setGallerySaved(resposta.productions)
+                setGallery(resposta.production)
+                setGallerySaved(resposta.production)
                 if (objSelected.hasOwnProperty("uuid")) {
-                    resposta.productions.forEach(prod => {
+                    resposta.production.forEach(prod => {
                         if (prod.uuid === objSelected.uuid) {
                             setObjSelected(prod)
                         }
@@ -107,7 +107,7 @@ const CardProduction = () => {
                 //const searchText = document.getElementById('search-item')['value']
                 if (textSearch !== "") {
                     var newList = [];
-                    resposta.productions.forEach(element => {
+                    resposta.production.forEach(element => {
                         const stringElement = replaceAccent(element.name.toLowerCase())
                         const stringSearch = replaceAccent(textSearch.toLowerCase())
                         if (stringElement.includes(stringSearch)) {

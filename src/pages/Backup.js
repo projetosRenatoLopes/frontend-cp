@@ -247,7 +247,6 @@ const Backup = () => {
                 }
             }
 
-
             const ProductionList = () => {
                 if (bkpRestore.hasOwnProperty("production") && bkpRestore.production.length !== 0) {
 
@@ -339,8 +338,7 @@ const Backup = () => {
                     <FeedstockUsedList />
                     <WPOList />
                     <WPOUsedList />
-                    <ProductionList />
-                    <UsersList />
+                    <ProductionList />                    
                 </div>
             )
 
@@ -416,7 +414,7 @@ const Backup = () => {
                             elementDOM.innerText = 'Erro Interno'
                         }
                     })
-            }, i * 3000);
+            }, i * 2000);
         });
     }
 
