@@ -13,6 +13,7 @@ import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
 import replaceAccent from '../../utils/replaceAccent';
 import markText from "../../utils/markText";
+import BtnDelete from "../Btns/BtnDelete"
 
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { FiTrash2 } from 'react-icons/fi'
@@ -54,6 +55,8 @@ const CardProduction = () => {
 
     const [btnQttFS, setBtnQttFS] = useState(false)
     const [btnQttWPO, setBtnQttWPO] = useState(false)
+    const [buttonSave, setButtonSave] = useState('save')
+    const [buttonDel, setButtonDel] = useState('')
 
     const [textSearch, setTextSearch] = useState("")
 
@@ -74,12 +77,7 @@ const CardProduction = () => {
                 categoryListGet = resp.data;
                 setCategoryList(categoryListGet.category)
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.erro('Erro 404 - Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
         var resposta;
@@ -140,12 +138,7 @@ const CardProduction = () => {
                 feedstockListGet = resp.data;
                 setFeedstockList(feedstockListGet.feedstock)
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.erro('Erro 404 - Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
         var wpoListGet;
@@ -162,12 +155,7 @@ const CardProduction = () => {
                 wpoListGet = resp.data;
                 setWPOList(wpoListGet.wpo)
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.erro('Erro 404 - Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
 
@@ -227,6 +215,7 @@ const CardProduction = () => {
         } else if (categoryid === "0") {
             alert('Selecione uma categoria')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -252,13 +241,10 @@ const CardProduction = () => {
                     } else {
                         alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error(resposta.message)
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    setButtonSave('save')
+                    alerts.error('Erro Interno')
                 })
         }
     }
@@ -275,6 +261,7 @@ const CardProduction = () => {
         } else if (categoryid === "0") {
             alert('Selecione uma categoria')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -306,13 +293,16 @@ const CardProduction = () => {
                     } else {
                         alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error(resposta.message)
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    setButtonSave('save')
+                    console.log(error)
+                    alerts.error('Erro Interno')
+                    // if (resposta.status === 404) {
+                    //     alerts.error(resposta.message)
+                    // } else if (resposta.status === 401) {
+                    //     alerts.error('Não autorizado')
+                    // } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
                 })
         }
     }
@@ -353,6 +343,7 @@ const CardProduction = () => {
             const deleteProduction = () => {
                 const del = window.confirm(`Deseja excluir ${item.name}?`)
                 if (del === true) {
+                    setButtonDel(`${item.uuid}`)
                     var resposta;
                     // @ts-ignore
                     api({
@@ -371,12 +362,8 @@ const CardProduction = () => {
                             loadData()
                             alerts.success(resposta.message)
                         }).catch(error => {
-                            resposta = error.toJSON();
-                            if (resposta.status === 404) {
-                                alerts.error(resposta.message)
-                            } else if (resposta.status === 401) {
-                                alerts.error('Matéria Prima sendo utilizada por Produção')
-                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                            alerts.error('Erro Interno')
+                            setButtonDel('')
                         })
                 }
             }
@@ -398,9 +385,10 @@ const CardProduction = () => {
                         </div>
                     </div>
                     <div className="area-btns">
-                        <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div>
-                        <p className="bar-division"></p>
                         <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
+                        <p className="bar-division"></p>
+                        {/* <div className="btn-excluir" onClick={deleteProduction}>Excluir <FiTrash2 /></div> */}
+                        <BtnDelete buttonShow={buttonDel} onClick={deleteProduction} uuid={item.uuid} />
                     </div>
                 </div>
             )
@@ -487,6 +475,16 @@ const CardProduction = () => {
                 </div>
             </>)
         } else {
+
+            const BtnSave = () => {
+                const img = '/img/loading.gif'
+                if (buttonSave === 'save') {
+                    return (<button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>)
+                } else {
+                    return (<img className="btn-co btn-l btn-g" src={img} alt='loading' style={{ height: '36px', margin: '0 0 0 5px', padding:'0 16.68px 0 16.68px' }}></img>)
+                }
+            }
+
             return (
                 <>
                     <div className="area-button">
@@ -516,7 +514,8 @@ const CardProduction = () => {
                                     {categoryList.map((options) => { return (<option key={options.uuid} value={options.uuid}>{options.name}</option>) })}
                                 </select>
                             </Typography>
-                            <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button>
+                            <BtnSave />
+                            {/* <button className="btn-co btn-l btn-g" onClick={() => verifyModal()}>Salvar</button> */}
                         </Box>
                     </Modal >
                 </>
@@ -576,12 +575,7 @@ const CardProduction = () => {
                                 alerts.info(resposta.message)
                             }
                         }).catch(error => {
-                            resposta = error.toJSON();
-                            if (resposta.status === 404) {
-                                alerts.error('Erro 404 - Requisição invalida')
-                            } else if (resposta.status === 401) {
-                                alerts.error('Não autorizado')
-                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                            alerts.error('Erro Interno')
                         })
                 }
             }
@@ -654,12 +648,7 @@ const CardProduction = () => {
                                 alerts.info(resposta.message)
                             }
                         }).catch(error => {
-                            resposta = error.toJSON();
-                            if (resposta.status === 404) {
-                                alerts.error('Erro 404 - Requisição invalida')
-                            } else if (resposta.status === 401) {
-                                alerts.error('Não autorizado')
-                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                            alerts.error('Erro Interno')
                         })
                 }
             }
@@ -688,12 +677,7 @@ const CardProduction = () => {
                                     loadData()
                                 }
                             }).catch(error => {
-                                resposta = error.toJSON();
-                                if (resposta.status === 404) {
-                                    alerts.error('Erro 404 - Requisição invalida')
-                                } else if (resposta.status === 401) {
-                                    alerts.error('Não autorizado')
-                                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                                alerts.error('Erro Interno')
                             })
                     } catch (error) {
                         alerts.error("Erro ao tentar excluir")
@@ -760,12 +744,7 @@ const CardProduction = () => {
                             }
                         }).catch(error => {
                             setBtnQttFS(false)
-                            resposta = error.toJSON();
-                            if (resposta.status === 404) {
-                                alerts.error('Erro 404 - Requisição invalida')
-                            } else if (resposta.status === 401) {
-                                alerts.error('Não autorizado')
-                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                            alerts.error('Erro Interno')
                         })
                 }
             }
@@ -814,12 +793,7 @@ const CardProduction = () => {
                             }
                         }).catch(error => {
                             setBtnQttWPO(false)
-                            resposta = error.toJSON();
-                            if (resposta.status === 404) {
-                                alerts.error('Erro 404 - Requisição invalida')
-                            } else if (resposta.status === 401) {
-                                alerts.error('Não autorizado')
-                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                            alerts.error('Erro Interno')
                         })
                 }
             }
@@ -849,12 +823,7 @@ const CardProduction = () => {
                                 loadData()
                             }
                         }).catch(error => {
-                            resposta = error.toJSON();
-                            if (resposta.status === 404) {
-                                alerts.error('Erro 404 - Requisição invalida')
-                            } else if (resposta.status === 401) {
-                                alerts.error('Não autorizado')
-                            } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                            alerts.error('Erro Interno')
                         })
                 } catch (error) {
                     alerts.error("Erro ao tentar excluir")

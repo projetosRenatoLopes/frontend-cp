@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import InputSearch from '../InputSearch'
+import BtnDelete from "../Btns/BtnDelete"
 
 import formatNum from "../../utils/formatNum";
 import formatReal from "../../utils/formatReal";
@@ -34,7 +35,8 @@ const CardFeedstock = () => {
     const [medModal, setMedModal] = useState("0")
     const [uuidSel, setUuidSel] = useState("")
     const [textSearch, setTextSearch] = useState("")
-
+    const [buttonSave, setButtonSave] = useState('save')
+    const [buttonDel, setButtonDel] = useState('')
 
     async function loadData() {
         const token = localStorage.getItem('token')
@@ -52,12 +54,7 @@ const CardFeedstock = () => {
                 resposta = resp.data;
                 setOptions(resposta.simplemeasure)
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.error('Erro 404 - Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
 
@@ -91,12 +88,7 @@ const CardFeedstock = () => {
 
 
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.error('Erro 404 - Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
 
@@ -169,6 +161,7 @@ const CardFeedstock = () => {
         } else if (price === "") {
             alerts.info('Insira o preço')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -195,13 +188,10 @@ const CardFeedstock = () => {
                     } else {
                         alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error('Erro 404 - Requisição invalida')
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    setButtonSave('save')
+                    alerts.error('Erro Interno')
                 })
         }
     }
@@ -221,6 +211,7 @@ const CardFeedstock = () => {
         } else if (price === "") {
             alerts.info('Insira o preço')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -241,7 +232,6 @@ const CardFeedstock = () => {
             })
                 .then(async resp => {
                     resposta = resp.data;
-                    alerts.success(resposta.message)
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
@@ -251,14 +241,14 @@ const CardFeedstock = () => {
                         setMedModal("0")
                         setPriceModal("")
                         setUuidSel("")
+                        alerts.success(resposta.message)
+                    } else {
+                        alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error('Erro 404 - Requisição invalida')
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    setButtonSave('save')
+                    alerts.error('Erro Interno')
                 })
         }
     }
@@ -286,6 +276,7 @@ const CardFeedstock = () => {
         const deleteFeedstock = () => {
             const del = window.confirm(`Deseja excluir ${item.name}?`)
             if (del === true) {
+                setButtonDel(`${item.uuid}`)
                 var resposta;
                 // @ts-ignore
                 api({
@@ -304,12 +295,8 @@ const CardFeedstock = () => {
                         loadData()
                         alerts.success(resposta.message)
                     }).catch(error => {
-                        resposta = error.toJSON();
-                        if (resposta.status === 404) {
-                            alerts.error('Requisição invalida')
-                        } else if (resposta.status === 401) {
-                            alerts.error('Matéria Prima sendo utilizada por Produção')
-                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        alerts.error('Erro Interno')
+                        setButtonDel('')
                     })
             }
         }
@@ -326,7 +313,8 @@ const CardFeedstock = () => {
                 <div className="area-btns">
                     <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
                     <p className="bar-division"></p>
-                    <div className="btn-excluir" onClick={deleteFeedstock}>Excluir <FiTrash2 /></div>
+                    <BtnDelete buttonShow={buttonDel} onClick={deleteFeedstock} uuid={item.uuid} />
+                    {/* <div className="btn-excluir" onClick={deleteFeedstock}>Excluir <FiTrash2 /></div> */}
                 </div>
             </div>
         )
@@ -387,6 +375,16 @@ const CardFeedstock = () => {
         </>)
     } else {
 
+        const BtnSave = () => {
+            const img = '/img/loading.gif'
+            if (buttonSave === 'save') {
+                return (<button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>)
+            } else {
+                return (<img className="btn-co btn-l btn-g" src={img} alt='loading' style={{ height: '36px', margin: '0 0 0 5px', padding:'0 16.68px 0 16.68px' }}></img>)
+            }
+        }
+
+
         return (
             <>
                 <div className="area-button">
@@ -408,15 +406,15 @@ const CardFeedstock = () => {
                             <strong>{titleModal}</strong>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <input className="modal-input modal-measure-desc" autocomplete="off" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
-                            <input className="modal-input modal-measure-quantity" autocomplete="off" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
+                            <input className="modal-input modal-measure-desc" autoComplete="off" id="desc" placeholder="Descrição" defaultValue={descModal}></input>
+                            <input className="modal-input modal-measure-quantity" autoComplete="off" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
                             <select className="modal-input modal-measure-typemeasure" id="sel" defaultValue={medModal}>
                                 <option value='0' hidden >Tipo de medida</option>
                                 {optionsMeasure.map(RenderOptions)}
                             </select>
-                            <input className="modal-input modal-measure-price" autocomplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                            <input className="modal-input modal-measure-price" autoComplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Preço de custo"></input>
+                            <BtnSave />
                         </Typography>
-                        <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>
                     </Box>
                 </Modal >
             </>

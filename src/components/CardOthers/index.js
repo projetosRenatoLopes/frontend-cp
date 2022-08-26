@@ -13,6 +13,7 @@ import formatReal from "../../utils/formatReal";
 import formatRealRev from "../../utils/formatRealRev";
 import replaceAccent from '../../utils/replaceAccent';
 import markText from "../../utils/markText";
+import BtnDelete from "../Btns/BtnDelete"
 
 import { AiTwotoneEdit } from 'react-icons/ai'
 import { useAlert } from "react-alert";
@@ -32,6 +33,8 @@ const CardOthers = () => {
     const [priceModal, setPriceModal] = useState("")
     const [uuidSel, setUuidSel] = useState("")
     const [textSearch, setTextSearch] = useState("")
+    const [buttonSave, setButtonSave] = useState('save')
+    const [buttonDel, setButtonDel] = useState('')
 
 
 
@@ -67,12 +70,7 @@ const CardOthers = () => {
 
 
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.error('Erro 404 - Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
 
@@ -132,6 +130,7 @@ const CardOthers = () => {
         } else if (price === "") {
             alerts.info('Insira o preço')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -157,13 +156,10 @@ const CardOthers = () => {
                     } else {
                         alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error('Erro 404 - Requisição invalida')
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    setButtonSave('save')
+                    alerts.error('Erro Interno')
                 })
         }
     }
@@ -180,6 +176,7 @@ const CardOthers = () => {
         } else if (price === "") {
             alerts.info('Insira o preço')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -198,7 +195,6 @@ const CardOthers = () => {
             })
                 .then(async resp => {
                     resposta = resp.data;
-                    alerts.success(resposta.message)
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
@@ -207,14 +203,14 @@ const CardOthers = () => {
                         setQuantModal("")
                         setPriceModal("")
                         setUuidSel("")
+                        alerts.success(resposta.message)
+                    } else {
+                        alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error('Erro 404 - Requisição invalida')
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    setButtonSave('save')
+                    alerts.error('Erro Interno')
                 })
         }
     }
@@ -228,6 +224,7 @@ const CardOthers = () => {
     }
 
     const RenderCards = (item) => {
+
         function openEdit() {
             setUuidSel(item.uuid)
             setTitleModal("Editar Outros Custos")
@@ -240,6 +237,7 @@ const CardOthers = () => {
         const deleteWPO = () => {
             const del = window.confirm(`Deseja excluir ${item.name}?`)
             if (del === true) {
+                setButtonDel(`${item.uuid}`)
                 var resposta;
                 // @ts-ignore
                 api({
@@ -253,17 +251,14 @@ const CardOthers = () => {
                         "uuid": item.uuid,
                     }
                 })
-                    .then(async resp => {
-                        resposta = resp.data;
+                    .then(resp => {
                         loadData()
-                        alerts.success(resposta.message)
-                    }).catch(error => {
-                        resposta = error.toJSON();
-                        if (resposta.status === 404) {
-                            alerts.error('Requisição invalida')
-                        } else if (resposta.status === 401) {
-                            alerts.error('Item sendo utilizado por Produção')
-                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        resposta = resp.data;
+                        alerts.success(resposta.message)                                                
+                    }).catch(resp => {
+                        console.log(resp.toJSON())
+                        alerts.error('Erro Interno')
+                        setButtonDel('')
                     })
             }
         }
@@ -280,7 +275,8 @@ const CardOthers = () => {
                 <div className="area-btns">
                     <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
                     <p className="bar-division"></p>
-                    <div className="btn-excluir" onClick={deleteWPO}>Excluir <FiTrash2 /></div>
+                    <BtnDelete buttonShow={buttonDel} onClick={deleteWPO} uuid={item.uuid} />
+                    {/* <div className="btn-excluir" onClick={deleteWPO}>Excluir <FiTrash2 /></div> */}
                 </div>
             </div>
         )
@@ -343,6 +339,16 @@ const CardOthers = () => {
         </>)
     } else {
 
+
+        const BtnSave = () => {
+            const img = '/img/loading.gif'
+            if (buttonSave === 'save') {
+                return (<button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>)
+            } else {
+                return (<img className="btn-co btn-l btn-g" src={img} alt='loading' style={{ height: '36px', margin: '0 0 0 5px', padding: '0 16.68px 0 16.68px' }}></img>)
+            }
+        }
+
         return (
             <>
                 <div className="area-button">
@@ -364,11 +370,12 @@ const CardOthers = () => {
                             <strong>{titleModal}</strong>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <input className="modal-input modal-measure-desc" id="desc" autocomplete="off" placeholder="Descrição" defaultValue={descModal}></input>
-                            <input className="modal-input modal-measure-quantity" autocomplete="off" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
-                            <input className="modal-input modal-measure-price" autocomplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Valor por quantidade"></input>
+                            <input className="modal-input modal-measure-desc" id="desc" autoComplete="off" placeholder="Descrição" defaultValue={descModal}></input>
+                            <input className="modal-input modal-measure-quantity" autoComplete="off" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
+                            <input className="modal-input modal-measure-price" autoComplete="off" onChange={() => formatReal('price')} id="price" defaultValue={priceModal} placeholder="Valor por quantidade"></input>
                         </Typography>
-                        <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>
+                        <BtnSave />
+                        {/* <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button> */}
                     </Box>
                 </Modal >
             </>

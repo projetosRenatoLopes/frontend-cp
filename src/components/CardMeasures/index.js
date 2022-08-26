@@ -5,6 +5,7 @@ import api from "../../services/api"
 import formatNum from "../../utils/formatNum";
 import replaceAccent from '../../utils/replaceAccent';
 import InputSearch from '../InputSearch'
+import BtnDelete from "../Btns/BtnDelete"
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -30,6 +31,8 @@ const CardMeasures = () => {
     const [medModal, setMedModal] = useState("0")
     const [uuidSel, setUuidSel] = useState("")
     const [textSearch, setTextSearch] = useState("")
+    const [buttonSave, setButtonSave] = useState('save')
+    const [buttonDel, setButtonDel] = useState('')
 
 
     async function loadData() {
@@ -64,12 +67,7 @@ const CardMeasures = () => {
 
 
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.error('Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
 
@@ -86,12 +84,7 @@ const CardMeasures = () => {
                 resposta = resp.data;
                 setOptions(resposta.exactmeasure)
             }).catch(error => {
-                resposta = error.toJSON();
-                if (resposta.status === 404) {
-                    alerts.error('Requisição invalida')
-                } else if (resposta.status === 401) {
-                    alerts.error('Não autorizado')
-                } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                alerts.error('Erro Interno')
             })
 
 
@@ -159,6 +152,7 @@ const CardMeasures = () => {
         } else if (sel === "0") {
             alerts.info('Selecione o tipo de medida')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -184,13 +178,9 @@ const CardMeasures = () => {
                     } else {
                         alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error('Requisição invalida')
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    alerts.error('Erro Interno')
                 })
         }
     }
@@ -206,6 +196,7 @@ const CardMeasures = () => {
         } else if (sel === "0") {
             alerts.info('Selecione o tipo de medida')
         } else {
+            setButtonSave('load')
             var resposta;
             // @ts-ignore
             api({
@@ -225,7 +216,6 @@ const CardMeasures = () => {
             })
                 .then(async resp => {
                     resposta = resp.data;
-                    alerts.success(resposta.message)
                     if (resposta.status === 201) {
                         setOpen(false)
                         loadData()
@@ -234,14 +224,14 @@ const CardMeasures = () => {
                         setQuantModal("")
                         setMedModal("0")
                         setUuidSel("")
+                        alerts.success(resposta.message)
+                    } else {
+                        alerts.info(resposta.message)
                     }
+                    setButtonSave('save')
                 }).catch(error => {
-                    resposta = error.toJSON();
-                    if (resposta.status === 404) {
-                        alerts.error('Requisição invalida')
-                    } else if (resposta.status === 401) {
-                        alerts.error('Não autorizado')
-                    } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                    setButtonSave('save')
+                    alerts.error('Erro Interno')
                 })
         }
     }
@@ -268,6 +258,7 @@ const CardMeasures = () => {
         const deleteMeasure = () => {
             const del = window.confirm(`Deseja excluir ${item.name}?`)
             if (del === true) {
+                setButtonDel(`${item.uuid}`)
                 var resposta;
                 // @ts-ignore
                 api({
@@ -286,12 +277,8 @@ const CardMeasures = () => {
                         loadData()
                         alerts.success(resposta.message)
                     }).catch(error => {
-                        resposta = error.toJSON();
-                        if (resposta.status === 404) {
-                            alerts.error('Requisição invalida')
-                        } else if (resposta.status === 401) {
-                            alerts.error('Medida sendo utilizada por Matéria Prima')
-                        } else { alerts.error(`Erro ${resposta.status} - ${resposta.message}`) }
+                        alerts.error('Erro Interno')
+                        setButtonDel('')
                     })
             }
         }
@@ -306,7 +293,8 @@ const CardMeasures = () => {
                     <div className="area-btns">
                         <div className="btn-editar" onClick={openEdit}>Editar <AiTwotoneEdit /></div>
                         <p className="bar-division"></p>
-                        <div className="btn-excluir" id="btn-del" onClick={deleteMeasure}>Excluir <FiTrash2 /></div>
+                        {/* <div className="btn-excluir" id="btn-del" onClick={deleteMeasure}>Excluir <FiTrash2 /></div> */}
+                        <BtnDelete buttonShow={buttonDel} onClick={deleteMeasure} uuid={item.uuid} />
                     </div>
                 </div>
             </div>
@@ -368,6 +356,16 @@ const CardMeasures = () => {
             <RenderCardsLoad />
         </>)
     } else {
+
+        const BtnSave = () => {
+            const img = '/img/loading.gif'
+            if (buttonSave === 'save') {
+                return (<button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>)
+            } else {
+                return (<img className="btn-co btn-l btn-g" src={img} alt='loading' style={{ height: '36px', margin: '0 0 0 5px', padding:'0 16.68px 0 16.68px' }}></img>)
+            }
+        }
+
         return (
             <>
                 <div className="area-button">
@@ -389,13 +387,14 @@ const CardMeasures = () => {
                             <strong>{titleModal}</strong>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <input className="modal-input modal-measure-desc" id="desc" autocomplete="off" placeholder="Descrição" defaultValue={descModal}></input>
-                            <input className="modal-input modal-measure-quantity" autocomplete="off" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
+                            <input className="modal-input modal-measure-desc" id="desc" autoComplete="off" placeholder="Descrição" defaultValue={descModal}></input>
+                            <input className="modal-input modal-measure-quantity" autoComplete="off" onChange={() => verifyNum('quantity')} id="quantity" defaultValue={quantModal} placeholder="Quantidade"></input>
                             <select className="modal-input modal-measure-typemeasure" id="sel" defaultValue={medModal}>
                                 <option value='0' hidden >Tipo de medida</option>
                                 {optionsMeasure.map(RenderOptions)}
                             </select>
-                            <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button>
+                            <BtnSave />
+                            {/* <button className="btn-co btn-l btn-g" onClick={checkModalOpen}>Salvar</button> */}
                         </Typography>
                     </Box>
                 </Modal >
