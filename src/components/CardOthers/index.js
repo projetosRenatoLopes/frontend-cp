@@ -252,9 +252,14 @@ const CardOthers = () => {
                     }
                 })
                     .then(resp => {
-                        loadData()
                         resposta = resp.data;
-                        alerts.success(resposta.message)                                                
+                        if (resposta.status === 201) {
+                            loadData()
+                            alerts.success(resposta.message)
+                        } else {
+                            alerts.info(resposta.message)
+                        }
+                        setButtonDel('')
                     }).catch(resp => {
                         console.log(resp.toJSON())
                         alerts.error('Erro Interno')

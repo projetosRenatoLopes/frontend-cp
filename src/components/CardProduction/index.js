@@ -358,9 +358,14 @@ const CardProduction = () => {
                         }
                     })
                         .then(async resp => {
-                            resposta = resp.data;
-                            loadData()
-                            alerts.success(resposta.message)
+                            resposta = resp.data;                                                        
+                            if (resposta.status === 201) {
+                                loadData()
+                                alerts.success(resposta.message)
+                            } else {
+                                alerts.info(resposta.message)
+                            }
+                            setButtonDel('')
                         }).catch(error => {
                             alerts.error('Erro Interno')
                             setButtonDel('')
@@ -671,10 +676,12 @@ const CardProduction = () => {
                             }
                         })
                             .then(async resp => {
-                                resposta = resp.data;
-                                alerts.success(resposta.message)
+                                resposta = resp.data;                                
                                 if (resposta.status === 201) {
                                     loadData()
+                                    alerts.success(resposta.message)
+                                } else {
+                                    alerts.info(resposta.message)
                                 }
                             }).catch(error => {
                                 alerts.error('Erro Interno')
@@ -738,7 +745,7 @@ const CardProduction = () => {
                                 alerts.success(resposta.message)
                                 loadData()
                                 setBtnQttFS(false)
-                            } else if (resposta.status === 200) {
+                            } else {
                                 alerts.info(resposta.message)
                                 setBtnQttFS(false)
                             }
@@ -787,7 +794,7 @@ const CardProduction = () => {
                                 alerts.success(resposta.message)
                                 loadData()
                                 setBtnQttWPO(false)
-                            } else if (resposta.status === 200) {
+                            } else {
                                 alerts.info(resposta.message)
                                 setBtnQttWPO(false)
                             }
@@ -817,10 +824,12 @@ const CardProduction = () => {
                         }
                     })
                         .then(async resp => {
-                            resposta = resp.data;
-                            alerts.success(resposta.message)
+                            resposta = resp.data;                            
                             if (resposta.status === 201) {
                                 loadData()
+                                alerts.success(resposta.message)
+                            } else {
+                                alerts.info(resposta.message)
                             }
                         }).catch(error => {
                             alerts.error('Erro Interno')

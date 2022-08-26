@@ -274,8 +274,13 @@ const CardMeasures = () => {
                 })
                     .then(async resp => {
                         resposta = resp.data;
-                        loadData()
-                        alerts.success(resposta.message)
+                        if (resposta.status === 201) {
+                            loadData()
+                            alerts.success(resposta.message)
+                        } else {
+                            alerts.info(resposta.message)
+                        }
+                        setButtonDel('')
                     }).catch(error => {
                         alerts.error('Erro Interno')
                         setButtonDel('')
